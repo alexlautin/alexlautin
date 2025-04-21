@@ -15,7 +15,7 @@ const projects = [
   {
     image: '/speedsail.png',
     title: 'Speedsail',
-    description: 'Static site for sailing vlogs built with Next.js & Vercel.',
+    description: 'A modern inspirational sailing interview website.',
     link: 'https://www.speedsail.org',
   },
   {
@@ -27,13 +27,13 @@ const projects = [
   {
     image: '/sevenworks.png',
     title: 'Sevenworks',
-    description: 'Real-time analytics dashboard for web apps.',
+    description: 'A modern, real-time resume enhancement tool and builder.',
     link: 'https://www.sevenworks.tech',
   },
   {
     image: '/galleryboard.jpeg',
     title: 'Galleryboard',
-    description: 'Real-time analytics dashboard for web apps.',
+    description: 'An individual shared classroom whiteboard tool.',
     link: 'https://galleryboard.vercel.app',
   },
   {
