@@ -37,6 +37,14 @@ export default function Home() {
               >
                 Contact
               </Link>
+              <a
+                href="https://www.linkedin.com/in/alexlautin/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-full border border-blue-700 px-6 py-3 text-base font-medium text-blue-700 hover:bg-blue-700 hover:text-white transition"
+              >
+                LinkedIn
+              </a>
             </div>
           </div>
         </section>
