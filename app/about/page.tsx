@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Navbar from '../../components/Navbar';
 import Avatar from '@/components/Avatar';
+import { SiLinkedin, SiGithub, SiOrcid } from 'react-icons/si';
 
 export const dynamic = 'force-static';
 
@@ -25,25 +26,38 @@ export default function Home() {
               Student at Emory University studying Computer Science and Mathematics.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
-              <Link
+              {/* <Link
                 href="/projects"
                 className="rounded-full bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-lg hover:bg-indigo-500 transition"
               >
                 Projects
-              </Link>
-              <Link
+              </Link> */}
+              {/* <Link
                 href="/contact"
                 className="rounded-full border border-indigo-600 px-6 py-3 text-base font-medium text-indigo-600 hover:bg-indigo-600 hover:text-white transition"
               >
                 Contact
-              </Link>
+              </Link> */}
               <a
                 href="https://www.linkedin.com/in/alexlautin/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-full border border-blue-700 px-6 py-3 text-base font-medium text-blue-700 hover:bg-blue-700 hover:text-white transition"
               >
-                LinkedIn
+                <SiLinkedin className="w-8 h-8 text-gray-500 hover:text-gray-700 transition" />
+              </a>
+              <a
+                href="https://www.github.com/alexlautin"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <SiGithub className="w-8 h-8 text-gray-500 hover:text-gray-700 transition" />
+              </a>
+              <a
+                href="https://orcid.org/0009-0006-0555-7424"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <SiOrcid className="w-8 h-8 text-gray-500 hover:text-gray-700 transition" />
               </a>
             </div>
           </div>

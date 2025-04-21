@@ -24,3 +24,17 @@ body {
   color: var(--foreground);
   font-family: var(--font-inter), 'Inter', Arial, Helvetica, sans-serif;
 }
+
+@layer utilities {
+  @keyframes fadeIn {
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  .animate-fadeIn {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeIn 0.7s cubic-bezier(0.4,0,0.2,1) forwards;
+  }
+}
