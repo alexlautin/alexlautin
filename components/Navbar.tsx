@@ -1,0 +1,106 @@
+"use client";
+
+import { Fragment } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useEffect, useRef, useState } from 'react';
+import { Tab } from '@headlessui/react';
+import Router from 'next/router';
+
+// inter font
+import { Inter } from 'next/font/google';
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+});
+
+function classNames(...classes: string[]) {
+  return classes.filter(Boolean).join(' ');
+}
+
+export default function Navbar() {
+  const pathname = usePathname();
+  const [show, setShow] = useState(true);
+  const lastScrollY = useRef(0);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      if (currentScrollY < 10) {
+        setShow(true);
+        lastScrollY.current = currentScrollY;
+        return;
+      }
+      if (currentScrollY > lastScrollY.current) {
+        setShow(false); // scrolling down
+      } else {
+        setShow(true); // scrolling up
+      }
+      lastScrollY.current = currentScrollY;
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+  
+  useEffect(() => {
+    const handleStart = () => setLoading(true);
+    const handleStop  = () => setLoading(false);
+    Router.events.on('routeChangeStart', handleStart);
+    Router.events.on('routeChangeComplete', handleStop);
+    Router.events.on('routeChangeError', handleStop);
+    return () => {
+      Router.events.off('routeChangeStart', handleStart);
+      Router.events.off('routeChangeComplete', handleStop);
+      Router.events.off('routeChangeError', handleStop);
+    };
+  }, []);
+
+  const tabs = [
+    { name: 'About', href: '/about', key: 'about' },
+    { name: 'Projects', href: '/projects', key: 'projects' },
+    { name: 'Contact', href: '/contact', key: 'contact' },
+  ];
+  const currentIndex = tabs.findIndex(tab => pathname === tab.href);
+  return (
+    <header
+      className={`fixed inset-x-0 top-0 z-20 flex justify-center py-6 transition-transform duration-300 ${show ? 'translate-y-0' : '-translate-y-full'} font-[var(--font-inter)]`}
+    >
+      <Tab.Group selectedIndex={currentIndex}>
+        <Tab.List className="flex space-x-1 rounded-full bg-white-800/60 p-1 shadow-sm backdrop-blur">
+          {tabs.map((tab, idx) => (
+            <Tab key={tab.key} as={Fragment}>
+              {({ selected }) => (
+                <div className="relative flex flex-col items-center">
+                  <Link
+                  href={tab.href}
+                  className={classNames(
+                    'rounded-full px-4 py-1.5 text-sm font-medium transition focus:outline-none',
+                    selected ? 'text-slate-500 font-bold' : 'text-black hover:text-slate-500 font-light'
+                  )}
+                  prefetch={false}
+                  scroll={true}
+                  >
+                  {tab.name}
+                  </Link>
+                  {selected && (
+                  <span
+                    className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-12 h-0.25 rounded-full"
+                    style={{
+                    background: 'linear-gradient(90deg, rgba(45,212,191,0) 0%, rgba(45,212,191,1) 30%, rgba(45,212,191,1) 70%, rgba(45,212,191,0) 100%)'
+                    }}
+                  />
+                  )}
+                </div>
+              )}
+            </Tab>
+          ))}
+        </Tab.List>
+      </Tab.Group>
+      {loading && (
+        <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-teal-400 via-sky-400 to-teal-400" />
+      )}
+    </header>
+  );
+}
