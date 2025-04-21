@@ -45,7 +45,7 @@ export default function Contact() {
               />
               <button
                 type="submit"
-                className="mt-2 rounded-full bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-lg hover:bg-indigo-500 transition"
+                className="mt-2 rounded-full bg-slate-800 px-6 py-3 text-base font-medium text-white shadow-lg hover:bg-slate-700 transition"
               >
                 Send Message
               </button>

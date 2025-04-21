@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import Navbar from '../../components/Navbar';
 import Avatar from '@/components/Avatar';
 import { SiLinkedin, SiGithub, SiOrcid } from 'react-icons/si';
