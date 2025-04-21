@@ -6,8 +6,8 @@ export const dynamic = 'force-static';
 
 export default function Home() {
   return (
-    <main className="relative flex flex-col min-h-screen bg-gray-50 text-gray-900 antialiased">
-      <div className="flex-grow">
+    <main className="relative flex flex-col min-h-screen bg-gray-50 text-gray-900 antialiased overflow-hidden">
+      <div className="flex-grow flex items-center justify-center">
         <Navbar />
         {/* --- Hero --- */}
         <section

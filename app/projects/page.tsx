@@ -5,6 +5,7 @@ import {
   SiVercel,
   SiSupabase,
   SiFirebase,
+  SiHeadlessui,
 } from "react-icons/si";
 import Image from 'next/image';
 
@@ -15,26 +16,32 @@ const projects = [
     image: '/speedsail.png',
     title: 'Speedsail',
     description: 'Static site for sailing vlogs built with Next.js & Vercel.',
-    link: 'https://speedsail.org',
+    link: 'https://www.speedsail.org',
   },
   {
     image: '/invitide.png',
     title: 'Invitide',
     description: 'A modern retro-styled event management platform.',
-    link: '#',
+    link: 'https://invitide.vercel.app',
   },
   {
     image: '/sevenworks.png',
     title: 'Sevenworks',
     description: 'Real-time analytics dashboard for web apps.',
-    link: '#',
+    link: 'https://www.sevenworks.tech',
   },
   {
     image: '/galleryboard.jpeg',
     title: 'Galleryboard',
     description: 'Real-time analytics dashboard for web apps.',
-    link: '#',
+    link: 'https://galleryboard.vercel.app',
   },
+  {
+    image: '/photo.png',
+    title: 'Personal Website',
+    description: 'Personal website showcasing my projects.',
+    link: 'https://alexlautin.vercel.app',
+  }
 ];
 
 export default function ProjectsPage() {
@@ -42,7 +49,7 @@ export default function ProjectsPage() {
     <div className="flex flex-col min-h-screen bg-gray-50 text-black overflow-hidden">
       <main className="flex-grow px-4 py-10">
         <Navbar />
-        <div className="mx-auto max-w-3xl text-center mb-16 mt-16">
+        <div className="mx-auto max-w-3xl text-center mb-16 mt-14">
           <h1 className="mb-6 text-4xl md:text-5xl font-extrabold leading-tight tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-green-400 to-orange-400">
             Projects
           </h1>
@@ -109,6 +116,14 @@ export default function ProjectsPage() {
                     <>
                       <SiNextdotjs title="Next.js" />
                       <SiTailwindcss title="Tailwind CSS" />
+                      <SiVercel title="Vercel" />
+                    </>
+                  )}
+                  {project.title === "Personal Website" && (
+                    <>
+                      <SiNextdotjs title="Next.js" />
+                      <SiTailwindcss title="Tailwind CSS" />
+                      <SiHeadlessui title="Headless UI" />
                       <SiVercel title="Vercel" />
                     </>
                   )}
