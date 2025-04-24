@@ -6,6 +6,7 @@ import {
   SiSupabase,
   SiFirebase,
   SiHeadlessui,
+  SiResend,
 } from "react-icons/si";
 import Image from 'next/image';
 
@@ -80,7 +81,7 @@ export default function ProjectsPage() {
                 {project.title}
               </h2>
               <p className="text-gray-500 text-sm mb-3 min-h-[48px]">{project.description}</p>
-              <div className="flex gap-3 mb-4 text-lg text-gray-600 dark:text-gray-400">
+              <div className="flex flex-wrap items-center gap-3 mb-4 text-lg text-gray-600 dark:text-gray-400 min-h-[30px]">
                 {project.title === "Sevenworks" && (
                 <>
                   <SiNextdotjs title="Next.js" />
@@ -103,7 +104,7 @@ export default function ProjectsPage() {
                   <SiTailwindcss title="Tailwind CSS" />
                   <SiSupabase title="Supabase" />
                   <SiVercel title="Vercel" />
-                  <SiResend title="Resend" />
+                  <SiResend title="Resend" size={16} />
                 </>
                 )}
                 {project.title === "Speedsail" && (
