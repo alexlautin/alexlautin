@@ -81,7 +81,7 @@ export default function ProjectsPage() {
                 {project.title}
               </h2>
               <p className="text-gray-500 text-sm mb-3 min-h-[48px]">{project.description}</p>
-              <div className="flex flex-wrap items-center gap-3 mb-4 text-lg text-gray-600 dark:text-gray-400 min-h-[30px]">
+              <div className="flex flex-wrap items-center gap-3 mb-4 text-lg text-gray-600 dark:text-gray-400 min-h-[15px]">
                 {project.title === "Sevenworks" && (
                 <>
                   <SiNextdotjs title="Next.js" />
