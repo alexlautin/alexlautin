@@ -103,6 +103,7 @@ export default function ProjectsPage() {
                   <SiTailwindcss title="Tailwind CSS" />
                   <SiSupabase title="Supabase" />
                   <SiVercel title="Vercel" />
+                  <SiResend title="Resend" />
                 </>
                 )}
                 {project.title === "Speedsail" && (
