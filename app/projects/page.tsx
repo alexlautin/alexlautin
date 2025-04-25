@@ -22,19 +22,19 @@ const projects = [
   {
     image: '/invitide.png',
     title: 'Invitide',
-    description: 'A modern retro-styled event management platform.',
+    description: 'A hackathon project, a modern retro-styled event management platform.',
     link: 'https://invitide.vercel.app',
   },
   {
     image: '/sevenworks.png',
     title: 'Sevenworks',
-    description: 'A modern, real-time resume enhancement tool and builder.',
+    description: 'A CS 370 project, modern, a real-time resume enhancement tool and builder.',
     link: 'https://www.sevenworks.tech',
   },
   {
     image: '/galleryboard.jpeg',
     title: 'Galleryboard',
-    description: 'An individual shared classroom whiteboard tool.',
+    description: 'A hackathon project, an individual shared classroom whiteboard tool.',
     link: 'https://galleryboard.vercel.app',
   },
   {
