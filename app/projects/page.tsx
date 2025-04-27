@@ -28,7 +28,7 @@ const projects = [
   {
     image: '/sevenworks.png',
     title: 'Sevenworks',
-    description: 'A CS 370 project, modern, a real-time resume enhancement tool and builder.',
+    description: 'A real-time resume enhancement tool and builder.',
     link: 'https://www.sevenworks.tech',
   },
   {
@@ -67,66 +67,68 @@ export default function ProjectsPage() {
               style={{ animationDelay: `${idx * 80}ms`, animationFillMode: 'forwards' }}
             >
               <div className="absolute -top-6 left-6">
-              <Image
-                src={project.image}
-                alt={project.title}
-                width={48}
-                height={48}
-                className={`w-12 h-12 rounded-full object-${project.title === 'Galleryboard' ? 'contain' : 'cover'} border-2 border-white shadow-md bg-white`}
-                priority={false}
-              />
+                <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-white shadow-md bg-white">
+                  <Image
+                    src={project.image}
+                    alt={project.title}
+                    width={48}
+                    height={48}
+                    className={`w-full h-full object-${project.title === 'Galleryboard' ? 'contain' : 'cover'}`}
+                    unoptimized={false}
+                  />
+                </div>
               </div>
               <div className="mt-8">
-              <h2 className="text-lg font-bold text-gray-900 mb-1 group-hover:text-emerald-500 transition-colors duration-300">
-                {project.title}
-              </h2>
-              <p className="text-gray-500 text-sm mb-3 min-h-[48px]">{project.description}</p>
-              <div className="flex flex-wrap items-center gap-3 mb-4 text-lg text-gray-600 dark:text-gray-400 min-h-[15px]">
-                {project.title === "Sevenworks" && (
-                <>
-                  <SiNextdotjs title="Next.js" />
-                  <SiTailwindcss title="Tailwind CSS" />
-                  <SiFirebase title="Firebase" />
-                  <SiVercel title="Vercel" />
-                </>
-                )}
-                {project.title === "Galleryboard" && (
-                <>
-                  <SiNextdotjs title="Next.js" />
-                  <SiSupabase title="Supabase" />
-                  <SiTailwindcss title="Tailwind CSS" />
-                  <SiVercel title="Vercel" />
-                </>
-                )}
-                {project.title === "Invitide" && (
-                <>
-                  <SiNextdotjs title="Next.js" />
-                  <SiTailwindcss title="Tailwind CSS" />
-                  <SiSupabase title="Supabase" />
-                  <SiVercel title="Vercel" />
-                  <SiResend title="Resend" size={16} />
-                </>
-                )}
-                {project.title === "Speedsail" && (
-                <>
-                  <SiNextdotjs title="Next.js" />
-                  <SiTailwindcss title="Tailwind CSS" />
-                  <SiVercel title="Vercel" />
-                </>
-                )}
-                {project.title === "Personal Website" && (
-                <>
-                  <SiNextdotjs title="Next.js" />
-                  <SiTailwindcss title="Tailwind CSS" />
-                  <SiHeadlessui title="Headless UI" />
-                  <SiVercel title="Vercel" />
-                </>
-                )}
-              </div>
-              <span className="inline-flex items-center gap-1 text-emerald-600 text-sm font-medium hover:underline">
-                <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
-                Visit site
-              </span>
+                <h2 className="text-lg font-bold text-gray-900 mb-1 group-hover:text-emerald-500 transition-colors duration-300">
+                  {project.title}
+                </h2>
+                <p className="text-gray-500 text-sm mb-3 min-h-[48px]">{project.description}</p>
+                <div className="flex flex-wrap items-center gap-3 mb-4 text-lg text-gray-600 dark:text-gray-400 min-h-[15px]">
+                  {project.title === "Sevenworks" && (
+                  <>
+                    <SiNextdotjs title="Next.js" />
+                    <SiTailwindcss title="Tailwind CSS" />
+                    <SiFirebase title="Firebase" />
+                    <SiVercel title="Vercel" />
+                  </>
+                  )}
+                  {project.title === "Galleryboard" && (
+                  <>
+                    <SiNextdotjs title="Next.js" />
+                    <SiSupabase title="Supabase" />
+                    <SiTailwindcss title="Tailwind CSS" />
+                    <SiVercel title="Vercel" />
+                  </>
+                  )}
+                  {project.title === "Invitide" && (
+                  <>
+                    <SiNextdotjs title="Next.js" />
+                    <SiTailwindcss title="Tailwind CSS" />
+                    <SiSupabase title="Supabase" />
+                    <SiVercel title="Vercel" />
+                    <SiResend title="Resend" size={16} />
+                  </>
+                  )}
+                  {project.title === "Speedsail" && (
+                  <>
+                    <SiNextdotjs title="Next.js" />
+                    <SiTailwindcss title="Tailwind CSS" />
+                    <SiVercel title="Vercel" />
+                  </>
+                  )}
+                  {project.title === "Personal Website" && (
+                  <>
+                    <SiNextdotjs title="Next.js" />
+                    <SiTailwindcss title="Tailwind CSS" />
+                    <SiHeadlessui title="Headless UI" />
+                    <SiVercel title="Vercel" />
+                  </>
+                  )}
+                </div>
+                <span className="inline-flex items-center gap-1 text-emerald-600 text-sm font-medium hover:underline">
+                  <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+                  Visit site
+                </span>
               </div>
             </a>
           ))}
