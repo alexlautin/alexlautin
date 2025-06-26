@@ -8,7 +8,12 @@ import LocationBadge from '../../components/LocationBadge';
 
 export default function Home() {
   return (
-    <main className="relative flex flex-col min-h-screen bg-gray-50 text-gray-900 antialiased overflow-hidden">
+    <main className="relative flex flex-col min-h-screen bg-gray-50 text-gray-900 antialiased overflow-hidden" style={{
+      backgroundImage: "url('/noise.svg')"
+    }}>
+      <div className="absolute top-32 left-32 w-96 h-96 bg-gradient-to-r from-blue-400/20 to-blue-600/20 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-32 right-32 w-96 h-96 bg-gradient-to-r from-indigo-400/20 to-blue-500/20 rounded-full blur-3xl"></div>
+      
       <div className="flex-grow flex items-center justify-center">
         <Navbar />
         {/* --- Hero --- */}
@@ -16,7 +21,7 @@ export default function Home() {
           id="about"
           className="relative flex items-center justify-center py-24 px-6 text-center"
         >
-          <div className="bg-white backdrop-blur-md bg-opacity-80 shadow-lg rounded-2xl p-10 max-w-2xl mx-auto relative">
+          <div className="bg-white/90 backdrop-blur-md shadow-lg rounded-2xl p-10 max-w-2xl mx-auto relative z-10">
             <LocationBadge />
             <div className="mb-6">
               <Avatar className="w-28 h-28 rounded-full mx-auto ring-4 ring-indigo-200" />
@@ -27,39 +32,30 @@ export default function Home() {
             <p className="mt-6 mb-8 text-lg md:text-xl text-gray-700">
               Student at Emory University studying Computer Science and Mathematics.
             </p>
-            <div className="flex flex-wrap justify-center gap-4">
-              {/* <Link
-                href="/projects"
-                className="rounded-full bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-lg hover:bg-indigo-500 transition"
-              >
-                Projects
-              </Link> */}
-              {/* <Link
-                href="/contact"
-                className="rounded-full border border-indigo-600 px-6 py-3 text-base font-medium text-indigo-600 hover:bg-indigo-600 hover:text-white transition"
-              >
-                Contact
-              </Link> */}
+            <div className="flex flex-wrap justify-center gap-6">
               <a
                 href="https://www.linkedin.com/in/alexlautin/"
                 target="_blank"
                 rel="noopener noreferrer"
+                className="group relative p-3 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200"
               >
-                <SiLinkedin className="w-8 h-8 text-gray-500 hover:text-gray-700 transition" />
+                <SiLinkedin className="w-6 h-6" />
               </a>
               <a
                 href="https://www.github.com/alexlautin"
                 target="_blank"
                 rel="noopener noreferrer"
+                className="group relative p-3 rounded-full bg-gradient-to-r from-gray-700 to-gray-800 text-white shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200"
               >
-                <SiGithub className="w-8 h-8 text-gray-500 hover:text-gray-700 transition" />
+                <SiGithub className="w-6 h-6" />
               </a>
               <a
                 href="https://orcid.org/0009-0006-0555-7424"
                 target="_blank"
                 rel="noopener noreferrer"
+                className="group relative p-3 rounded-full bg-gradient-to-r from-green-500 to-green-600 text-white shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200"
               >
-                <SiOrcid className="w-8 h-8 text-gray-500 hover:text-gray-700 transition" />
+                <SiOrcid className="w-6 h-6" />
               </a>
             </div>
           </div>
