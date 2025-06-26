@@ -8,9 +8,7 @@ import LocationBadge from '../../components/LocationBadge';
 
 export default function Home() {
   return (
-    <main className="relative flex flex-col min-h-screen bg-gray-50 text-gray-900 antialiased overflow-hidden" style={{
-      backgroundImage: "url('/noise.svg')"
-    }}>
+    <main className="relative flex flex-col min-h-screen bg-gray-50 text-gray-900 antialiased overflow-hidden">
       <div className="absolute top-32 left-32 w-96 h-96 bg-gradient-to-r from-blue-400/20 to-blue-600/20 rounded-full blur-3xl"></div>
       <div className="absolute bottom-32 right-32 w-96 h-96 bg-gradient-to-r from-indigo-400/20 to-blue-500/20 rounded-full blur-3xl"></div>
       
@@ -62,8 +60,12 @@ export default function Home() {
         </section>
       </div>
       {/* --- Footer --- */}
-      <footer className="border-t border-gray-200 bg-white px-6 py-6 text-center text-sm text-gray-500">
-        © {new Date().getFullYear()} Alex Lautin — Built with Next.js & Tailwind CSS
+      <footer className="border-t border-slate-200/50 bg-white/60 backdrop-blur-sm px-6 py-8 text-center">
+        <div className="mx-auto max-w-4xl">
+          <p className="text-sm text-slate-500 mb-2">
+            © {new Date().getFullYear()} Alex Lautin — Built with Next.js & Tailwind CSS
+          </p>
+        </div>
       </footer>
     </main>
   );

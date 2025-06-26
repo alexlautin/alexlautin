@@ -12,6 +12,31 @@ import Image from 'next/image';
 
 import Navbar from "../../components/Navbar";
 
+// Add CSS animation styles
+const fadeInKeyframes = `
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .animate-fadeIn {
+    animation: fadeIn 0.8s ease-out forwards;
+  }
+`;
+
+// Inject styles
+if (typeof document !== 'undefined') {
+  const style = document.createElement('style');
+  style.textContent = fadeInKeyframes;
+  document.head.appendChild(style);
+}
+
 const projects = [
   {
     image: '/speedsail.png',
@@ -40,21 +65,23 @@ const projects = [
   {
     image: '/photo.png',
     title: 'Personal Website',
-    description: 'Personal website showcasing my projects.',
+    description: 'A personal website showcasing my projects.',
     link: 'https://alexlautin.vercel.app',
   }
 ];
 
 export default function ProjectsPage() {
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50 text-black overflow-hidden">
-      <main className="flex-grow px-4 py-10">
+    <div className="flex flex-col min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 text-black overflow-hidden">
+      <main className="flex-grow px-4 py-12">
         <Navbar />
-        <div className="mx-auto max-w-3xl text-center mb-14 mt-14">
-          <h1 className="mb-6 text-4xl md:text-5xl font-extrabold leading-tight tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-green-400 to-orange-400">
+        <div className="mx-auto max-w-4xl text-center mb-16 mt-16">
+          <h1 className="mb-8 text-5xl md:text-7xl font-black leading-tight tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600">
             Projects
           </h1>
-          <p className="text-lg text-gray-500">A selection of the projects I have worked on.</p>
+          <p className="text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
+            A selection of the projects I have worked on.
+          </p>
         </div>
         <div className="mx-auto max-w-5xl grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {projects.map((project, idx) => (
@@ -63,9 +90,13 @@ export default function ProjectsPage() {
               href={project.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="relative flex flex-col bg-white rounded-2xl shadow-lg border border-slate-100 p-6 pt-8 group transition-transform duration-300 ease-out hover:scale-105 hover:shadow-2xl animate-fadeIn opacity-0"
-              style={{ animationDelay: `${idx * 80}ms`, animationFillMode: 'forwards' }}
+              className="group relative flex flex-col bg-white/90 backdrop-blur-sm rounded-3xl shadow-lg border border-slate-200/50 p-4 pt-8 overflow-visible transition-all duration-300 ease-out hover:scale-[1.01] hover:shadow-xl hover:bg-white animate-fadeIn opacity-0"
+              style={{ 
+                animationDelay: `${idx * 120}ms`, 
+                animationFillMode: 'forwards'
+              }}
             >
+              {/* Project image positioned half on, half off the card */}
               <div className="absolute -top-6 left-6">
                 <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-white shadow-md bg-white">
                   <Image
@@ -78,64 +109,75 @@ export default function ProjectsPage() {
                   />
                 </div>
               </div>
-              <div className="mt-8">
-                <h2 className="text-lg font-bold text-gray-900 mb-1 group-hover:text-emerald-500 transition-colors duration-300">
+
+              <div className="flex-grow mt-4">
+                <h2 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-gray-700 transition-colors duration-300">
                   {project.title}
                 </h2>
-                <p className="text-gray-500 text-sm mb-3 min-h-[48px]">{project.description}</p>
-                <div className="flex flex-wrap items-center gap-3 mb-4 text-lg text-gray-600 dark:text-gray-400 min-h-[15px]">
+                <p className="text-gray-600 text-sm mb-6 leading-relaxed">{project.description}</p>
+                
+                {/* Tech stack with improved design */}
+                <div className="flex flex-wrap items-center gap-3 mb-6">
                   {project.title === "Sevenworks" && (
                   <>
-                    <SiNextdotjs title="Next.js" />
-                    <SiTailwindcss title="Tailwind CSS" />
-                    <SiFirebase title="Firebase" />
-                    <SiVercel title="Vercel" />
+                    <div className="p-2 rounded-lg bg-slate-100 text-slate-700"><SiNextdotjs title="Next.js" size={16} /></div>
+                    <div className="p-2 rounded-lg bg-slate-100 text-slate-700"><SiTailwindcss title="Tailwind CSS" size={16} /></div>
+                    <div className="p-2 rounded-lg bg-slate-100 text-slate-700"><SiFirebase title="Firebase" size={16} /></div>
+                    <div className="p-2 rounded-lg bg-slate-100 text-slate-700"><SiVercel title="Vercel" size={16} /></div>
                   </>
                   )}
                   {project.title === "Galleryboard" && (
                   <>
-                    <SiNextdotjs title="Next.js" />
-                    <SiSupabase title="Supabase" />
-                    <SiTailwindcss title="Tailwind CSS" />
-                    <SiVercel title="Vercel" />
+                    <div className="p-2 rounded-lg bg-slate-100 text-slate-700"><SiNextdotjs title="Next.js" size={16} /></div>
+                    <div className="p-2 rounded-lg bg-slate-100 text-slate-700"><SiSupabase title="Supabase" size={16} /></div>
+                    <div className="p-2 rounded-lg bg-slate-100 text-slate-700"><SiTailwindcss title="Tailwind CSS" size={16} /></div>
+                    <div className="p-2 rounded-lg bg-slate-100 text-slate-700"><SiVercel title="Vercel" size={16} /></div>
                   </>
                   )}
                   {project.title === "Invitide" && (
                   <>
-                    <SiNextdotjs title="Next.js" />
-                    <SiTailwindcss title="Tailwind CSS" />
-                    <SiSupabase title="Supabase" />
-                    <SiVercel title="Vercel" />
-                    <SiResend title="Resend" size={16} />
+                    <div className="p-2 rounded-lg bg-slate-100 text-slate-700"><SiNextdotjs title="Next.js" size={16} /></div>
+                    <div className="p-2 rounded-lg bg-slate-100 text-slate-700"><SiTailwindcss title="Tailwind CSS" size={16} /></div>
+                    <div className="p-2 rounded-lg bg-slate-100 text-slate-700"><SiSupabase title="Supabase" size={16} /></div>
+                    <div className="p-2 rounded-lg bg-slate-100 text-slate-700"><SiVercel title="Vercel" size={16} /></div>
+                    <div className="p-2 rounded-lg bg-slate-100 text-slate-700"><SiResend title="Resend" size={16} /></div>
                   </>
                   )}
                   {project.title === "Speedsail" && (
                   <>
-                    <SiNextdotjs title="Next.js" />
-                    <SiTailwindcss title="Tailwind CSS" />
-                    <SiVercel title="Vercel" />
+                    <div className="p-2 rounded-lg bg-slate-100 text-slate-700"><SiNextdotjs title="Next.js" size={16} /></div>
+                    <div className="p-2 rounded-lg bg-slate-100 text-slate-700"><SiTailwindcss title="Tailwind CSS" size={16} /></div>
+                    <div className="p-2 rounded-lg bg-slate-100 text-slate-700"><SiVercel title="Vercel" size={16} /></div>
                   </>
                   )}
                   {project.title === "Personal Website" && (
                   <>
-                    <SiNextdotjs title="Next.js" />
-                    <SiTailwindcss title="Tailwind CSS" />
-                    <SiHeadlessui title="Headless UI" />
-                    <SiVercel title="Vercel" />
+                    <div className="p-2 rounded-lg bg-slate-100 text-slate-700"><SiNextdotjs title="Next.js" size={16} /></div>
+                    <div className="p-2 rounded-lg bg-slate-100 text-slate-700"><SiTailwindcss title="Tailwind CSS" size={16} /></div>
+                    <div className="p-2 rounded-lg bg-slate-100 text-slate-700"><SiHeadlessui title="Headless UI" size={16} /></div>
+                    <div className="p-2 rounded-lg bg-slate-100 text-slate-700"><SiVercel title="Vercel" size={16} /></div>
                   </>
                   )}
                 </div>
-                <span className="inline-flex items-center gap-1 text-emerald-600 text-sm font-medium hover:underline">
-                  <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
-                  Visit site
-                </span>
+                
+                {/* Enhanced CTA button */}
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-slate-800 text-white text-sm font-semibold rounded-full shadow-md group-hover:bg-slate-700 transition-all duration-300">
+                  <span>Explore Project</span>
+                  <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </div>
               </div>
             </a>
           ))}
         </div>
       </main>
-      <footer className="border-t border-gray-200 bg-white px-6 py-6 text-center text-sm text-gray-500">
-        © {new Date().getFullYear()} Alex Lautin — Built with Next.js & Tailwind CSS
+      <footer className="border-t border-slate-200/50 bg-white/60 backdrop-blur-sm px-6 py-8 text-center">
+        <div className="mx-auto max-w-4xl">
+          <p className="text-sm text-slate-500 mb-2">
+            © {new Date().getFullYear()} Alex Lautin — Built with Next.js & Tailwind CSS
+          </p>
+        </div>
       </footer>
     </div>
   );

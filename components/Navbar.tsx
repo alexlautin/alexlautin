@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { Tab } from '@headlessui/react';
-import Router from 'next/router';
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
@@ -15,7 +14,6 @@ export default function Navbar() {
   const pathname = usePathname();
   const [show, setShow] = useState(true);
   const lastScrollY = useRef(0);
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -34,19 +32,6 @@ export default function Navbar() {
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  useEffect(() => {
-    const handleStart = () => setLoading(true);
-    const handleStop = () => setLoading(false);
-    Router.events.on('routeChangeStart', handleStart);
-    Router.events.on('routeChangeComplete', handleStop);
-    Router.events.on('routeChangeError', handleStop);
-    return () => {
-      Router.events.off('routeChangeStart', handleStart);
-      Router.events.off('routeChangeComplete', handleStop);
-      Router.events.off('routeChangeError', handleStop);
-    };
   }, []);
 
   const tabs = [
@@ -92,9 +77,6 @@ export default function Navbar() {
         </Tab.Group>
         <div className="flex-1 flex justify-end" />
       </div>
-      {loading && (
-        <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-teal-400 via-sky-400 to-teal-400" />
-      )}
     </header>
   );
 }
