@@ -4,6 +4,8 @@ import { SiLinkedin, SiGithub, SiOrcid } from 'react-icons/si';
 
 export const dynamic = 'force-static';
 
+import LocationBadge from '../../components/LocationBadge';
+
 export default function Home() {
   return (
     <main className="relative flex flex-col min-h-screen bg-gray-50 text-gray-900 antialiased overflow-hidden">
@@ -14,7 +16,8 @@ export default function Home() {
           id="about"
           className="relative flex items-center justify-center py-24 px-6 text-center"
         >
-          <div className="bg-white backdrop-blur-md bg-opacity-80 shadow-lg rounded-2xl p-10 max-w-2xl mx-auto">
+          <div className="bg-white backdrop-blur-md bg-opacity-80 shadow-lg rounded-2xl p-10 max-w-2xl mx-auto relative">
+            <LocationBadge />
             <div className="mb-6">
               <Avatar className="w-28 h-28 rounded-full mx-auto ring-4 ring-indigo-200" />
             </div>
