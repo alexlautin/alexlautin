@@ -1,10 +1,56 @@
+"use client";
 import Navbar from '../../components/Navbar';
 import Avatar from '@/components/Avatar';
-import { SiLinkedin, SiGithub, SiOrcid } from 'react-icons/si';
+import { SiLinkedin, SiGithub, SiOrcid, SiGooglescholar } from 'react-icons/si';
+import { useState } from 'react';
 
 export const dynamic = 'force-static';
 
 import LocationBadge from '../../components/LocationBadge';
+
+// Tooltip Component
+const Tooltip = ({ children, text, delay = 0, href }: { children: React.ReactNode, text: string, delay?: number, href?: string }) => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  const content = (
+    <div 
+      className="relative inline-block"
+      onMouseEnter={() => setIsVisible(true)}
+      onMouseLeave={() => setIsVisible(false)}
+    >
+      {children}
+      {isVisible && (
+        <div 
+          className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-900 text-white text-xs rounded whitespace-nowrap z-50 animate-fadeIn"
+          style={{ 
+            animationDelay: `${delay}ms`,
+            animationDuration: '200ms',
+            animationFillMode: 'both'
+          }}
+        >
+          {text}
+          <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-gray-900"></div>
+        </div>
+      )}
+    </div>
+  );
+
+  if (href) {
+    return (
+      <a 
+        href={href} 
+        target="_blank" 
+        rel="noopener noreferrer"
+        className="inline-block hover:opacity-80 transition-opacity duration-200"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {content}
+      </a>
+    );
+  }
+
+  return content;
+};
 
 export default function Home() {
   return (
@@ -31,30 +77,26 @@ export default function Home() {
               Student at Emory University studying Computer Science and Mathematics.
             </p>
             <div className="flex flex-wrap justify-center gap-6">
-              <a
-                href="https://www.linkedin.com/in/alexlautin/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group relative p-3 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200"
-              >
-                <SiLinkedin className="w-6 h-6" />
-              </a>
-              <a
-                href="https://www.github.com/alexlautin"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group relative p-3 rounded-full bg-gradient-to-r from-gray-700 to-gray-800 text-white shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200"
-              >
-                <SiGithub className="w-6 h-6" />
-              </a>
-              <a
-                href="https://orcid.org/0009-0006-0555-7424"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group relative p-3 rounded-full bg-gradient-to-r from-green-500 to-green-600 text-white shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200"
-              >
-                <SiOrcid className="w-6 h-6" />
-              </a>
+              <Tooltip text="LinkedIn" href="https://www.linkedin.com/in/alexlautin/">
+                <div className="group relative p-3 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200">
+                  <SiLinkedin className="w-6 h-6" />
+                </div>
+              </Tooltip>
+              <Tooltip text="GitHub" href="https://www.github.com/alexlautin">
+                <div className="group relative p-3 rounded-full bg-gradient-to-r from-gray-700 to-gray-800 text-white shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200">
+                  <SiGithub className="w-6 h-6" />
+                </div>
+              </Tooltip>
+              <Tooltip text="ORCID" href="https://orcid.org/0009-0006-0555-7424">
+                <div className="group relative p-3 rounded-full bg-gradient-to-r from-green-500 to-green-600 text-white shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200">
+                  <SiOrcid className="w-6 h-6" />
+                </div>
+              </Tooltip>
+              <Tooltip text="Google Scholar" href="https://scholar.google.com/citations?user=Z2EZFfoAAAAJ&hl=en">
+                <div className="group relative p-3 rounded-full bg-gradient-to-r from-red-500 to-red-600 text-white shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200">
+                  <SiGooglescholar className="w-6 h-6" />
+                </div>
+              </Tooltip>
             </div>
           </div>
         </section>
