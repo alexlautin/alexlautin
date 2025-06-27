@@ -9,7 +9,9 @@ import {
   SiResend,
 } from "react-icons/si";
 import Image from 'next/image';
+import Link from 'next/link';
 import { useState } from 'react';
+import { projects, techLinks } from "../../data/projects";
 
 import Navbar from "../../components/Navbar";
 
@@ -108,50 +110,6 @@ if (typeof document !== 'undefined') {
   document.head.appendChild(style);
 }
 
-// Centralized tech stack links
-const techLinks = {
-  'Next.js': 'https://nextjs.org',
-  'Tailwind CSS': 'https://tailwindcss.com',
-  'Firebase': 'https://firebase.google.com',
-  'Vercel': 'https://vercel.com',
-  'Supabase': 'https://supabase.com',
-  'Resend': 'https://resend.com',
-  'Headless UI': 'https://headlessui.com'
-};
-
-const projects = [
-  {
-    image: '/speedsail.png',
-    title: 'Speedsail',
-    description: 'A modern inspirational sailing interview website.',
-    link: 'https://www.speedsail.org',
-  },
-  {
-    image: '/invitide.png',
-    title: 'Invitide',
-    description: 'A hackathon project, a modern retro-styled event management platform.',
-    link: 'https://invitide.vercel.app',
-  },
-  {
-    image: '/sevenworks.png',
-    title: 'Sevenworks',
-    description: 'A real-time resume enhancement tool and builder.',
-    link: 'https://www.sevenworks.tech',
-  },
-  {
-    image: '/galleryboard.jpeg',
-    title: 'Galleryboard',
-    description: 'A hackathon project, an individual shared classroom whiteboard tool.',
-    link: 'https://galleryboard.vercel.app',
-  },
-  {
-    image: '/photo.png',
-    title: 'Personal Website',
-    description: 'A personal website showcasing my projects.',
-    link: 'https://alexlautin.vercel.app',
-  }
-];
-
 export default function ProjectsPage() {
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 text-black overflow-hidden">
@@ -167,11 +125,8 @@ export default function ProjectsPage() {
         </div>
         <div className="mx-auto max-w-5xl grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {projects.map((project, idx) => (
-            <a
+            <div
               key={project.title}
-              href={project.link}
-              target="_blank"
-              rel="noopener noreferrer"
               className="group relative flex flex-col bg-white/90 backdrop-blur-sm rounded-3xl shadow-lg border border-slate-200/50 p-4 pt-8 overflow-visible transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-2xl hover:bg-white hover:-translate-y-1 animate-fadeIn opacity-0 hover:border-indigo-200"
               style={{ 
                 animationDelay: `${idx * 120}ms`, 
@@ -200,62 +155,59 @@ export default function ProjectsPage() {
                 
                 {/* Tech stack with improved design */}
                 <div className="flex flex-wrap items-center gap-3 mb-6 group-hover:gap-4 transition-all duration-200">
-                  {project.title === "Sevenworks" && (
-                  <>
-                    <Tooltip text="Next.js" href={techLinks['Next.js']}><div className="p-2 rounded-lg bg-slate-100 text-slate-700 transition-all duration-150 group-hover:bg-indigo-100 group-hover:text-indigo-700 group-hover:scale-105"><SiNextdotjs size={16} /></div></Tooltip>
-                    <Tooltip text="Tailwind CSS" href={techLinks['Tailwind CSS']}><div className="p-2 rounded-lg bg-slate-100 text-slate-700 transition-all duration-150 group-hover:bg-indigo-100 group-hover:text-indigo-700 group-hover:scale-105" style={{transitionDelay: '20ms'}}><SiTailwindcss size={16} /></div></Tooltip>
-                    <Tooltip text="Firebase" href={techLinks['Firebase']}><div className="p-2 rounded-lg bg-slate-100 text-slate-700 transition-all duration-150 group-hover:bg-indigo-100 group-hover:text-indigo-700 group-hover:scale-105" style={{transitionDelay: '40ms'}}><SiFirebase size={16} /></div></Tooltip>
-                    <Tooltip text="Vercel" href={techLinks['Vercel']}><div className="p-2 rounded-lg bg-slate-100 text-slate-700 transition-all duration-150 group-hover:bg-indigo-100 group-hover:text-indigo-700 group-hover:scale-105" style={{transitionDelay: '60ms'}}><SiVercel size={16} /></div></Tooltip>
-                    <div className="p-2 rounded-lg bg-slate-100 text-slate-700 transition-all duration-150 group-hover:bg-indigo-100 group-hover:text-indigo-700 group-hover:scale-105 opacity-0 pointer-events-none" style={{transitionDelay: '80ms'}}><SiVercel size={16} /></div>
-                  </>
-                  )}
-                  {project.title === "Galleryboard" && (
-                  <>
-                    <Tooltip text="Next.js" href={techLinks['Next.js']}><div className="p-2 rounded-lg bg-slate-100 text-slate-700 transition-all duration-150 group-hover:bg-indigo-100 group-hover:text-indigo-700 group-hover:scale-105"><SiNextdotjs size={16} /></div></Tooltip>
-                    <Tooltip text="Supabase" href={techLinks['Supabase']}><div className="p-2 rounded-lg bg-slate-100 text-slate-700 transition-all duration-150 group-hover:bg-indigo-100 group-hover:text-indigo-700 group-hover:scale-105" style={{transitionDelay: '20ms'}}><SiSupabase size={16} /></div></Tooltip>
-                    <Tooltip text="Tailwind CSS" href={techLinks['Tailwind CSS']}><div className="p-2 rounded-lg bg-slate-100 text-slate-700 transition-all duration-150 group-hover:bg-indigo-100 group-hover:text-indigo-700 group-hover:scale-105" style={{transitionDelay: '40ms'}}><SiTailwindcss size={16} /></div></Tooltip>
-                    <Tooltip text="Vercel" href={techLinks['Vercel']}><div className="p-2 rounded-lg bg-slate-100 text-slate-700 transition-all duration-150 group-hover:bg-indigo-100 group-hover:text-indigo-700 group-hover:scale-105" style={{transitionDelay: '60ms'}}><SiVercel size={16} /></div></Tooltip>
-                    <div className="p-2 rounded-lg bg-slate-100 text-slate-700 transition-all duration-150 group-hover:bg-indigo-100 group-hover:text-indigo-700 group-hover:scale-105 opacity-0 pointer-events-none" style={{transitionDelay: '80ms'}}><SiVercel size={16} /></div>
-                  </>
-                  )}
-                  {project.title === "Invitide" && (
-                  <>
-                    <Tooltip text="Next.js" href={techLinks['Next.js']}><div className="p-2 rounded-lg bg-slate-100 text-slate-700 transition-all duration-150 group-hover:bg-indigo-100 group-hover:text-indigo-700 group-hover:scale-105"><SiNextdotjs size={16} /></div></Tooltip>
-                    <Tooltip text="Tailwind CSS" href={techLinks['Tailwind CSS']}><div className="p-2 rounded-lg bg-slate-100 text-slate-700 transition-all duration-150 group-hover:bg-indigo-100 group-hover:text-indigo-700 group-hover:scale-105" style={{transitionDelay: '20ms'}}><SiTailwindcss size={16} /></div></Tooltip>
-                    <Tooltip text="Supabase" href={techLinks['Supabase']}><div className="p-2 rounded-lg bg-slate-100 text-slate-700 transition-all duration-150 group-hover:bg-indigo-100 group-hover:text-indigo-700 group-hover:scale-105" style={{transitionDelay: '40ms'}}><SiSupabase size={16} /></div></Tooltip>
-                    <Tooltip text="Vercel" href={techLinks['Vercel']}><div className="p-2 rounded-lg bg-slate-100 text-slate-700 transition-all duration-150 group-hover:bg-indigo-100 group-hover:text-indigo-700 group-hover:scale-105" style={{transitionDelay: '60ms'}}><SiVercel size={16} /></div></Tooltip>
-                    <Tooltip text="Resend" href={techLinks['Resend']}><div className="p-2 rounded-lg bg-slate-100 text-slate-700 transition-all duration-150 group-hover:bg-indigo-100 group-hover:text-indigo-700 group-hover:scale-105" style={{transitionDelay: '80ms'}}><SiResend size={16} /></div></Tooltip>
-                  </>
-                  )}
-                  {project.title === "Speedsail" && (
-                  <>
-                    <Tooltip text="Next.js" href={techLinks['Next.js']}><div className="p-2 rounded-lg bg-slate-100 text-slate-700 transition-all duration-150 group-hover:bg-indigo-100 group-hover:text-indigo-700 group-hover:scale-105"><SiNextdotjs size={16} /></div></Tooltip>
-                    <Tooltip text="Tailwind CSS" href={techLinks['Tailwind CSS']}><div className="p-2 rounded-lg bg-slate-100 text-slate-700 transition-all duration-150 group-hover:bg-indigo-100 group-hover:text-indigo-700 group-hover:scale-105" style={{transitionDelay: '20ms'}}><SiTailwindcss size={16} /></div></Tooltip>
-                    <Tooltip text="Vercel" href={techLinks['Vercel']}><div className="p-2 rounded-lg bg-slate-100 text-slate-700 transition-all duration-150 group-hover:bg-indigo-100 group-hover:text-indigo-700 group-hover:scale-105" style={{transitionDelay: '40ms'}}><SiVercel size={16} /></div></Tooltip>
-                    <div className="p-2 rounded-lg bg-slate-100 text-slate-700 transition-all duration-150 group-hover:bg-indigo-100 group-hover:text-indigo-700 group-hover:scale-105 opacity-0 pointer-events-none" style={{transitionDelay: '60ms'}}><SiVercel size={16} /></div>
-                    <div className="p-2 rounded-lg bg-slate-100 text-slate-700 transition-all duration-150 group-hover:bg-indigo-100 group-hover:text-indigo-700 group-hover:scale-105 opacity-0 pointer-events-none" style={{transitionDelay: '80ms'}}><SiVercel size={16} /></div>
-                  </>
-                  )}
-                  {project.title === "Personal Website" && (
-                  <>
-                    <Tooltip text="Next.js" href={techLinks['Next.js']}><div className="p-2 rounded-lg bg-slate-100 text-slate-700 transition-all duration-150 group-hover:bg-indigo-100 group-hover:text-indigo-700 group-hover:scale-105"><SiNextdotjs size={16} /></div></Tooltip>
-                    <Tooltip text="Tailwind CSS" href={techLinks['Tailwind CSS']}><div className="p-2 rounded-lg bg-slate-100 text-slate-700 transition-all duration-150 group-hover:bg-indigo-100 group-hover:text-indigo-700 group-hover:scale-105" style={{transitionDelay: '20ms'}}><SiTailwindcss size={16} /></div></Tooltip>
-                    <Tooltip text="Headless UI" href={techLinks['Headless UI']}><div className="p-2 rounded-lg bg-slate-100 text-slate-700 transition-all duration-150 group-hover:bg-indigo-100 group-hover:text-indigo-700 group-hover:scale-105" style={{transitionDelay: '40ms'}}><SiHeadlessui size={16} /></div></Tooltip>
-                    <Tooltip text="Vercel" href={techLinks['Vercel']}><div className="p-2 rounded-lg bg-slate-100 text-slate-700 transition-all duration-150 group-hover:bg-indigo-100 group-hover:text-indigo-700 group-hover:scale-105" style={{transitionDelay: '60ms'}}><SiVercel size={16} /></div></Tooltip>
-                    <div className="p-2 rounded-lg bg-slate-100 text-slate-700 transition-all duration-150 group-hover:bg-indigo-100 group-hover:text-indigo-700 group-hover:scale-105 opacity-0 pointer-events-none" style={{transitionDelay: '80ms'}}><SiVercel size={16} /></div>
-                  </>
-                  )}
+                  {project.technologies.map((tech, techIdx) => {
+                    const techIcon = {
+                      'Next.js': SiNextdotjs,
+                      'Tailwind CSS': SiTailwindcss,
+                      'Firebase': SiFirebase,
+                      'Vercel': SiVercel,
+                      'Supabase': SiSupabase,
+                      'Resend': SiResend,
+                      'Headless UI': SiHeadlessui,
+                    }[tech];
+
+                    if (!techIcon) return null;
+                    const Icon = techIcon;
+
+                    return (
+                      <Tooltip key={tech} text={tech} href={techLinks[tech as keyof typeof techLinks]}>
+                        <div 
+                          className="p-2 rounded-lg bg-slate-100 text-slate-700 transition-all duration-150 group-hover:bg-indigo-100 group-hover:text-indigo-700 group-hover:scale-105" 
+                          style={{transitionDelay: `${techIdx * 20}ms`}}
+                        >
+                          <Icon size={16} />
+                        </div>
+                      </Tooltip>
+                    );
+                  })}
                 </div>
                 
-                {/* Enhanced CTA button */}
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-slate-800 text-white text-sm font-semibold rounded-full shadow-md group-hover:bg-slate-700 transition-all duration-300 group-hover:scale-105 group-hover:shadow-lg">
-                  <span>Explore Project</span>
-                  <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                  </svg>
+                {/* Action buttons */}
+                <div className="flex justify-between items-center">
+                  <Link
+                    href={`/projects/${project.id}`}
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-slate-800 text-white text-sm font-semibold rounded-full shadow-md group-hover:bg-slate-700 transition-all duration-300 group-hover:scale-105 group-hover:shadow-lg"
+                  >
+                    <span>Learn More</span>
+                    <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                  </Link>
+                  <a
+                    href={project.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-4 py-2 border border-slate-300 text-slate-700 text-sm font-semibold rounded-full shadow-sm hover:bg-slate-50 transition-all duration-300 group-hover:scale-105"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <span>Live Demo</span>
+                    <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </a>
                 </div>
               </div>
-            </a>
+            </div>
           ))}
         </div>
       </main>
