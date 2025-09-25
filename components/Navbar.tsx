@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment } from 'react';
+import React, { Fragment } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
@@ -45,7 +45,7 @@ export default function Navbar() {
       <div className="flex items-center justify-between max-w-3xl mx-auto px-4">
         <div className="flex-1" />
         <Tab.Group selectedIndex={currentIndex}>
-          <Tab.List className="flex space-x-1 rounded-full bg-white-800/60 p-1 shadow-sm backdrop-blur">
+          <Tab.List className="flex space-x-1 rounded-full bg-white/60 dark:bg-gray-800/60 p-1 shadow-sm backdrop-blur transition-colors duration-300">
             {tabs.map((tab) => (
               <Tab key={tab.key} as={Fragment}>
                 {({ selected }) => (
@@ -54,7 +54,7 @@ export default function Navbar() {
                       href={tab.href}
                       className={classNames(
                         'rounded-full px-4 py-1.5 text-sm font-medium transition focus:outline-none',
-                        selected ? 'text-slate-500 font-bold' : 'text-black hover:text-slate-500 font-light'
+                        selected ? 'text-slate-500 dark:text-slate-400 font-bold' : 'text-black dark:text-gray-200 hover:text-slate-500 dark:hover:text-slate-400 font-light'
                       )}
                       prefetch={false}
                       scroll={true}
