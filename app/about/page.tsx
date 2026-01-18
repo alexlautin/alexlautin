@@ -74,7 +74,7 @@ export default function Home() {
               Alex Lautin
             </h1>
             <p className="mt-6 mb-8 text-lg md:text-xl text-gray-700">
-              Hi! I'm Alex, a student at Emory University studying Computer Science.
+              Hi! I&apos;m Alex, a student at Emory University studying Computer Science.
             </p>
             <div className="flex flex-wrap justify-center gap-6">
               <Tooltip text="LinkedIn" href="https://www.linkedin.com/in/alexlautin/">
@@ -101,14 +101,6 @@ export default function Home() {
           </div>
         </section>
       </div>
-      {/* --- Footer --- */}
-      <footer className="border-t border-slate-200/50 bg-white/60 backdrop-blur-sm px-6 py-8 text-center">
-        <div className="mx-auto max-w-4xl">
-          <p className="text-sm text-slate-500 mb-2">
-            © {new Date().getFullYear()} Alex Lautin — Built with Next.js & Tailwind CSS
-          </p>
-        </div>
-      </footer>
     </main>
   );
 }

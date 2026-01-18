@@ -82,14 +82,6 @@ export default function Contact() {
           </div>
         </div>
       </main>
-      
-      <footer className="border-t border-slate-200/50 bg-white/60 backdrop-blur-sm px-6 py-8 text-center">
-        <div className="mx-auto max-w-4xl">
-          <p className="text-sm text-slate-500 mb-2">
-            © {new Date().getFullYear()} Alex Lautin — Built with Next.js & Tailwind CSS
-          </p>
-        </div>
-      </footer>
     </div>
   );
 }
