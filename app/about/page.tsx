@@ -74,7 +74,7 @@ export default function Home() {
               Alex Lautin
             </h1>
             <p className="mt-6 mb-8 text-lg md:text-xl text-gray-700">
-              Student at Emory University studying Computer Science and Mathematics.
+              Hi! I'm Alex, a student at Emory University studying Computer Science.
             </p>
             <div className="flex flex-wrap justify-center gap-6">
               <Tooltip text="LinkedIn" href="https://www.linkedin.com/in/alexlautin/">
