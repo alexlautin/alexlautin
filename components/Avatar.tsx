@@ -9,8 +9,10 @@ export default function Avatar({ className = "" }: { className?: string }) {
       alt="Personal avatar"
       width={112}
       height={112}
-      className={`h-28 w-28 rounded-full border border-gray-200 shadow-sm object-cover ${className}`}
+      className={`h-28 w-28 rounded-2xl border border-slate-200 shadow-sm object-cover select-none ${className}`}
       priority={true}
+      draggable={false}
+      onContextMenu={(e) => e.preventDefault()}
     />
   );
 }

@@ -34,7 +34,7 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 text-black">
+    <div className="flex flex-col min-h-screen bg-slate-50 text-black">
       <main className="flex-grow px-4 py-12">
         <Navbar />
         
@@ -42,7 +42,7 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
         <div className="mx-auto max-w-4xl mt-16 mb-8">
           <Link 
             href="/projects"
-            className="inline-flex items-center gap-2 text-slate-600 hover:text-indigo-600 transition-colors duration-200"
+            className="inline-flex items-center gap-2 text-slate-600 hover:text-teal-600 transition-colors duration-200"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="M19 12H5m7-7l-7 7 7 7" />
@@ -65,7 +65,7 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
             </div>
             <div className="flex-grow">
               <div className="flex items-center gap-4 mb-2">
-                <h1 className="text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600">
+                <h1 className="text-4xl md:text-5xl font-bold text-slate-800">
                   {project.title}
                 </h1>
                 <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
@@ -91,7 +91,7 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
               href={project.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors duration-200"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-slate-800 text-white font-semibold rounded-xl hover:bg-teal-600 transition-all duration-200 shadow-sm"
             >
               <span>View Live Project</span>
               <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -103,7 +103,7 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
                 href={project.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-3 border border-slate-300 text-slate-700 font-semibold rounded-lg hover:bg-slate-50 transition-colors duration-200"
+                className="inline-flex items-center gap-2 px-6 py-3 border border-slate-300 text-slate-700 font-semibold rounded-xl hover:bg-slate-50 transition-all duration-200"
               >
                 <span>View Code</span>
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -120,18 +120,18 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
           <div className="lg:col-span-2 space-y-12">
             {/* About section */}
             <section>
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">About This Project</h2>
-              <p className="text-gray-600 leading-relaxed">{project.longDescription}</p>
+              <h2 className="text-2xl font-bold text-slate-800 mb-4">About This Project</h2>
+              <p className="text-slate-600 leading-relaxed">{project.longDescription}</p>
             </section>
 
             {/* Features section */}
             <section>
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Key Features</h2>
+              <h2 className="text-2xl font-bold text-slate-800 mb-6">Key Features</h2>
               <div className="grid gap-3">
                 {project.features.map((feature, index) => (
                   <div key={index} className="flex items-start gap-3">
-                    <div className="w-2 h-2 rounded-full bg-indigo-500 mt-2 flex-shrink-0"></div>
-                    <span className="text-gray-600">{feature}</span>
+                    <div className="w-2 h-2 rounded-full bg-teal-600 mt-2 flex-shrink-0"></div>
+                    <span className="text-slate-600">{feature}</span>
                   </div>
                 ))}
               </div>
@@ -139,7 +139,7 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
 
             {/* Screenshots section */}
             <section>
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Screenshots</h2>
+              <h2 className="text-2xl font-bold text-slate-800 mb-6">Screenshots</h2>
               <div className="grid gap-6">
                 {project.images.map((image, index) => (
                   <div key={index} className="rounded-xl overflow-hidden border border-slate-200 shadow-sm">
@@ -159,8 +159,8 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
           {/* Sidebar */}
           <div className="space-y-8">
             {/* Tech stack */}
-            <section className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-slate-200">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Tech Stack</h3>
+            <section className="bg-white rounded-2xl p-6 border border-slate-200 shadow-md">
+              <h3 className="text-lg font-semibold text-slate-800 mb-4">Tech Stack</h3>
               <div className="space-y-3">
                 {project.technologies.map((tech, index) => {
                   const IconComponent = techIcons[tech as keyof typeof techIcons];
@@ -170,7 +170,7 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
                       href={techLinks[tech as keyof typeof techLinks]}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-3 p-3 rounded-lg bg-slate-50 hover:bg-indigo-50 hover:text-indigo-700 transition-all duration-200 group"
+                      className="flex items-center gap-3 p-3 rounded-lg bg-slate-50 hover:bg-teal-50 hover:text-teal-700 transition-all duration-200 group border border-slate-200"
                     >
                       {IconComponent && <IconComponent size={20} />}
                       <span className="font-medium">{tech}</span>
@@ -184,8 +184,8 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
             </section>
 
             {/* Project info */}
-            <section className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-slate-200">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Project Info</h3>
+            <section className="bg-white rounded-2xl p-6 border border-slate-200 shadow-md">
+              <h3 className="text-lg font-semibold text-slate-800 mb-4">Project Info</h3>
               <div className="space-y-3 text-sm">
                 <div className="flex justify-between">
                   <span className="text-slate-600">Year</span>
