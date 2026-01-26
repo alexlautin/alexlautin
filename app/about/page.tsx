@@ -150,11 +150,11 @@ export default function Home() {
                   </h3>
                 </div>
 
-                <div className="flex-grow">
+                <div className="flex-grow flex flex-col">
                   <p className="text-slate-600 text-sm mb-6 leading-relaxed">{project.description}</p>
                   
                   {/* Tech stack */}
-                  <div className="flex flex-wrap items-center gap-2 mb-6">
+                  <div className="flex flex-wrap items-center gap-2 mb-auto">
                     {project.technologies.map((tech) => {
                       const techIcon = {
                         'Next.js': SiNextdotjs,
@@ -180,9 +180,9 @@ export default function Home() {
                       );
                     })}
                   </div>
-                  
-                  {/* Action buttons */}
-                  <div className="flex gap-3">
+
+                  {/* Buttons at bottom */}
+                  <div className="flex gap-3 mt-6">
                     <Link
                       href={`/projects/${project.id}`}
                       className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-slate-800 text-white text-sm font-semibold rounded-xl shadow-sm hover:bg-teal-600 transition-all duration-200"
@@ -199,6 +199,7 @@ export default function Home() {
                       className="inline-flex items-center justify-center gap-2 px-4 py-2.5 border border-slate-300 text-slate-700 text-sm font-semibold rounded-xl hover:bg-slate-50 transition-all duration-200"
                       onClick={(e) => e.stopPropagation()}
                     >
+                      <span>Live Demo</span>
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                       </svg>
