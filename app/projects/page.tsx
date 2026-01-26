@@ -112,11 +112,11 @@ if (typeof document !== 'undefined') {
 
 export default function ProjectsPage() {
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 text-black overflow-hidden">
+    <div className="flex flex-col min-h-screen bg-slate-50 text-black overflow-hidden">
       <main className="flex-grow px-4 py-12">
         <Navbar />
         <div className="mx-auto max-w-4xl text-center mb-16 mt-16">
-          <h1 className="mb-8 text-5xl md:text-7xl font-black leading-tight tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600">
+          <h1 className="mb-8 text-5xl md:text-7xl font-bold leading-tight tracking-tight text-slate-800">
             Projects
           </h1>
           <p className="text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
@@ -148,7 +148,7 @@ export default function ProjectsPage() {
               </div>
 
               <div className="flex-grow mt-4">
-                <h2 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-indigo-600 transition-all duration-300 group-hover:translate-x-1">
+                <h2 className="text-xl font-bold text-slate-800 mb-3 group-hover:text-teal-600 transition-all duration-300 group-hover:translate-x-1">
                   {project.title}
                 </h2>
                 <p className="text-gray-600 text-sm mb-6 leading-relaxed group-hover:text-gray-700 transition-colors duration-300">{project.description}</p>
@@ -172,7 +172,7 @@ export default function ProjectsPage() {
                     return (
                       <Tooltip key={tech} text={tech} href={techLinks[tech as keyof typeof techLinks]}>
                         <div 
-                          className="p-2 rounded-lg bg-slate-100 text-slate-700 transition-all duration-150 group-hover:bg-indigo-100 group-hover:text-indigo-700 group-hover:scale-105" 
+                          className="p-2 rounded-lg bg-slate-100 text-slate-700 transition-all duration-150 group-hover:bg-teal-100 group-hover:text-teal-700 group-hover:scale-105" 
                           style={{transitionDelay: `${techIdx * 20}ms`}}
                         >
                           <Icon size={16} />

@@ -1,9 +1,7 @@
 "use client";
 
 import { Fragment } from 'react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Tab } from '@headlessui/react';
 
 function classNames(...classes: string[]) {
@@ -11,62 +9,69 @@ function classNames(...classes: string[]) {
 }
 
 export default function Navbar() {
-  const pathname = usePathname();
-  const [show, setShow] = useState(true);
-  const lastScrollY = useRef(0);
-
+  const [activeTab, setActiveTab] = useState(0);
+  
   useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      if (currentScrollY < 10) {
-        setShow(true);
-        lastScrollY.current = currentScrollY;
-        return;
-      }
-      if (currentScrollY > lastScrollY.current) {
-        setShow(false); // scrolling down
-      } else {
-        setShow(true); // scrolling up
-      }
-      lastScrollY.current = currentScrollY;
+    const handleHashChange = () => {
+      const hash = window.location.hash || '#about';
+      const tabs = [
+        { name: 'About', href: '#about', key: 'about' },
+        { name: 'Projects', href: '#projects', key: 'projects' },
+        { name: 'Contact', href: '#contact', key: 'contact' },
+      ];
+      const index = tabs.findIndex(tab => tab.href === hash);
+      if (index !== -1) setActiveTab(index);
     };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    
+    handleHashChange();
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
   const tabs = [
-    { name: 'About', href: '/about', key: 'about' },
-    { name: 'Projects', href: '/projects', key: 'projects' },
-    { name: 'Contact', href: '/contact', key: 'contact' },
+    { name: 'About', href: '#about', key: 'about' },
+    { name: 'Projects', href: '#projects', key: 'projects' },
+    { name: 'Contact', href: '#contact', key: 'contact' },
   ];
-  const currentIndex = tabs.findIndex(tab => pathname === tab.href);
+  
+  const handleClick = (e: React.MouseEvent, href: string, index: number) => {
+    e.preventDefault();
+    setActiveTab(index);
+    const element = document.querySelector(href);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      window.history.pushState(null, '', href);
+    }
+  };
+
   return (
-    <header className={`fixed inset-x-0 top-0 z-20 py-6 transition-transform duration-300 ${show ? 'translate-y-0' : '-translate-y-full'} font-[var(--font-inter)]`}>
-      <div className="flex items-center justify-between max-w-3xl mx-auto px-4">
-        <div className="flex-1" />
-        <Tab.Group selectedIndex={currentIndex}>
-          <Tab.List className="flex space-x-1 rounded-full bg-white-800/60 p-1 shadow-sm backdrop-blur">
-            {tabs.map((tab) => (
+    <header className={`fixed inset-x-0 top-0 z-20 py-6 transition-transform duration-300 font-[var(--font-inter)]`}>
+      <div className="flex items-center justify-between max-w-6xl mx-auto px-6">
+        {/* Logo/Name on Left */}
+        <a href="#about" onClick={(e) => handleClick(e, '#about', 0)} className="text-xl font-bold text-slate-800 hover:text-teal-600 transition-colors duration-200">
+          AL
+        </a>
+        
+        {/* Center Navigation */}
+        <Tab.Group selectedIndex={activeTab} onChange={setActiveTab}>
+          <Tab.List className="flex space-x-1 rounded-full bg-white/70 backdrop-blur-sm p-1 shadow-sm">
+            {tabs.map((tab, index) => (
               <Tab key={tab.key} as={Fragment}>
                 {({ selected }) => (
                   <div className="relative flex flex-col items-center">
-                    <Link
+                    <a
                       href={tab.href}
+                      onClick={(e) => handleClick(e, tab.href, index)}
                       className={classNames(
-                        'rounded-full px-4 py-1.5 text-sm font-medium transition focus:outline-none',
-                        selected ? 'text-slate-500 font-bold' : 'text-black hover:text-slate-500 font-light'
+                        'rounded-full px-5 py-2 text-sm font-medium transition focus:outline-none',
+                        selected ? 'text-slate-800 font-semibold' : 'text-slate-600 hover:text-slate-800'
                       )}
-                      prefetch={false}
-                      scroll={true}
                     >
                       {tab.name}
-                    </Link>
+                    </a>
                     {selected && (
                       <span
-                        className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-12 h-0.25 rounded-full"
-                        style={{
-                          background: 'linear-gradient(90deg, rgba(45,212,191,0) 0%, rgba(45,212,191,1) 30%, rgba(45,212,191,1) 70%, rgba(45,212,191,0) 100%)'
-                        }}
+                        className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded-full bg-teal-600"
                       />
                     )}
                   </div>
@@ -75,7 +80,15 @@ export default function Navbar() {
             ))}
           </Tab.List>
         </Tab.Group>
-        <div className="flex-1 flex justify-end" />
+        
+        {/* CTA Button on Right */}
+        <a 
+          href="#contact"
+          onClick={(e) => handleClick(e, '#contact', 2)}
+          className="px-5 py-2 bg-slate-800 text-white text-sm font-semibold rounded-full hover:bg-teal-600 transition-all duration-200 shadow-sm hover:shadow-md"
+        >
+          Get in Touch
+        </a>
       </div>
     </header>
   );

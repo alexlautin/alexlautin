@@ -4,11 +4,11 @@ export const dynamic = 'force-static';
 
 export default function Contact() {
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 text-black overflow-hidden">
+    <div className="flex flex-col min-h-screen bg-slate-50 text-black overflow-hidden">
       <main className="flex-grow px-4 py-12">
         <Navbar />
         <div className="mx-auto max-w-4xl text-center mb-8 mt-16">
-          <h1 className="mb-8 text-5xl md:text-7xl font-black leading-tight tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600">
+          <h1 className="mb-8 text-5xl md:text-7xl font-bold leading-tight tracking-tight text-slate-800">
             Contact
           </h1>
           <p className="text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed mb-8">
@@ -49,7 +49,7 @@ export default function Contact() {
                     name="email"
                     id="email"
                     placeholder="your@email.com"
-                    className="w-full rounded-2xl border border-slate-200 px-4 py-3 bg-white/50 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                    className="w-full rounded-2xl border border-slate-200 px-4 py-3 bg-white/50 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all"
                     required
                   />
                 </div>
@@ -64,7 +64,7 @@ export default function Contact() {
                   id="message"
                   placeholder="Tell me about your project..."
                   rows={6}
-                  className="w-full rounded-2xl border border-slate-200 px-4 py-3 bg-white/50 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all resize-none"
+                  className="w-full rounded-2xl border border-slate-200 px-4 py-3 bg-white/50 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all resize-none"
                   required
                 />
               </div>
