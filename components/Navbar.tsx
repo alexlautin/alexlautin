@@ -46,40 +46,42 @@ export default function Navbar() {
 
   return (
     <header className={`fixed inset-x-0 top-0 z-20 py-6 transition-transform duration-300 font-[var(--font-inter)]`}>
-      <div className="flex items-center justify-between max-w-6xl mx-auto px-6">
+      <div className="relative flex items-center justify-between max-w-6xl mx-auto px-6">
         {/* Logo/Name on Left */}
         <a href="#about" onClick={(e) => handleClick(e, '#about', 0)} className="text-xl font-bold text-slate-800 hover:text-teal-600 transition-colors duration-200">
           AL
         </a>
         
-        {/* Center Navigation */}
-        <Tab.Group selectedIndex={activeTab} onChange={setActiveTab}>
-          <Tab.List className="flex space-x-1 rounded-full bg-white/70 backdrop-blur-sm p-1 shadow-sm">
-            {tabs.map((tab, index) => (
-              <Tab key={tab.key} as={Fragment}>
-                {({ selected }) => (
-                  <div className="relative flex flex-col items-center">
-                    <a
-                      href={tab.href}
-                      onClick={(e) => handleClick(e, tab.href, index)}
-                      className={classNames(
-                        'rounded-full px-5 py-2 text-sm font-medium transition focus:outline-none',
-                        selected ? 'text-slate-800 font-semibold' : 'text-slate-600 hover:text-slate-800'
+        {/* Center Navigation - Absolutely centered on page */}
+        <div className="absolute left-1/2 -translate-x-1/2">
+          <Tab.Group selectedIndex={activeTab} onChange={setActiveTab}>
+            <Tab.List className="flex space-x-1 rounded-full bg-white/70 backdrop-blur-sm p-1 shadow-sm">
+              {tabs.map((tab, index) => (
+                <Tab key={tab.key} as={Fragment}>
+                  {({ selected }) => (
+                    <div className="relative flex flex-col items-center">
+                      <a
+                        href={tab.href}
+                        onClick={(e) => handleClick(e, tab.href, index)}
+                        className={classNames(
+                          'rounded-full px-5 py-2 text-sm font-medium transition focus:outline-none',
+                          selected ? 'text-slate-800 font-semibold' : 'text-slate-600 hover:text-slate-800'
+                        )}
+                      >
+                        {tab.name}
+                      </a>
+                      {selected && (
+                        <span
+                          className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded-full bg-teal-600"
+                        />
                       )}
-                    >
-                      {tab.name}
-                    </a>
-                    {selected && (
-                      <span
-                        className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded-full bg-teal-600"
-                      />
-                    )}
-                  </div>
-                )}
-              </Tab>
-            ))}
-          </Tab.List>
-        </Tab.Group>
+                    </div>
+                  )}
+                </Tab>
+              ))}
+            </Tab.List>
+          </Tab.Group>
+        </div>
         
         {/* CTA Button on Right */}
         <a 
