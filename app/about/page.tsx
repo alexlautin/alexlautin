@@ -1,7 +1,7 @@
 "use client";
 import Navbar from '../../components/Navbar';
 import Avatar from '@/components/Avatar';
-import { SiLinkedin, SiGithub, SiOrcid, SiGooglescholar, SiNextdotjs, SiTailwindcss, SiVercel, SiSupabase, SiFirebase, SiHeadlessui, SiResend } from 'react-icons/si';
+import { SiLinkedin, SiGithub, SiOrcid, SiGooglescholar, SiNextdotjs, SiTailwindcss, SiVercel, SiSupabase, SiFirebase, SiHeadlessui, SiResend } from '@/components/icons';
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -78,22 +78,22 @@ export default function Home() {
               {/* Social Links */}
               <div className="flex flex-wrap gap-3 pt-4">
                 <Tooltip text="LinkedIn" href="https://www.linkedin.com/in/alexlautin/">
-                  <div className="group relative p-3 rounded-xl bg-slate-800 text-white shadow-md hover:shadow-lg hover:bg-teal-600 transition-all duration-200">
+                  <div className="group relative p-3 rounded-xl bg-slate-800 text-white shadow-md hover:shadow-lg hover:bg-teal-600 transition-all duration-200" aria-label="Visit Alex Lautin's LinkedIn profile">
                     <SiLinkedin className="w-5 h-5" />
                   </div>
                 </Tooltip>
                 <Tooltip text="GitHub" href="https://www.github.com/alexlautin">
-                  <div className="group relative p-3 rounded-xl bg-slate-800 text-white shadow-md hover:shadow-lg hover:bg-teal-600 transition-all duration-200">
+                  <div className="group relative p-3 rounded-xl bg-slate-800 text-white shadow-md hover:shadow-lg hover:bg-teal-600 transition-all duration-200" aria-label="Visit Alex Lautin's GitHub profile">
                     <SiGithub className="w-5 h-5" />
                   </div>
                 </Tooltip>
                 <Tooltip text="ORCID" href="https://orcid.org/0009-0006-0555-7424">
-                  <div className="group relative p-3 rounded-xl bg-slate-800 text-white shadow-md hover:shadow-lg hover:bg-teal-600 transition-all duration-200">
+                  <div className="group relative p-3 rounded-xl bg-slate-800 text-white shadow-md hover:shadow-lg hover:bg-teal-600 transition-all duration-200" aria-label="Visit Alex Lautin's ORCID profile">
                     <SiOrcid className="w-5 h-5" />
                   </div>
                 </Tooltip>
                 <Tooltip text="Google Scholar" href="https://scholar.google.com/citations?user=Z2EZFfoAAAAJ&hl=en">
-                  <div className="group relative p-3 rounded-xl bg-slate-800 text-white shadow-md hover:shadow-lg hover:bg-teal-600 transition-all duration-200">
+                  <div className="group relative p-3 rounded-xl bg-slate-800 text-white shadow-md hover:shadow-lg hover:bg-teal-600 transition-all duration-200" aria-label="Visit Alex Lautin's Google Scholar profile">
                     <SiGooglescholar className="w-5 h-5" />
                   </div>
                 </Tooltip>
@@ -138,11 +138,13 @@ export default function Home() {
                   <div className="w-12 h-12 rounded-xl overflow-hidden border border-slate-200 shadow-sm bg-white flex-shrink-0">
                     <Image
                       src={project.image}
-                      alt={project.title}
+                      alt={`${project.title} logo`}
                       width={48}
                       height={48}
+                      sizes="48px"
                       className={`w-full h-full object-${project.title === 'Galleryboard' ? 'contain' : 'cover'}`}
-                      unoptimized={false}
+                      loading="lazy"
+                      quality={80}
                     />
                   </div>
                   <h3 className="text-xl font-bold text-slate-800 group-hover:text-teal-600 transition-colors duration-300">
@@ -186,6 +188,7 @@ export default function Home() {
                     <Link
                       href={`/projects/${project.id}`}
                       className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-slate-800 text-white text-sm font-semibold rounded-xl shadow-sm hover:bg-teal-600 transition-all duration-200"
+                      aria-label={`Learn more about ${project.title} project`}
                     >
                       <span>Learn More</span>
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -198,6 +201,7 @@ export default function Home() {
                       rel="noopener noreferrer"
                       className="inline-flex items-center justify-center gap-2 px-4 py-2.5 border border-slate-300 text-slate-700 text-sm font-semibold rounded-xl hover:bg-slate-50 transition-all duration-200"
                       onClick={(e) => e.stopPropagation()}
+                      aria-label={`View live demo of ${project.title}`}
                     >
                       <span>Live Demo</span>
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
