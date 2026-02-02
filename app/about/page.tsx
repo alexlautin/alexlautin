@@ -144,7 +144,6 @@ export default function Home() {
                       sizes="48px"
                       className={`w-full h-full object-${project.title === 'Galleryboard' ? 'contain' : 'cover'}`}
                       loading="lazy"
-                      quality={80}
                     />
                   </div>
                   <h3 className="text-xl font-bold text-slate-800 group-hover:text-teal-600 transition-colors duration-300">

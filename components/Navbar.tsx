@@ -85,9 +85,8 @@ export default function Navbar() {
         
         {/* CTA Button on Right */}
         <a 
-          href="#contact"
-          onClick={(e) => handleClick(e, '#contact', 2)}
-          className="px-5 py-2 bg-slate-800 text-white text-sm font-semibold rounded-full hover:bg-teal-600 transition-all duration-200 shadow-sm hover:shadow-md"
+          href="/contact"
+          className="hidden md:block px-5 py-2 bg-slate-800 text-white text-sm font-semibold rounded-full hover:bg-teal-600 transition-all duration-200 shadow-sm hover:shadow-md"
         >
           Get in Touch
         </a>
