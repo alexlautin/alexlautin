@@ -12,7 +12,6 @@ export default function Avatar({ className = "" }: { className?: string }) {
       sizes="(max-width: 768px) 256px, 320px"
       className={`h-28 w-28 rounded-2xl border border-slate-200 shadow-sm object-cover select-none ${className}`}
       priority={true}
-      quality={85}
       draggable={false}
       onContextMenu={(e) => e.preventDefault()}
     />
