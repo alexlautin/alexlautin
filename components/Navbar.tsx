@@ -8,11 +8,13 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
 }
 
-export default function Navbar() {
-  const [activeTab, setActiveTab] = useState(0);
+export default function Navbar({ noActiveTab = false }: { noActiveTab?: boolean }) {
+  const [activeTab, setActiveTab] = useState(noActiveTab ? -1 : 0);
   const [isScrolled, setIsScrolled] = useState(false);
   
   useEffect(() => {
+    if (noActiveTab) return;
+    
     const handleHashChange = () => {
       const hash = window.location.hash || '#about';
       const tabs = [
@@ -27,7 +29,7 @@ export default function Navbar() {
     handleHashChange();
     window.addEventListener('hashchange', handleHashChange);
     return () => window.removeEventListener('hashchange', handleHashChange);
-  }, []);
+  }, [noActiveTab]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -39,6 +41,8 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
+    if (noActiveTab) return;
+    
     const sections = ['about', 'projects', 'contact'];
     
     const observerOptions = {
@@ -68,7 +72,7 @@ export default function Navbar() {
     });
 
     return () => observer.disconnect();
-  }, []);
+  }, [noActiveTab]);
 
   const tabs = [
     { name: 'About', href: '#about', key: 'about' },
@@ -78,6 +82,13 @@ export default function Navbar() {
   
   const handleClick = (e: React.MouseEvent, href: string, index: number) => {
     e.preventDefault();
+    
+    // If we're on a page without sections (like 404), navigate to /about with the hash
+    if (noActiveTab) {
+      window.location.href = `/about${href}`;
+      return;
+    }
+    
     setActiveTab(index);
     const element = document.querySelector(href);
     if (element) {
@@ -93,13 +104,17 @@ export default function Navbar() {
     )}>
       <div className="relative flex items-center justify-between max-w-6xl mx-auto px-6">
         {/* Logo/Name on Left */}
-        <a href="#about" onClick={(e) => handleClick(e, '#about', 0)} className="text-xl font-bold text-slate-800 hover:text-teal-600 transition-colors duration-200">
+        <a 
+          href={noActiveTab ? "/about#about" : "#about"} 
+          onClick={(e) => handleClick(e, '#about', 0)} 
+          className="text-xl font-bold text-slate-800 hover:text-teal-600 transition-colors duration-200"
+        >
           AL
         </a>
         
         {/* Center Navigation - Absolutely centered on page */}
         <div className="absolute left-1/2 -translate-x-1/2">
-          <Tab.Group selectedIndex={activeTab} onChange={setActiveTab}>
+          <Tab.Group selectedIndex={activeTab >= 0 ? activeTab : undefined} onChange={setActiveTab}>
             <Tab.List className={classNames(
               'flex space-x-1 rounded-full p-1 transition-all duration-300',
               isScrolled ? 'bg-slate-100/80' : 'bg-white/70 backdrop-blur-sm shadow-sm'
@@ -113,12 +128,12 @@ export default function Navbar() {
                         onClick={(e) => handleClick(e, tab.href, index)}
                         className={classNames(
                           'rounded-full px-5 py-2 text-sm font-medium transition focus:outline-none',
-                          selected ? 'text-slate-800 font-semibold' : 'text-slate-600 hover:text-slate-800'
+                          selected && !noActiveTab ? 'text-slate-800 font-semibold' : 'text-slate-600 hover:text-slate-800'
                         )}
                       >
                         {tab.name}
                       </a>
-                      {selected && (
+                      {selected && !noActiveTab && (
                         <span
                           className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded-full bg-teal-600"
                         />
@@ -133,7 +148,8 @@ export default function Navbar() {
         
         {/* CTA Button on Right */}
         <a 
-          href="/contact"
+          href={noActiveTab ? "/about#contact" : "#contact"}
+          onClick={(e) => handleClick(e, '#contact', 2)}
           className="hidden md:block px-5 py-2 bg-slate-800 text-white text-sm font-semibold rounded-full hover:bg-teal-600 transition-all duration-200 shadow-sm hover:shadow-md"
         >
           Get in Touch
