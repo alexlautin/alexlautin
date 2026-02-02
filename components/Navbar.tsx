@@ -10,6 +10,7 @@ function classNames(...classes: string[]) {
 
 export default function Navbar() {
   const [activeTab, setActiveTab] = useState(0);
+  const [isScrolled, setIsScrolled] = useState(false);
   
   useEffect(() => {
     const handleHashChange = () => {
@@ -26,6 +27,15 @@ export default function Navbar() {
     handleHashChange();
     window.addEventListener('hashchange', handleHashChange);
     return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const tabs = [
@@ -45,7 +55,10 @@ export default function Navbar() {
   };
 
   return (
-    <header className={`fixed inset-x-0 top-0 z-20 py-6 transition-transform duration-300 font-[var(--font-inter)]`}>
+    <header className={classNames(
+      'fixed inset-x-0 top-0 z-20 transition-all duration-300 font-[var(--font-inter)]',
+      isScrolled ? 'py-4 bg-white/90 backdrop-blur-md shadow-md' : 'py-6 bg-transparent'
+    )}>
       <div className="relative flex items-center justify-between max-w-6xl mx-auto px-6">
         {/* Logo/Name on Left */}
         <a href="#about" onClick={(e) => handleClick(e, '#about', 0)} className="text-xl font-bold text-slate-800 hover:text-teal-600 transition-colors duration-200">
@@ -55,7 +68,10 @@ export default function Navbar() {
         {/* Center Navigation - Absolutely centered on page */}
         <div className="absolute left-1/2 -translate-x-1/2">
           <Tab.Group selectedIndex={activeTab} onChange={setActiveTab}>
-            <Tab.List className="flex space-x-1 rounded-full bg-white/70 backdrop-blur-sm p-1 shadow-sm">
+            <Tab.List className={classNames(
+              'flex space-x-1 rounded-full p-1 transition-all duration-300',
+              isScrolled ? 'bg-slate-100/80' : 'bg-white/70 backdrop-blur-sm shadow-sm'
+            )}>
               {tabs.map((tab, index) => (
                 <Tab key={tab.key} as={Fragment}>
                   {({ selected }) => (
