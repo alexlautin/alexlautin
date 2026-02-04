@@ -176,7 +176,7 @@ export default function Home() {
       } else {
         throw new Error('Failed to send message');
       }
-    } catch (_error) {
+    } catch {
       setFormState(prev => ({
         ...prev,
         isSubmitting: false,
