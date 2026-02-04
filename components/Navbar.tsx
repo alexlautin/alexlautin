@@ -100,20 +100,20 @@ export default function Navbar({ noActiveTab = false }: { noActiveTab?: boolean 
   return (
     <header className={classNames(
       'fixed inset-x-0 top-0 z-20 transition-all duration-300 font-[var(--font-inter)]',
-      isScrolled ? 'py-4 bg-white/90 backdrop-blur-md shadow-md' : 'py-6 bg-transparent'
+      isScrolled ? 'py-3 sm:py-4 bg-white/90 backdrop-blur-md shadow-md' : 'py-4 sm:py-6 bg-transparent'
     )}>
-      <div className="relative flex items-center justify-between max-w-6xl mx-auto px-6">
+      <div className="relative flex items-center justify-between max-w-6xl mx-auto px-4 sm:px-6">
         {/* Logo/Name on Left */}
         <a 
           href={noActiveTab ? "/about#about" : "#about"} 
           onClick={(e) => handleClick(e, '#about', 0)} 
-          className="text-xl font-bold text-slate-800 hover:text-teal-600 transition-colors duration-200"
+          className="text-lg sm:text-xl font-bold text-slate-800 hover:text-teal-600 transition-colors duration-200 touch-manipulation"
         >
           AL
         </a>
         
-        {/* Center Navigation - Absolutely centered on page */}
-        <div className="absolute left-1/2 -translate-x-1/2">
+        {/* Center Navigation - Responsive positioning */}
+        <div className="absolute left-1/2 -translate-x-1/2 hidden sm:block">
           <Tab.Group selectedIndex={activeTab >= 0 ? activeTab : undefined} onChange={setActiveTab}>
             <Tab.List className={classNames(
               'flex space-x-1 rounded-full p-1 transition-all duration-300',
@@ -127,7 +127,7 @@ export default function Navbar({ noActiveTab = false }: { noActiveTab?: boolean 
                         href={tab.href}
                         onClick={(e) => handleClick(e, tab.href, index)}
                         className={classNames(
-                          'rounded-full px-5 py-2 text-sm font-medium transition focus:outline-none',
+                          'rounded-full px-4 sm:px-5 py-2 text-sm font-medium transition focus:outline-none touch-manipulation',
                           selected && !noActiveTab ? 'text-slate-800 font-semibold' : 'text-slate-600 hover:text-slate-800'
                         )}
                       >
@@ -135,7 +135,7 @@ export default function Navbar({ noActiveTab = false }: { noActiveTab?: boolean 
                       </a>
                       {selected && !noActiveTab && (
                         <span
-                          className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded-full bg-teal-600"
+                          className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-6 sm:w-8 h-0.5 rounded-full bg-teal-600"
                         />
                       )}
                     </div>
@@ -146,11 +146,28 @@ export default function Navbar({ noActiveTab = false }: { noActiveTab?: boolean 
           </Tab.Group>
         </div>
         
-        {/* CTA Button on Right */}
+        {/* Mobile Navigation - Simple links for mobile */}
+        <div className="flex sm:hidden space-x-4">
+          {tabs.map((tab, index) => (
+            <a
+              key={tab.key}
+              href={tab.href}
+              onClick={(e) => handleClick(e, tab.href, index)}
+              className={classNames(
+                'text-sm font-medium transition touch-manipulation px-2 py-1',
+                activeTab === index && !noActiveTab ? 'text-teal-600 font-semibold' : 'text-slate-600 hover:text-slate-800'
+              )}
+            >
+              {tab.name}
+            </a>
+          ))}
+        </div>
+        
+        {/* CTA Button on Right - hidden on mobile to save space */}
         <a 
           href={noActiveTab ? "/about#contact" : "#contact"}
           onClick={(e) => handleClick(e, '#contact', 2)}
-          className="hidden md:block px-5 py-2 bg-slate-800 text-white text-sm font-semibold rounded-full hover:bg-teal-600 transition-all duration-200 shadow-sm hover:shadow-md"
+          className="hidden md:block px-4 sm:px-5 py-2 bg-slate-800 text-white text-sm font-semibold rounded-full hover:bg-teal-600 transition-all duration-200 shadow-sm hover:shadow-md touch-manipulation"
         >
           Get in Touch
         </a>
