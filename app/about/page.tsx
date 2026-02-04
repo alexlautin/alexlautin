@@ -76,12 +76,22 @@ const Tooltip = ({ children, text, delay = 0, href }: { children: React.ReactNod
 
 export default function Home() {
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [imageLoading, setImageLoading] = useState<{[key: string]: boolean}>({});
   const [formState, setFormState] = useState<FormState>({
     data: { name: '', email: '', message: '' },
     errors: {},
     isSubmitting: false,
     isSubmitted: false,
   });
+
+  // Image loading handler
+  const handleImageLoad = (imageId: string) => {
+    setImageLoading(prev => ({ ...prev, [imageId]: false }));
+  };
+
+  const handleImageLoadStart = (imageId: string) => {
+    setImageLoading(prev => ({ ...prev, [imageId]: true }));
+  };
 
   // Form validation functions
   const validateEmail = (email: string): string | undefined => {
@@ -166,7 +176,7 @@ export default function Home() {
       } else {
         throw new Error('Failed to send message');
       }
-    } catch (error) {
+    } catch (_error) {
       setFormState(prev => ({
         ...prev,
         isSubmitting: false,
@@ -189,7 +199,7 @@ export default function Home() {
   };
 
   return (
-    <main className="relative flex flex-col min-h-screen bg-slate-50 text-gray-900 antialiased">
+    <main id="main-content" className="relative flex flex-col min-h-screen bg-slate-50 text-gray-900 antialiased">
       <Navbar />
       
       {/* About Section */}
@@ -212,22 +222,22 @@ export default function Home() {
               {/* Social Links */}
               <div className="flex flex-wrap gap-2 sm:gap-3 pt-4 justify-center md:justify-start">
                 <Tooltip text="LinkedIn" href="https://www.linkedin.com/in/alexlautin/">
-                  <div className="group relative p-2.5 sm:p-3 rounded-xl bg-slate-800 text-white shadow-md hover:shadow-lg hover:bg-teal-600 transition-all duration-200 touch-manipulation" aria-label="Visit Alex Lautin's LinkedIn profile">
+                  <div className="group relative p-2.5 sm:p-3 rounded-xl bg-slate-800 text-white shadow-md hover:shadow-lg hover:bg-teal-600 transition-all duration-200 touch-manipulation btn-press hover-lift" aria-label="Visit Alex Lautin's LinkedIn profile">
                     <SiLinkedin className="w-4 h-4 sm:w-5 sm:h-5" />
                   </div>
                 </Tooltip>
                 <Tooltip text="GitHub" href="https://www.github.com/alexlautin">
-                  <div className="group relative p-2.5 sm:p-3 rounded-xl bg-slate-800 text-white shadow-md hover:shadow-lg hover:bg-teal-600 transition-all duration-200 touch-manipulation" aria-label="Visit Alex Lautin's GitHub profile">
+                  <div className="group relative p-2.5 sm:p-3 rounded-xl bg-slate-800 text-white shadow-md hover:shadow-lg hover:bg-teal-600 transition-all duration-200 touch-manipulation btn-press hover-lift" aria-label="Visit Alex Lautin's GitHub profile">
                     <SiGithub className="w-4 h-4 sm:w-5 sm:h-5" />
                   </div>
                 </Tooltip>
                 <Tooltip text="ORCID" href="https://orcid.org/0009-0006-0555-7424">
-                  <div className="group relative p-2.5 sm:p-3 rounded-xl bg-slate-800 text-white shadow-md hover:shadow-lg hover:bg-teal-600 transition-all duration-200 touch-manipulation" aria-label="Visit Alex Lautin's ORCID profile">
+                  <div className="group relative p-2.5 sm:p-3 rounded-xl bg-slate-800 text-white shadow-md hover:shadow-lg hover:bg-teal-600 transition-all duration-200 touch-manipulation btn-press hover-lift" aria-label="Visit Alex Lautin's ORCID profile">
                     <SiOrcid className="w-4 h-4 sm:w-5 sm:h-5" />
                   </div>
                 </Tooltip>
                 <Tooltip text="Google Scholar" href="https://scholar.google.com/citations?user=Z2EZFfoAAAAJ&hl=en">
-                  <div className="group relative p-2.5 sm:p-3 rounded-xl bg-slate-800 text-white shadow-md hover:shadow-lg hover:bg-teal-600 transition-all duration-200 touch-manipulation" aria-label="Visit Alex Lautin's Google Scholar profile">
+                  <div className="group relative p-2.5 sm:p-3 rounded-xl bg-slate-800 text-white shadow-md hover:shadow-lg hover:bg-teal-600 transition-all duration-200 touch-manipulation btn-press hover-lift" aria-label="Visit Alex Lautin's Google Scholar profile">
                     <SiGooglescholar className="w-4 h-4 sm:w-5 sm:h-5" />
                   </div>
                 </Tooltip>
@@ -266,21 +276,30 @@ export default function Home() {
           
           <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
             {projects.map((project) => (
-              <div
+              <article
                 key={project.title}
-                className="group relative flex flex-col bg-white rounded-2xl shadow-md border border-slate-200/50 p-4 sm:p-6 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-teal-300 touch-manipulation"
+                className="group relative flex flex-col bg-white rounded-2xl shadow-md border border-slate-200/50 p-4 sm:p-6 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-teal-300 touch-manipulation hover-lift"
               >
                 {/* Project image - now inline at top */}
                 <div className="mb-4 flex items-center gap-3">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl overflow-hidden border border-slate-200 shadow-sm bg-white flex-shrink-0 group-hover:border-teal-300 transition-colors duration-300">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl overflow-hidden border border-slate-200 shadow-sm bg-white flex-shrink-0 group-hover:border-teal-300 transition-colors duration-300 relative">
+                    {imageLoading[project.id] && (
+                      <div className="absolute inset-0 bg-slate-100 animate-pulse-subtle flex items-center justify-center">
+                        <div className="w-6 h-6 border-2 border-slate-300 border-t-transparent rounded-full animate-spin"></div>
+                      </div>
+                    )}
                     <Image
                       src={project.image}
-                      alt={`${project.title} logo`}
+                      alt={`${project.title} project thumbnail`}
                       width={48}
                       height={48}
                       sizes="48px"
-                      className={`w-full h-full object-${project.title === 'Galleryboard' ? 'contain' : 'cover'}`}
+                      className={`w-full h-full object-${project.title === 'Galleryboard' ? 'contain' : 'cover'} transition-all duration-300 ${
+                        imageLoading[project.id] ? 'image-loading' : 'image-loaded'
+                      }`}
                       loading="lazy"
+                      onLoadingComplete={() => handleImageLoad(project.id)}
+                      onLoadStart={() => handleImageLoadStart(project.id)}
                     />
                   </div>
                   <div className="flex-1 min-w-0">
@@ -326,10 +345,10 @@ export default function Home() {
                   <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 mt-4 sm:mt-6">
                     <Link
                       href={`/projects/${project.id}`}
-                      className="flex-1 inline-flex items-center justify-center gap-2 px-3 sm:px-4 py-2.5 sm:py-3 bg-gradient-to-r from-slate-800 to-slate-700 hover:from-teal-600 hover:to-teal-500 text-white text-sm font-semibold rounded-xl shadow-sm hover:shadow-md transition-all duration-200 touch-manipulation"
+                      className="flex-1 inline-flex items-center justify-center gap-2 px-3 sm:px-4 py-2.5 sm:py-3 bg-gradient-to-r from-slate-800 to-slate-700 hover:from-teal-600 hover:to-teal-500 text-white text-sm font-semibold rounded-xl shadow-sm hover:shadow-md transition-all duration-200 touch-manipulation btn-press focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
                       aria-label={`Learn more about ${project.title} project`}
                     >
-                      <span>Learn More</span>
+                      <span>View Details</span>
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                       </svg>
@@ -338,7 +357,7 @@ export default function Home() {
                       href={project.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-3 sm:px-4 py-2.5 sm:py-3 border border-slate-300 text-slate-700 text-sm font-semibold rounded-xl hover:bg-slate-50 transition-all duration-200 touch-manipulation"
+                      className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-3 sm:px-4 py-2.5 sm:py-3 border border-slate-300 text-slate-700 text-sm font-semibold rounded-xl hover:bg-slate-50 transition-all duration-200 touch-manipulation btn-press focus:ring-2 focus:ring-slate-500 focus:ring-offset-2"
                       onClick={(e) => e.stopPropagation()}
                       aria-label={`View live demo of ${project.title}`}
                     >
@@ -349,7 +368,7 @@ export default function Home() {
                     </a>
                   </div>
                 </div>
-              </div>
+              </article>
             ))}
           </div>
         </div>
@@ -364,11 +383,11 @@ export default function Home() {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12 sm:mb-16">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-800 mb-4">
-              Get in Touch
+              Let&apos;s Work Together
             </h2>
             <div className="h-1 w-16 sm:w-20 bg-teal-600 rounded-full mx-auto mb-4 sm:mb-6"></div>
             <p className="text-lg sm:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed px-4">
-              Have a project in mind? Let&apos;s work together.
+              Have a project in mind? Contact me!
             </p>
           </div>
           
@@ -383,7 +402,7 @@ export default function Home() {
                     </svg>
                   </div>
                   <h3 className="text-xl font-semibold text-slate-800 mb-2">Message Sent!</h3>
-                  <p className="text-slate-600 mb-6">Thank you for reaching out. I'll get back to you within 24 hours.</p>
+                  <p className="text-slate-600 mb-6">Thank you for reaching out. I&apos;ll get back to you within 24 hours.</p>
                   <button
                     onClick={() => setFormState(prev => ({ ...prev, isSubmitted: false }))}
                     className="text-teal-600 hover:text-teal-700 font-medium transition-colors"
@@ -505,7 +524,7 @@ export default function Home() {
       {/* Scroll to Top Button */}
       <button
         onClick={scrollToTop}
-        className={`fixed bottom-4 sm:bottom-8 right-4 sm:right-8 z-30 p-3 sm:p-4 bg-slate-800 text-white rounded-full shadow-lg hover:bg-teal-600 transition-all duration-300 touch-manipulation ${
+        className={`fixed bottom-4 sm:bottom-8 right-4 sm:right-8 z-30 p-3 sm:p-4 bg-slate-800 text-white rounded-full shadow-lg hover:bg-teal-600 transition-all duration-300 touch-manipulation btn-press hover-lift focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 ${
           showScrollTop ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-16 pointer-events-none'
         }`}
         aria-label="Scroll to top"

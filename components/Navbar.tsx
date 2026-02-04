@@ -107,7 +107,7 @@ export default function Navbar({ noActiveTab = false }: { noActiveTab?: boolean 
         <a 
           href={noActiveTab ? "/about#about" : "#about"} 
           onClick={(e) => handleClick(e, '#about', 0)} 
-          className="text-lg sm:text-xl font-bold text-slate-800 hover:text-teal-600 transition-colors duration-200 touch-manipulation"
+          className="text-lg sm:text-xl font-bold text-slate-800 hover:text-teal-600 transition-colors duration-200 touch-manipulation focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 rounded-md px-2 py-1"
         >
           AL
         </a>
@@ -127,7 +127,7 @@ export default function Navbar({ noActiveTab = false }: { noActiveTab?: boolean 
                         href={tab.href}
                         onClick={(e) => handleClick(e, tab.href, index)}
                         className={classNames(
-                          'rounded-full px-4 sm:px-5 py-2 text-sm font-medium transition focus:outline-none touch-manipulation',
+                          'rounded-full px-4 sm:px-5 py-2 text-sm font-medium transition focus:outline-none touch-manipulation focus:ring-2 focus:ring-teal-500 focus:ring-offset-2',
                           selected && !noActiveTab ? 'text-slate-800 font-semibold' : 'text-slate-600 hover:text-slate-800'
                         )}
                       >
@@ -147,14 +147,14 @@ export default function Navbar({ noActiveTab = false }: { noActiveTab?: boolean 
         </div>
         
         {/* Mobile Navigation - Simple links for mobile */}
-        <div className="flex sm:hidden space-x-4">
+        <div className="flex sm:hidden space-x-3">
           {tabs.map((tab, index) => (
             <a
               key={tab.key}
               href={tab.href}
               onClick={(e) => handleClick(e, tab.href, index)}
               className={classNames(
-                'text-sm font-medium transition touch-manipulation px-2 py-1',
+                'text-sm font-medium transition touch-manipulation px-2 py-1.5 rounded-md focus:ring-2 focus:ring-teal-500 focus:ring-offset-2',
                 activeTab === index && !noActiveTab ? 'text-teal-600 font-semibold' : 'text-slate-600 hover:text-slate-800'
               )}
             >
@@ -167,9 +167,9 @@ export default function Navbar({ noActiveTab = false }: { noActiveTab?: boolean 
         <a 
           href={noActiveTab ? "/about#contact" : "#contact"}
           onClick={(e) => handleClick(e, '#contact', 2)}
-          className="hidden md:block px-4 sm:px-5 py-2 bg-slate-800 text-white text-sm font-semibold rounded-full hover:bg-teal-600 transition-all duration-200 shadow-sm hover:shadow-md touch-manipulation"
+          className="hidden md:block px-4 sm:px-5 py-2 bg-slate-800 text-white text-sm font-semibold rounded-full hover:bg-teal-600 transition-all duration-200 shadow-sm hover:shadow-md touch-manipulation btn-press focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
         >
-          Get in Touch
+          Let&apos;s Talk
         </a>
       </div>
     </header>
