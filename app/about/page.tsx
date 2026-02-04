@@ -9,6 +9,27 @@ import { projects, techLinks } from "../../data/projects";
 
 export const dynamic = 'force-static';
 
+// Form validation types
+interface FormData {
+  name: string;
+  email: string;
+  message: string;
+}
+
+interface FormErrors {
+  name?: string;
+  email?: string;
+  message?: string;
+}
+
+interface FormState {
+  data: FormData;
+  errors: FormErrors;
+  isSubmitting: boolean;
+  isSubmitted: boolean;
+  submitError?: string;
+}
+
 // Tooltip Component
 const Tooltip = ({ children, text, delay = 0, href }: { children: React.ReactNode, text: string, delay?: number, href?: string }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -55,6 +76,104 @@ const Tooltip = ({ children, text, delay = 0, href }: { children: React.ReactNod
 
 export default function Home() {
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [formState, setFormState] = useState<FormState>({
+    data: { name: '', email: '', message: '' },
+    errors: {},
+    isSubmitting: false,
+    isSubmitted: false,
+  });
+
+  // Form validation functions
+  const validateEmail = (email: string): string | undefined => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email) return 'Email is required';
+    if (!emailRegex.test(email)) return 'Please enter a valid email address';
+    return undefined;
+  };
+
+  const validateName = (name: string): string | undefined => {
+    if (!name.trim()) return 'Name is required';
+    if (name.trim().length < 2) return 'Name must be at least 2 characters';
+    return undefined;
+  };
+
+  const validateMessage = (message: string): string | undefined => {
+    if (!message.trim()) return 'Message is required';
+    if (message.trim().length < 10) return 'Message must be at least 10 characters';
+    return undefined;
+  };
+
+  const validateField = (field: keyof FormData, value: string): string | undefined => {
+    switch (field) {
+      case 'name': return validateName(value);
+      case 'email': return validateEmail(value);
+      case 'message': return validateMessage(value);
+      default: return undefined;
+    }
+  };
+
+  const handleInputChange = (field: keyof FormData, value: string) => {
+    const error = validateField(field, value);
+    setFormState(prev => ({
+      ...prev,
+      data: { ...prev.data, [field]: value },
+      errors: { ...prev.errors, [field]: error },
+      submitError: undefined,
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    
+    // Validate all fields
+    const errors: FormErrors = {
+      name: validateName(formState.data.name),
+      email: validateEmail(formState.data.email),
+      message: validateMessage(formState.data.message),
+    };
+
+    const hasErrors = Object.values(errors).some(error => error);
+    
+    if (hasErrors) {
+      setFormState(prev => ({ ...prev, errors }));
+      return;
+    }
+
+    setFormState(prev => ({ ...prev, isSubmitting: true, errors: {}, submitError: undefined }));
+
+    try {
+      const formData = new FormData(e.currentTarget);
+      const response = await fetch('https://formspree.io/f/xyzwgknw', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        setFormState({
+          data: { name: '', email: '', message: '' },
+          errors: {},
+          isSubmitting: false,
+          isSubmitted: true,
+        });
+        
+        // Reset success state after 5 seconds
+        setTimeout(() => {
+          setFormState(prev => ({ ...prev, isSubmitted: false }));
+        }, 5000);
+      } else {
+        throw new Error('Failed to send message');
+      }
+    } catch (error) {
+      setFormState(prev => ({
+        ...prev,
+        isSubmitting: false,
+        submitError: 'Failed to send message. Please try again.',
+      }));
+    }
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -76,50 +195,50 @@ export default function Home() {
       {/* About Section */}
       <section
         id="about"
-        className="relative min-h-screen flex items-center justify-center py-32 px-6 bg-slate-50"
+        className="relative min-h-screen flex items-center justify-center py-16 sm:py-24 md:py-32 px-4 sm:px-6 bg-slate-50"
       >
         <div className="max-w-6xl w-full mx-auto">
-          <div className="grid md:grid-cols-2 gap-16 items-center">
+          <div className="grid md:grid-cols-2 gap-8 sm:gap-12 md:gap-16 items-center">
             {/* Left: Content */}
-            <div className="space-y-6">
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight text-slate-800">
+            <div className="space-y-4 sm:space-y-6 text-center md:text-left">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight text-slate-800">
                 Alex Lautin
               </h1>
-              <div className="h-1 w-20 bg-teal-600 rounded-full"></div>
-              <p className="text-xl md:text-2xl text-slate-600 leading-relaxed">
+              <div className="h-1 w-16 sm:w-20 bg-teal-600 rounded-full mx-auto md:mx-0"></div>
+              <p className="text-lg sm:text-xl md:text-2xl text-slate-600 leading-relaxed">
                 Computer Science student at Emory University.
               </p>
               
               {/* Social Links */}
-              <div className="flex flex-wrap gap-3 pt-4">
+              <div className="flex flex-wrap gap-2 sm:gap-3 pt-4 justify-center md:justify-start">
                 <Tooltip text="LinkedIn" href="https://www.linkedin.com/in/alexlautin/">
-                  <div className="group relative p-3 rounded-xl bg-slate-800 text-white shadow-md hover:shadow-lg hover:bg-teal-600 transition-all duration-200" aria-label="Visit Alex Lautin's LinkedIn profile">
-                    <SiLinkedin className="w-5 h-5" />
+                  <div className="group relative p-2.5 sm:p-3 rounded-xl bg-slate-800 text-white shadow-md hover:shadow-lg hover:bg-teal-600 transition-all duration-200 touch-manipulation" aria-label="Visit Alex Lautin's LinkedIn profile">
+                    <SiLinkedin className="w-4 h-4 sm:w-5 sm:h-5" />
                   </div>
                 </Tooltip>
                 <Tooltip text="GitHub" href="https://www.github.com/alexlautin">
-                  <div className="group relative p-3 rounded-xl bg-slate-800 text-white shadow-md hover:shadow-lg hover:bg-teal-600 transition-all duration-200" aria-label="Visit Alex Lautin's GitHub profile">
-                    <SiGithub className="w-5 h-5" />
+                  <div className="group relative p-2.5 sm:p-3 rounded-xl bg-slate-800 text-white shadow-md hover:shadow-lg hover:bg-teal-600 transition-all duration-200 touch-manipulation" aria-label="Visit Alex Lautin's GitHub profile">
+                    <SiGithub className="w-4 h-4 sm:w-5 sm:h-5" />
                   </div>
                 </Tooltip>
                 <Tooltip text="ORCID" href="https://orcid.org/0009-0006-0555-7424">
-                  <div className="group relative p-3 rounded-xl bg-slate-800 text-white shadow-md hover:shadow-lg hover:bg-teal-600 transition-all duration-200" aria-label="Visit Alex Lautin's ORCID profile">
-                    <SiOrcid className="w-5 h-5" />
+                  <div className="group relative p-2.5 sm:p-3 rounded-xl bg-slate-800 text-white shadow-md hover:shadow-lg hover:bg-teal-600 transition-all duration-200 touch-manipulation" aria-label="Visit Alex Lautin's ORCID profile">
+                    <SiOrcid className="w-4 h-4 sm:w-5 sm:h-5" />
                   </div>
                 </Tooltip>
                 <Tooltip text="Google Scholar" href="https://scholar.google.com/citations?user=Z2EZFfoAAAAJ&hl=en">
-                  <div className="group relative p-3 rounded-xl bg-slate-800 text-white shadow-md hover:shadow-lg hover:bg-teal-600 transition-all duration-200" aria-label="Visit Alex Lautin's Google Scholar profile">
-                    <SiGooglescholar className="w-5 h-5" />
+                  <div className="group relative p-2.5 sm:p-3 rounded-xl bg-slate-800 text-white shadow-md hover:shadow-lg hover:bg-teal-600 transition-all duration-200 touch-manipulation" aria-label="Visit Alex Lautin's Google Scholar profile">
+                    <SiGooglescholar className="w-4 h-4 sm:w-5 sm:h-5" />
                   </div>
                 </Tooltip>
               </div>
             </div>
 
             {/* Right: Avatar */}
-            <div className="flex justify-center md:justify-end">
+            <div className="flex justify-center md:justify-end order-first md:order-last">
               <div className="relative">
                 <div className="absolute -inset-4 bg-gradient-to-br from-teal-500/10 to-slate-500/10 rounded-3xl blur-3xl"></div>
-                <Avatar className="relative w-64 h-64 md:w-80 md:h-80 rounded-2xl shadow-xl ring-2 ring-slate-200" />
+                <Avatar className="relative w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 rounded-2xl shadow-xl ring-2 ring-slate-200" />
               </div>
             </div>
           </div>
@@ -129,31 +248,31 @@ export default function Home() {
       {/* Projects Section */}
       <section
         id="projects"
-        className="relative py-32 px-6 bg-gradient-to-br from-white via-slate-50/50 to-white border-y border-slate-200"
+        className="relative py-16 sm:py-24 md:py-32 px-4 sm:px-6 bg-gradient-to-br from-white via-slate-50/50 to-white border-y border-slate-200"
       >
         {/* Decorative elements */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-teal-500/5 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-slate-500/5 rounded-full blur-3xl"></div>
+        <div className="absolute top-0 right-0 w-48 h-48 sm:w-96 sm:h-96 bg-teal-500/5 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 w-48 h-48 sm:w-96 sm:h-96 bg-slate-500/5 rounded-full blur-3xl"></div>
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-slate-800 mb-4">
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-800 mb-4">
               Projects
             </h2>
-            <div className="h-1 w-20 bg-teal-600 rounded-full mx-auto mb-6"></div>
-            <p className="text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
+            <div className="h-1 w-16 sm:w-20 bg-teal-600 rounded-full mx-auto mb-4 sm:mb-6"></div>
+            <p className="text-lg sm:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed px-4">
               A selection of the projects I have worked on.
             </p>
           </div>
           
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
             {projects.map((project) => (
               <div
                 key={project.title}
-                className="group relative flex flex-col bg-white rounded-2xl shadow-md border border-slate-200/50 p-6 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-teal-300"
+                className="group relative flex flex-col bg-white rounded-2xl shadow-md border border-slate-200/50 p-4 sm:p-6 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-teal-300 touch-manipulation"
               >
                 {/* Project image - now inline at top */}
                 <div className="mb-4 flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-xl overflow-hidden border border-slate-200 shadow-sm bg-white flex-shrink-0 group-hover:border-teal-300 transition-colors duration-300">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl overflow-hidden border border-slate-200 shadow-sm bg-white flex-shrink-0 group-hover:border-teal-300 transition-colors duration-300">
                     <Image
                       src={project.image}
                       alt={`${project.title} logo`}
@@ -164,8 +283,8 @@ export default function Home() {
                       loading="lazy"
                     />
                   </div>
-                  <div className="flex-1">
-                    <h3 className="text-xl font-bold text-slate-800 group-hover:text-teal-600 transition-colors duration-300">
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-lg sm:text-xl font-bold text-slate-800 group-hover:text-teal-600 transition-colors duration-300 truncate">
                       {project.title}
                     </h3>
                     <p className="text-xs text-slate-500">{project.type} • {project.year}</p>
@@ -173,10 +292,10 @@ export default function Home() {
                 </div>
 
                 <div className="flex-grow flex flex-col">
-                  <p className="text-slate-600 text-sm mb-6 leading-relaxed">{project.description}</p>
+                  <p className="text-slate-600 text-sm mb-4 sm:mb-6 leading-relaxed">{project.description}</p>
                   
                   {/* Tech stack */}
-                  <div className="flex flex-wrap items-center gap-2 mb-auto">
+                  <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-auto">
                     {project.technologies.map((tech) => {
                       const techIcon = {
                         'Next.js': SiNextdotjs,
@@ -194,9 +313,9 @@ export default function Home() {
                       return (
                         <Tooltip key={tech} text={tech} href={techLinks[tech as keyof typeof techLinks]}>
                           <div 
-                            className="p-2 rounded-lg bg-slate-50 text-slate-700 border border-slate-200 transition-all duration-150 hover:bg-teal-50 hover:text-teal-700 hover:border-teal-300" 
+                            className="p-1.5 sm:p-2 rounded-lg bg-slate-50 text-slate-700 border border-slate-200 transition-all duration-150 hover:bg-teal-50 hover:text-teal-700 hover:border-teal-300 touch-manipulation" 
                           >
-                            <Icon size={14} />
+                            <Icon size={12} className="sm:w-3.5 sm:h-3.5" />
                           </div>
                         </Tooltip>
                       );
@@ -204,10 +323,10 @@ export default function Home() {
                   </div>
 
                   {/* Buttons at bottom */}
-                  <div className="flex gap-3 mt-6">
+                  <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 mt-4 sm:mt-6">
                     <Link
                       href={`/projects/${project.id}`}
-                      className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-gradient-to-r from-slate-800 to-slate-700 hover:from-teal-600 hover:to-teal-500 text-white text-sm font-semibold rounded-xl shadow-sm hover:shadow-md transition-all duration-200"
+                      className="flex-1 inline-flex items-center justify-center gap-2 px-3 sm:px-4 py-2.5 sm:py-3 bg-gradient-to-r from-slate-800 to-slate-700 hover:from-teal-600 hover:to-teal-500 text-white text-sm font-semibold rounded-xl shadow-sm hover:shadow-md transition-all duration-200 touch-manipulation"
                       aria-label={`Learn more about ${project.title} project`}
                     >
                       <span>Learn More</span>
@@ -219,7 +338,7 @@ export default function Home() {
                       href={project.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center gap-2 px-4 py-2.5 border border-slate-300 text-slate-700 text-sm font-semibold rounded-xl hover:bg-slate-50 transition-all duration-200"
+                      className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-3 sm:px-4 py-2.5 sm:py-3 border border-slate-300 text-slate-700 text-sm font-semibold rounded-xl hover:bg-slate-50 transition-all duration-200 touch-manipulation"
                       onClick={(e) => e.stopPropagation()}
                       aria-label={`View live demo of ${project.title}`}
                     >
@@ -239,83 +358,145 @@ export default function Home() {
       {/* Contact Section */}
       <section
         id="contact"
-        className="relative py-32 px-6 bg-gradient-to-br from-slate-50 via-white to-slate-50"
+        className="relative py-16 sm:py-24 md:py-32 px-4 sm:px-6 bg-gradient-to-br from-slate-50 via-white to-slate-50"
       >
-        <div className="absolute top-20 left-20 w-72 h-72 bg-teal-500/5 rounded-full blur-3xl"></div>
+        <div className="absolute top-10 sm:top-20 left-4 sm:left-20 w-48 h-48 sm:w-72 sm:h-72 bg-teal-500/5 rounded-full blur-3xl"></div>
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-slate-800 mb-4">
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-800 mb-4">
               Get in Touch
             </h2>
-            <div className="h-1 w-20 bg-teal-600 rounded-full mx-auto mb-6"></div>
-            <p className="text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
+            <div className="h-1 w-16 sm:w-20 bg-teal-600 rounded-full mx-auto mb-4 sm:mb-6"></div>
+            <p className="text-lg sm:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed px-4">
               Have a project in mind? Let&apos;s work together.
             </p>
           </div>
           
           <div className="max-w-2xl mx-auto">
-            <div className="bg-white rounded-2xl shadow-md border border-slate-200 p-8">
-              <form 
-                action="https://formspree.io/f/xyzwgknw" 
-                method="POST" 
-                className="flex flex-col gap-6"
-              >
-                {/* Honeypot field for spam protection */}
-                <input type="text" name="_gotcha" style={{ display: 'none' }} tabIndex={-1} autoComplete="off" />
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-slate-700 mb-2">
-                      Name
-                    </label>
-                    <input
-                      type="text"
-                      name="name"
-                      id="name"
-                      placeholder="Your name"
-                      className="w-full rounded-xl border border-slate-200 px-4 py-3 bg-slate-50 hover:bg-white hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent focus:bg-white transition-all"
-                      required
-                    />
+            <div className="bg-white rounded-2xl shadow-md border border-slate-200 p-4 sm:p-6 md:p-8">
+              {formState.isSubmitted ? (
+                // Success Message
+                <div className="text-center py-8">
+                  <div className="w-16 h-16 mx-auto mb-4 bg-green-100 rounded-full flex items-center justify-center">
+                    <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
                   </div>
-                  <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-2">
-                      Email
-                    </label>
-                    <input
-                      type="email"
-                      name="email"
-                      id="email"
-                      placeholder="your@email.com"
-                      className="w-full rounded-xl border border-slate-200 px-4 py-3 bg-slate-50 hover:bg-white hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent focus:bg-white transition-all"
-                      required
-                    />
+                  <h3 className="text-xl font-semibold text-slate-800 mb-2">Message Sent!</h3>
+                  <p className="text-slate-600 mb-6">Thank you for reaching out. I'll get back to you within 24 hours.</p>
+                  <button
+                    onClick={() => setFormState(prev => ({ ...prev, isSubmitted: false }))}
+                    className="text-teal-600 hover:text-teal-700 font-medium transition-colors"
+                  >
+                    Send another message
+                  </button>
+                </div>
+              ) : (
+                // Contact Form
+                <form onSubmit={handleSubmit} className="flex flex-col gap-6" noValidate>
+                  {/* Honeypot field for spam protection */}
+                  <input type="text" name="_gotcha" style={{ display: 'none' }} tabIndex={-1} autoComplete="off" />
+                  
+                  {formState.submitError && (
+                    <div className="bg-red-50 border border-red-200 rounded-lg p-3 text-red-700 text-sm">
+                      {formState.submitError}
+                    </div>
+                  )}
+                  
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                    <div>
+                      <label htmlFor="name" className="block text-sm font-medium text-slate-700 mb-2">
+                        Name *
+                      </label>
+                      <input
+                        type="text"
+                        name="name"
+                        id="name"
+                        placeholder="Your name"
+                        value={formState.data.name}
+                        onChange={(e) => handleInputChange('name', e.target.value)}
+                        className={`w-full rounded-xl border px-3 sm:px-4 py-3 bg-slate-50 hover:bg-white focus:outline-none focus:ring-2 focus:border-transparent focus:bg-white transition-all text-base ${
+                          formState.errors.name 
+                            ? 'border-red-300 focus:ring-red-500' 
+                            : 'border-slate-200 hover:border-slate-300 focus:ring-teal-500'
+                        }`}
+                        required
+                        disabled={formState.isSubmitting}
+                      />
+                      {formState.errors.name && (
+                        <p className="mt-1 text-sm text-red-600">{formState.errors.name}</p>
+                      )}
+                    </div>
+                    <div>
+                      <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-2">
+                        Email *
+                      </label>
+                      <input
+                        type="email"
+                        name="email"
+                        id="email"
+                        placeholder="your@email.com"
+                        value={formState.data.email}
+                        onChange={(e) => handleInputChange('email', e.target.value)}
+                        className={`w-full rounded-xl border px-3 sm:px-4 py-3 bg-slate-50 hover:bg-white focus:outline-none focus:ring-2 focus:border-transparent focus:bg-white transition-all text-base ${
+                          formState.errors.email 
+                            ? 'border-red-300 focus:ring-red-500' 
+                            : 'border-slate-200 hover:border-slate-300 focus:ring-teal-500'
+                        }`}
+                        required
+                        disabled={formState.isSubmitting}
+                      />
+                      {formState.errors.email && (
+                        <p className="mt-1 text-sm text-red-600">{formState.errors.email}</p>
+                      )}
+                    </div>
                   </div>
-                </div>
-                
-                <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-slate-700 mb-2">
-                    Message
-                  </label>
-                  <textarea
-                    name="message"
-                    id="message"
-                    placeholder="Tell me about your project..."
-                    rows={6}
-                    className="w-full rounded-xl border border-slate-200 px-4 py-3 bg-slate-50 hover:bg-white hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent focus:bg-white transition-all resize-none"
-                    required
-                  />
-                </div>
-                
-                <button
-                  type="submit"
-                  className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-slate-800 to-slate-700 hover:from-teal-600 hover:to-teal-500 text-white text-base font-semibold rounded-full shadow-md hover:shadow-lg transform hover:scale-105 active:scale-95 transition-all duration-200"
-                >
-                  <span>Send Message</span>
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-                  </svg>
-                </button>
-              </form>
+                  
+                  <div>
+                    <label htmlFor="message" className="block text-sm font-medium text-slate-700 mb-2">
+                      Message *
+                    </label>
+                    <textarea
+                      name="message"
+                      id="message"
+                      placeholder="Tell me about your project..."
+                      rows={5}
+                      value={formState.data.message}
+                      onChange={(e) => handleInputChange('message', e.target.value)}
+                      className={`w-full rounded-xl border px-3 sm:px-4 py-3 bg-slate-50 hover:bg-white focus:outline-none focus:ring-2 focus:border-transparent focus:bg-white transition-all resize-none text-base ${
+                        formState.errors.message 
+                          ? 'border-red-300 focus:ring-red-500' 
+                          : 'border-slate-200 hover:border-slate-300 focus:ring-teal-500'
+                      }`}
+                      required
+                      disabled={formState.isSubmitting}
+                    />
+                    {formState.errors.message && (
+                      <p className="mt-1 text-sm text-red-600">{formState.errors.message}</p>
+                    )}
+                  </div>
+                  
+                  <button
+                    type="submit"
+                    disabled={formState.isSubmitting || Object.values(formState.errors).some(error => error)}
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-slate-800 to-slate-700 hover:from-teal-600 hover:to-teal-500 text-white text-base font-semibold rounded-full shadow-md hover:shadow-lg transform hover:scale-105 active:scale-95 transition-all duration-200 touch-manipulation disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                  >
+                    {formState.isSubmitting ? (
+                      <>
+                        <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                        <span>Sending...</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>Send Message</span>
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                        </svg>
+                      </>
+                    )}
+                  </button>
+                </form>
+              )}
             </div>
           </div>
         </div>
@@ -324,12 +505,12 @@ export default function Home() {
       {/* Scroll to Top Button */}
       <button
         onClick={scrollToTop}
-        className={`fixed bottom-8 right-8 z-30 p-4 bg-slate-800 text-white rounded-full shadow-lg hover:bg-teal-600 transition-all duration-300 ${
+        className={`fixed bottom-4 sm:bottom-8 right-4 sm:right-8 z-30 p-3 sm:p-4 bg-slate-800 text-white rounded-full shadow-lg hover:bg-teal-600 transition-all duration-300 touch-manipulation ${
           showScrollTop ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-16 pointer-events-none'
         }`}
         aria-label="Scroll to top"
       >
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+        <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18" />
         </svg>
       </button>
