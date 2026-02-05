@@ -174,13 +174,17 @@ export default function Home() {
           setFormState(prev => ({ ...prev, isSubmitted: false }));
         }, 5000);
       } else {
-        throw new Error('Failed to send message');
+        const errorData = await response.json().catch(() => ({}));
+        const errorMessage = errorData.error || errorData.errors?.[0]?.message || 'Failed to send message';
+        throw new Error(errorMessage);
       }
-    } catch {
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to send message. Please try again.';
+      console.error('Form submission error:', error);
       setFormState(prev => ({
         ...prev,
         isSubmitting: false,
-        submitError: 'Failed to send message. Please try again.',
+        submitError: errorMessage,
       }));
     }
   };
@@ -402,7 +406,7 @@ export default function Home() {
                     </svg>
                   </div>
                   <h3 className="text-xl font-semibold text-slate-800 mb-2">Message Sent!</h3>
-                  <p className="text-slate-600 mb-6">Thank you for reaching out. I&apos;ll get back to you within 24 hours.</p>
+                  <p className="text-slate-600 mb-6">Thank you for reaching out. I&apos;ll get back to you soon.</p>
                   <button
                     onClick={() => setFormState(prev => ({ ...prev, isSubmitted: false }))}
                     className="text-teal-600 hover:text-teal-700 font-medium transition-colors"
@@ -411,110 +415,115 @@ export default function Home() {
                   </button>
                 </div>
               ) : (
-                // Contact Form
                 <form onSubmit={handleSubmit} className="flex flex-col gap-6" noValidate>
                   {/* Honeypot field for spam protection */}
                   <input type="text" name="_gotcha" style={{ display: 'none' }} tabIndex={-1} autoComplete="off" />
                   
                   {formState.submitError && (
-                    <div className="bg-red-50 border border-red-200 rounded-lg p-3 text-red-700 text-sm">
-                      {formState.submitError}
+                    <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-red-700 text-sm">
+                      <p className="font-medium mb-2">{formState.submitError}</p>
+                      <p className="text-xs">
+                        You can also reach me directly at{' '}
+                        <a href="mailto:alexlautin@gmail.com" className="underline hover:text-red-800">
+                          alexlautin@gmail.com
+                        </a>
+                      </p>
                     </div>
                   )}
-                  
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-                    <div>
-                      <label htmlFor="name" className="block text-sm font-medium text-slate-700 mb-2">
-                        Name *
-                      </label>
-                      <input
-                        type="text"
-                        name="name"
-                        id="name"
-                        placeholder="Your name"
-                        value={formState.data.name}
-                        onChange={(e) => handleInputChange('name', e.target.value)}
-                        className={`w-full rounded-xl border px-3 sm:px-4 py-3 bg-slate-50 hover:bg-white focus:outline-none focus:ring-2 focus:border-transparent focus:bg-white transition-all text-base ${
-                          formState.errors.name 
-                            ? 'border-red-300 focus:ring-red-500' 
-                            : 'border-slate-200 hover:border-slate-300 focus:ring-teal-500'
-                        }`}
-                        required
-                        disabled={formState.isSubmitting}
-                      />
-                      {formState.errors.name && (
-                        <p className="mt-1 text-sm text-red-600">{formState.errors.name}</p>
-                      )}
-                    </div>
-                    <div>
-                      <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-2">
-                        Email *
-                      </label>
-                      <input
-                        type="email"
-                        name="email"
-                        id="email"
-                        placeholder="your@email.com"
-                        value={formState.data.email}
-                        onChange={(e) => handleInputChange('email', e.target.value)}
-                        className={`w-full rounded-xl border px-3 sm:px-4 py-3 bg-slate-50 hover:bg-white focus:outline-none focus:ring-2 focus:border-transparent focus:bg-white transition-all text-base ${
-                          formState.errors.email 
-                            ? 'border-red-300 focus:ring-red-500' 
-                            : 'border-slate-200 hover:border-slate-300 focus:ring-teal-500'
-                        }`}
-                        required
-                        disabled={formState.isSubmitting}
-                      />
-                      {formState.errors.email && (
-                        <p className="mt-1 text-sm text-red-600">{formState.errors.email}</p>
-                      )}
-                    </div>
-                  </div>
-                  
+                
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                   <div>
-                    <label htmlFor="message" className="block text-sm font-medium text-slate-700 mb-2">
-                      Message *
+                    <label htmlFor="name" className="block text-sm font-medium text-slate-700 mb-2">
+                      Name *
                     </label>
-                    <textarea
-                      name="message"
-                      id="message"
-                      placeholder="Tell me about your project..."
-                      rows={5}
-                      value={formState.data.message}
-                      onChange={(e) => handleInputChange('message', e.target.value)}
-                      className={`w-full rounded-xl border px-3 sm:px-4 py-3 bg-slate-50 hover:bg-white focus:outline-none focus:ring-2 focus:border-transparent focus:bg-white transition-all resize-none text-base ${
-                        formState.errors.message 
+                    <input
+                      type="text"
+                      name="name"
+                      id="name"
+                      placeholder="Your name"
+                      value={formState.data.name}
+                      onChange={(e) => handleInputChange('name', e.target.value)}
+                      className={`w-full rounded-xl border px-3 sm:px-4 py-3 bg-slate-50 hover:bg-white focus:outline-none focus:ring-2 focus:border-transparent focus:bg-white transition-all text-base ${
+                        formState.errors.name 
                           ? 'border-red-300 focus:ring-red-500' 
                           : 'border-slate-200 hover:border-slate-300 focus:ring-teal-500'
                       }`}
                       required
                       disabled={formState.isSubmitting}
                     />
-                    {formState.errors.message && (
-                      <p className="mt-1 text-sm text-red-600">{formState.errors.message}</p>
+                    {formState.errors.name && (
+                      <p className="mt-1 text-sm text-red-600">{formState.errors.name}</p>
                     )}
                   </div>
-                  
-                  <button
-                    type="submit"
-                    disabled={formState.isSubmitting || Object.values(formState.errors).some(error => error)}
-                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-slate-800 to-slate-700 hover:from-teal-600 hover:to-teal-500 text-white text-base font-semibold rounded-full shadow-md hover:shadow-lg transform hover:scale-105 active:scale-95 transition-all duration-200 touch-manipulation disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
-                  >
-                    {formState.isSubmitting ? (
-                      <>
-                        <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                        <span>Sending...</span>
-                      </>
-                    ) : (
-                      <>
-                        <span>Send Message</span>
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-                        </svg>
-                      </>
+                  <div>
+                    <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-2">
+                      Email *
+                    </label>
+                    <input
+                      type="email"
+                      name="email"
+                      id="email"
+                      placeholder="your@email.com"
+                      value={formState.data.email}
+                      onChange={(e) => handleInputChange('email', e.target.value)}
+                      className={`w-full rounded-xl border px-3 sm:px-4 py-3 bg-slate-50 hover:bg-white focus:outline-none focus:ring-2 focus:border-transparent focus:bg-white transition-all text-base ${
+                        formState.errors.email 
+                          ? 'border-red-300 focus:ring-red-500' 
+                          : 'border-slate-200 hover:border-slate-300 focus:ring-teal-500'
+                      }`}
+                      required
+                      disabled={formState.isSubmitting}
+                    />
+                    {formState.errors.email && (
+                      <p className="mt-1 text-sm text-red-600">{formState.errors.email}</p>
                     )}
-                  </button>
-                </form>
+                  </div>
+                </div>
+                
+                <div>
+                  <label htmlFor="message" className="block text-sm font-medium text-slate-700 mb-2">
+                    Message *
+                  </label>
+                  <textarea
+                    name="message"
+                    id="message"
+                    placeholder="Tell me about your project..."
+                    rows={5}
+                    value={formState.data.message}
+                    onChange={(e) => handleInputChange('message', e.target.value)}
+                    className={`w-full rounded-xl border px-3 sm:px-4 py-3 bg-slate-50 hover:bg-white focus:outline-none focus:ring-2 focus:border-transparent focus:bg-white transition-all resize-none text-base ${
+                      formState.errors.message 
+                        ? 'border-red-300 focus:ring-red-500' 
+                        : 'border-slate-200 hover:border-slate-300 focus:ring-teal-500'
+                    }`}
+                    required
+                    disabled={formState.isSubmitting}
+                  />
+                  {formState.errors.message && (
+                    <p className="mt-1 text-sm text-red-600">{formState.errors.message}</p>
+                  )}
+                </div>
+                
+                <button
+                  type="submit"
+                  disabled={formState.isSubmitting || Object.values(formState.errors).some(error => error)}
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-slate-800 to-slate-700 hover:from-teal-600 hover:to-teal-500 text-white text-base font-semibold rounded-full shadow-md hover:shadow-lg transform hover:scale-105 active:scale-95 transition-all duration-200 touch-manipulation disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                >
+                  {formState.isSubmitting ? (
+                    <>
+                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      <span>Sending...</span>
+                    </>
+                  ) : (
+                    <>
+                      <span>Send Message</span>
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                      </svg>
+                    </>
+                  )}
+                </button>
+              </form>
               )}
             </div>
           </div>
