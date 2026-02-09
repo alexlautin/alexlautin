@@ -5,7 +5,6 @@ import Button from '@/components/Button';
 import { SiLinkedin, SiGithub, SiOrcid, SiGooglescholar, SiNextdotjs, SiTailwindcss, SiVercel, SiSupabase, SiFirebase, SiHeadlessui, SiResend } from '@/components/icons';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { projects, techLinks } from "../../data/projects";
 
 export const dynamic = 'force-static';
@@ -447,8 +446,8 @@ export default function Home() {
                         value={formState.data.name}
                         onChange={(e) => handleInputChange('name', e.target.value)}
                         className={`w-full rounded-xl border px-3 sm:px-4 py-3 bg-slate-50 hover:bg-white focus:outline-none focus:ring-2 focus:border-transparent focus:bg-white transition-all text-base ${formState.errors.name
-                            ? 'border-red-300 focus:ring-red-500'
-                            : 'border-slate-200 hover:border-slate-300 focus:ring-teal-500'
+                          ? 'border-red-300 focus:ring-red-500'
+                          : 'border-slate-200 hover:border-slate-300 focus:ring-teal-500'
                           }`}
                         required
                         disabled={formState.isSubmitting}
@@ -469,8 +468,8 @@ export default function Home() {
                         value={formState.data.email}
                         onChange={(e) => handleInputChange('email', e.target.value)}
                         className={`w-full rounded-xl border px-3 sm:px-4 py-3 bg-slate-50 hover:bg-white focus:outline-none focus:ring-2 focus:border-transparent focus:bg-white transition-all text-base ${formState.errors.email
-                            ? 'border-red-300 focus:ring-red-500'
-                            : 'border-slate-200 hover:border-slate-300 focus:ring-teal-500'
+                          ? 'border-red-300 focus:ring-red-500'
+                          : 'border-slate-200 hover:border-slate-300 focus:ring-teal-500'
                           }`}
                         required
                         disabled={formState.isSubmitting}
@@ -493,8 +492,8 @@ export default function Home() {
                       value={formState.data.message}
                       onChange={(e) => handleInputChange('message', e.target.value)}
                       className={`w-full rounded-xl border px-3 sm:px-4 py-3 bg-slate-50 hover:bg-white focus:outline-none focus:ring-2 focus:border-transparent focus:bg-white transition-all resize-none text-base ${formState.errors.message
-                          ? 'border-red-300 focus:ring-red-500'
-                          : 'border-slate-200 hover:border-slate-300 focus:ring-teal-500'
+                        ? 'border-red-300 focus:ring-red-500'
+                        : 'border-slate-200 hover:border-slate-300 focus:ring-teal-500'
                         }`}
                       required
                       disabled={formState.isSubmitting}
