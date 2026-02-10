@@ -104,8 +104,10 @@ export default function Navbar({ noActiveTab = false }: { noActiveTab?: boolean 
 
   return (
     <header className={classNames(
-      'fixed inset-x-0 top-0 z-50 transition-all duration-300 font-[var(--font-inter)]',
-      isScrolled ? 'py-3 sm:py-4 bg-white/90 backdrop-blur-md shadow-sm' : 'py-4 sm:py-6 bg-transparent'
+      'fixed inset-x-0 top-0 z-50 transition-all duration-300 font-[var(--font-inter)] border-b',
+      isScrolled
+        ? 'py-3 sm:py-4 bg-white/70 backdrop-blur-xl border-slate-200/50 shadow-sm'
+        : 'py-4 sm:py-6 bg-transparent border-transparent'
     )}>
       <div className="relative flex items-center justify-between max-w-6xl mx-auto px-4 sm:px-6">
         {/* Logo/Name on Left */}

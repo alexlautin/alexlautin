@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/react";
 import Footer from '@/components/Footer';
+import AnimatedBackground from '@/components/AnimatedBackground';
 
 const inter = Inter({
   subsets: ["latin"],
@@ -35,6 +36,7 @@ export default function RootLayout({
         <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-teal-600 focus:text-white focus:rounded-md focus:font-medium transition-all">
           Skip to main content
         </a>
+        <AnimatedBackground />
         {children}
         <Footer />
         <Analytics />

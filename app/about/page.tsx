@@ -203,13 +203,13 @@ export default function Home() {
   };
 
   return (
-    <main id="main-content" className="relative flex flex-col min-h-screen bg-slate-50 text-gray-900 antialiased">
+    <main id="main-content" className="relative flex flex-col min-h-screen bg-transparent text-gray-900 antialiased">
       <Navbar />
 
       {/* About Section */}
       <section
         id="about"
-        className="relative min-h-screen flex items-center justify-center py-16 sm:py-24 md:py-32 px-4 sm:px-6 bg-slate-50"
+        className="relative min-h-screen flex items-center justify-center py-16 sm:py-24 md:py-32 px-4 sm:px-6 bg-transparent"
       >
         <div className="max-w-6xl w-full mx-auto">
           <div className="grid md:grid-cols-2 gap-8 sm:gap-12 md:gap-16 items-center">
@@ -262,7 +262,7 @@ export default function Home() {
       {/* Projects Section */}
       <section
         id="projects"
-        className="relative py-16 sm:py-24 md:py-32 px-4 sm:px-6 bg-gradient-to-br from-white via-slate-50/50 to-white border-y border-slate-200"
+        className="relative py-16 sm:py-24 md:py-32 px-4 sm:px-6 bg-transparent border-y border-white/20"
       >
         {/* Decorative elements */}
         <div className="absolute top-0 right-0 w-48 h-48 sm:w-96 sm:h-96 bg-teal-500/5 rounded-full blur-2xl opacity-50"></div>
@@ -279,10 +279,11 @@ export default function Home() {
           </div>
 
           <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-            {projects.map((project) => (
+            {projects.map((project, index) => (
               <article
                 key={project.title}
-                className="group relative flex flex-col bg-white rounded-2xl shadow-md border border-slate-200/50 p-4 sm:p-6 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-teal-300 touch-manipulation hover-lift"
+                className="group relative flex flex-col glass-panel rounded-2xl p-4 sm:p-6 transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:shadow-teal-900/5 hover:border-teal-200/50 touch-manipulation animate-fadeIn"
+                style={{ animationDelay: `${index * 100}ms` }}
               >
                 {/* Project image - now inline at top */}
                 <div className="mb-4 flex items-center gap-3">
@@ -383,7 +384,7 @@ export default function Home() {
       {/* Contact Section */}
       <section
         id="contact"
-        className="relative py-16 sm:py-24 md:py-32 px-4 sm:px-6 bg-gradient-to-br from-slate-50 via-white to-slate-50"
+        className="relative py-16 sm:py-24 md:py-32 px-4 sm:px-6 bg-transparent"
       >
         <div className="absolute top-10 sm:top-20 left-4 sm:left-20 w-48 h-48 sm:w-72 sm:h-72 bg-teal-500/5 rounded-full blur-2xl opacity-50"></div>
         <div className="max-w-6xl mx-auto">
@@ -398,7 +399,7 @@ export default function Home() {
           </div>
 
           <div className="max-w-2xl mx-auto">
-            <div className="bg-white rounded-2xl shadow-md border border-slate-200 p-4 sm:p-6 md:p-8">
+            <div className="glass-panel rounded-2xl p-4 sm:p-6 md:p-8">
               {formState.isSubmitted ? (
                 // Success Message
                 <div className="text-center py-8">

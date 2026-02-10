@@ -16,13 +16,13 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
   }
 
   return (
-    <main className="relative flex flex-col min-h-screen bg-slate-50 text-gray-900 antialiased">
+    <main className="relative flex flex-col min-h-screen bg-transparent text-gray-900 antialiased">
       <Navbar noActiveTab />
-      
+
       <section className="relative py-32 px-6">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-4xl mx-auto glass-panel rounded-3xl p-8 md:p-12">
           {/* Back button */}
-          <Link 
+          <Link
             href="/about#projects"
             className="inline-flex items-center gap-2 text-slate-600 hover:text-teal-600 transition-colors duration-200 mb-8"
           >
