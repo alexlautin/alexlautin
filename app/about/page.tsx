@@ -301,7 +301,7 @@ export default function Home() {
                       className={`w-full h-full object-${project.title === 'Galleryboard' ? 'contain' : 'cover'} transition-all duration-300 ${imageLoading[project.id] ? 'image-loading' : 'image-loaded'
                         }`}
                       loading="lazy"
-                      onLoadingComplete={() => handleImageLoad(project.id)}
+                      onLoad={() => handleImageLoad(project.id)}
                       onLoadStart={() => handleImageLoadStart(project.id)}
                     />
                   </div>
