@@ -68,12 +68,12 @@ export const projects: Project[] = [
     link: 'https://www.sevenworks.tech',
     technologies: ['Next.js', 'Tailwind CSS', 'Firebase', 'Vercel'],
     features: [
-        'Live editing of personal, experience, and education information',
-        'Real-time PDF preview and instant updates as you type',
-        'Autosave and autoload of form data to Firestore (per user session)',
-        'Download your resume as a PDF',
-        'User authentication (Firebase Auth)',
-        'Responsive, modern UI'
+      'Live editing of personal, experience, and education information',
+      'Real-time PDF preview and instant updates as you type',
+      'Autosave and autoload of form data to Firestore (per user session)',
+      'Download your resume as a PDF',
+      'User authentication (Firebase Auth)',
+      'Responsive, modern UI'
     ],
     year: '2025',
     type: 'Web App',
