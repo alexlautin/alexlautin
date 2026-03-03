@@ -1,17 +1,24 @@
+"use client";
+
 import Image from 'next/image';
 import photo from './assets/photo.png';
+import { useState } from 'react';
 
 export default function Avatar({ className = "" }: { className?: string }) {
+  const [isLoaded, setIsLoaded] = useState(false);
+
   return (
-    <Image
-      src={photo}
-      alt="Alex Lautin - Computer Science student at Emory University"
-      sizes="(max-width: 768px) 256px, 320px"
-      className={`h-28 w-28 rounded-2xl border border-slate-200 shadow-sm object-cover select-none ${className}`}
-      priority={true}
-      placeholder="blur"
-      draggable={false}
-      onContextMenu={(e) => e.preventDefault()}
-    />
+    <div className={`relative h-28 w-28 rounded-2xl overflow-hidden bg-slate-200 ${className}`}>
+      <Image
+        src={photo}
+        alt="Alex Lautin - Computer Science student at Emory University"
+        sizes="(max-width: 768px) 256px, 320px"
+        className={`object-cover h-full w-full select-none transition-opacity duration-500 ease-in-out ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+        priority={true}
+        draggable={false}
+        onContextMenu={(e) => e.preventDefault()}
+        onLoad={() => setIsLoaded(true)}
+      />
+    </div>
   );
 }

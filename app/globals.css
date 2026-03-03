@@ -130,11 +130,11 @@ h6 {
   .animate-fadeIn {
     opacity: 0;
     transform: translateY(20px);
-    animation: fadeIn 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
   }
 
   .animate-slideUp {
-    animation: slideUp 300ms ease-out forwards;
+    animation: slideUp 200ms ease-out forwards;
   }
 
   @keyframes blob {
@@ -180,7 +180,7 @@ h6 {
 
   /* Enhanced hover states */
   .hover-lift {
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
   }
 
   .hover-lift:hover {
