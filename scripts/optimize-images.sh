@@ -17,22 +17,28 @@ echo "📦 Creating backup of original images..."
 
 # Find all PNG and JPG files and convert to WebP
 find public -type f \( -name "*.png" -o -name "*.jpg" -o -name "*.jpeg" \) | while read img; do
-    # Skip if already in backup directory
-    if [[ "$img" == *"backup-original-images"* ]]; then
+    # Skip if already in backup or optimized directory
+    if [[ "$img" == *"backup-original-images"* || "$img" == *"/optimized/"* ]]; then
         continue
     fi
-    
+
     # Get file size before
     size_before=$(du -h "$img" | cut -f1)
-    
-    # Copy to backup
+
+    # Copy to backup (keep folder structure flattened to avoid collisions)
+    mkdir -p public/backup-original-images
     backup_path="public/backup-original-images/$(basename "$img")"
     cp "$img" "$backup_path" 2>/dev/null || true
-    
+
+    # Build optimized output path under public/optimized preserving relative path
+    rel_path=${img#public/}
+    out_dir="public/optimized/$(dirname "$rel_path")"
+    mkdir -p "$out_dir"
+    output="$out_dir/$(basename "${rel_path%.*}").webp"
+
     # Convert to WebP (quality 85 for good balance)
-    output="${img%.*}.webp"
     cwebp -q 85 "$img" -o "$output" 2>/dev/null
-    
+
     # Get file size after
     if [ -f "$output" ]; then
         size_after=$(du -h "$output" | cut -f1)

@@ -1,16 +1,4 @@
-"use client";
-
-import { useEffect, useState } from 'react';
-
 export default function AnimatedBackground() {
-    const [mounted, setMounted] = useState(false);
-
-    useEffect(() => {
-        setMounted(true);
-    }, []);
-
-    if (!mounted) return null;
-
     return (
         <div className="fixed inset-0 -z-50 overflow-hidden pointer-events-none">
             <div className="absolute top-0 left-0 w-[40%] h-[40%] rounded-full bg-teal-400/10 blur-3xl animate-blob mix-blend-multiply filter opacity-50"></div>

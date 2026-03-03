@@ -36,13 +36,20 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
           <div className="mb-12">
             <div className="flex items-center gap-4 mb-6">
               <div className="w-16 h-16 rounded-xl overflow-hidden border border-slate-200 shadow-sm bg-white flex-shrink-0">
-                <Image
-                  src={project.image}
-                  alt={`${project.title} logo`}
-                  width={64}
-                  height={64}
-                  className={`w-full h-full object-${project.title === 'Galleryboard' ? 'contain' : 'cover'}`}
-                />
+                <picture>
+                  <source
+                    srcSet={project.image.replace(/^\//, '/optimized/').replace(/\.(png|jpe?g)$/i, '.webp')}
+                    type="image/webp"
+                  />
+                  <Image
+                    src={project.image}
+                    alt={`${project.title} logo`}
+                    width={64}
+                    height={64}
+                    sizes="64px"
+                    className={`w-full h-full object-${project.title === 'Galleryboard' ? 'contain' : 'cover'}`}
+                  />
+                </picture>
               </div>
               <div>
                 <h1 className="text-4xl md:text-5xl font-bold text-slate-800">
@@ -92,13 +99,20 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
               <div className="grid gap-6">
                 {project.images.map((image, index) => (
                   <div key={index} className="relative rounded-xl overflow-hidden border border-slate-200 shadow-md bg-white">
-                    <Image
-                      src={image}
-                      alt={`${project.title} screenshot ${index + 1}`}
-                      width={1200}
-                      height={675}
-                      className="w-full h-auto"
-                    />
+                    <picture>
+                      <source
+                        srcSet={image.replace(/^\//, '/optimized/').replace(/\.(png|jpe?g)$/i, '.webp')}
+                        type="image/webp"
+                      />
+                      <Image
+                        src={image}
+                        alt={`${project.title} screenshot ${index + 1}`}
+                        width={1200}
+                        height={675}
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 1200px"
+                        className="w-full h-auto"
+                      />
+                    </picture>
                   </div>
                 ))}
               </div>
