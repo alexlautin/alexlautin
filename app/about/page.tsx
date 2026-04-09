@@ -208,7 +208,7 @@ function HomeInner() {
         <div className="max-w-5xl mx-auto">
           <h2 className="text-2xl font-bold text-slate-900 mb-2">Get in touch</h2>
           <p className="text-sm text-slate-500 mb-8 leading-relaxed max-w-md">
-            Interested in collaborating, exploring opportunities, or just connecting? Reveal my email below to reach out.
+            Interested in collaborating, exploring opportunities, or just connecting? Clilck to see my email below to reach out.
           </p>
 
           {emailReveal === 'revealed' ? (
@@ -251,7 +251,7 @@ function HomeInner() {
               <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
               </svg>
-              Reveal email
+              See email
             </button>
           )}
         </div>
