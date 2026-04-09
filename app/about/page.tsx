@@ -8,26 +8,25 @@ import Link from 'next/link';
 
 export const dynamic = 'force-static';
 
-type EmailRevealState = 'hidden' | 'pending' | 'loading' | 'revealed' | 'error';
+const SITEKEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
 export default function Home() {
-  const [emailReveal, setEmailReveal] = useState<EmailRevealState>('hidden');
   const [revealedEmail, setRevealedEmail] = useState('');
+  const [challengeNeeded, setChallengeNeeded] = useState(false);
+  const [verifyFailed, setVerifyFailed] = useState(false);
 
   const handleTurnstileSuccess = async (token: string) => {
-    setEmailReveal('loading');
     try {
       const res = await fetch('/api/reveal-email', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ token }),
       });
-      if (!res.ok) throw new Error('Verification failed');
+      if (!res.ok) { setVerifyFailed(true); return; }
       const { email } = await res.json();
       setRevealedEmail(email);
-      setEmailReveal('revealed');
     } catch {
-      setEmailReveal('error');
+      setVerifyFailed(true);
     }
   };
 
@@ -134,45 +133,34 @@ export default function Home() {
         <div className="max-w-3xl mx-auto">
           <p className="text-xs font-medium tracking-widest text-stone-400 uppercase mb-8">Contact</p>
           <div className="flex flex-col gap-3">
-            {emailReveal === 'revealed' ? (
+            {/* Turnstile runs invisibly on page load — no user interaction needed */}
+            {SITEKEY && !revealedEmail && (
+              <div className={challengeNeeded ? undefined : 'absolute -left-[9999px]'} aria-hidden={!challengeNeeded}>
+                <Turnstile
+                  siteKey={SITEKEY}
+                  onSuccess={handleTurnstileSuccess}
+                  onBeforeInteractive={() => setChallengeNeeded(true)}
+                  options={{ appearance: 'interaction-only', theme: 'light' }}
+                />
+              </div>
+            )}
+            {revealedEmail && (
               <a
                 href={`mailto:${revealedEmail}`}
                 className="text-sm font-medium text-[#111111] hover-underline"
               >
                 {revealedEmail}
               </a>
-            ) : emailReveal === 'pending' || emailReveal === 'loading' ? (
-              <div className="space-y-2">
-                <Turnstile
-                  siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
-                  onSuccess={handleTurnstileSuccess}
-                  onError={() => setEmailReveal('error')}
-                  options={{ theme: 'light', appearance: 'interaction-only' }}
-                />
-                {emailReveal === 'loading' && (
-                  <p className="text-xs text-stone-400">Verifying...</p>
-                )}
-              </div>
-            ) : emailReveal === 'error' ? (
-              <div className="space-y-3">
-                <p className="text-xs text-red-500">Verification failed. Please try again.</p>
-                <button
-                  onClick={() => setEmailReveal('pending')}
-                  className="text-sm font-medium text-[#111111] underline underline-offset-2 hover:opacity-60 transition-opacity"
-                >
-                  Try again
-                </button>
-              </div>
-            ) : (
-              <button
-                onClick={() => setEmailReveal('pending')}
-                className="inline-flex items-center gap-2 text-sm font-medium text-[#111111] hover-underline w-fit"
+            )}
+            {verifyFailed && !revealedEmail && (
+              <a
+                href="https://www.linkedin.com/in/alexlautin/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-stone-500 hover-underline"
               >
-                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-                Show email address
-              </button>
+                Reach out on LinkedIn
+              </a>
             )}
             <a
               href="https://www.linkedin.com/in/alexlautin/"
