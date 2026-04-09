@@ -1,6 +1,7 @@
 "use client";
 import Avatar from '@/components/Avatar';
 import { SiLinkedin, SiOrcid, SiGooglescholar } from '@/components/icons';
+import { HiArrowRight } from 'react-icons/hi';
 import { useState } from 'react';
 import { Turnstile } from '@marsidev/react-turnstile';
 import { projects } from "../data/projects";
@@ -43,7 +44,7 @@ export default function Home() {
       </header>
 
       {/* Hero */}
-      <section id="about" className="relative pt-28 pb-20 px-6 border-b border-stone-200">
+      <section id="about" className="relative pt-28 pb-12 px-6 border-b border-stone-200">
         <div className="max-w-3xl mx-auto">
           {/* Photo — absolutely positioned top-right, doesn't affect text flow */}
           <div className="absolute top-28 right-6 md:right-[max(1.5rem,calc(50%-768px/2))]">
@@ -97,7 +98,7 @@ export default function Home() {
       </section>
 
       {/* Projects */}
-      <section id="projects" className="py-20 px-6 border-b border-stone-200">
+      <section id="projects" className="pt-12 pb-20 px-6 border-b border-stone-200">
         <div className="max-w-3xl mx-auto">
           <p className="text-xs font-medium tracking-widest text-stone-400 uppercase mb-10">Selected Projects</p>
           <div className="divide-y divide-stone-200">
@@ -105,7 +106,7 @@ export default function Home() {
               <Link
                 key={project.id}
                 href={`/projects/${project.id}`}
-                className="group flex items-start justify-between gap-8 py-5 hover:opacity-60 transition-opacity duration-150"
+                className="group flex items-center justify-between gap-8 py-5 hover:opacity-70 transition-opacity duration-150"
               >
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-3 mb-1">
@@ -113,14 +114,9 @@ export default function Home() {
                   </div>
                   <p className="text-sm text-stone-500 leading-relaxed">{project.description}</p>
                 </div>
-                <div className="flex-shrink-0 flex items-center gap-4 pt-0.5">
-                  <span className="text-xs text-stone-400 hidden sm:block tabular-nums">{project.year}</span>
-                  <svg
-                    className="w-3.5 h-3.5 text-stone-300 group-hover:text-stone-500 group-hover:translate-x-0.5 transition-all duration-150"
-                    fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                  </svg>
+                <div className="flex-shrink-0 flex items-center gap-4">
+                  <span className="text-xs text-stone-500 hidden sm:block tabular-nums">{project.year}</span>
+                  <HiArrowRight className="w-3.5 h-3.5 text-stone-500 group-hover:translate-x-1 transition-transform duration-150" />
                 </div>
               </Link>
             ))}
