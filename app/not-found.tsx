@@ -24,7 +24,7 @@ export default function NotFound() {
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8">
               <Link
-                href="/about"
+                href="/"
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-slate-800 text-white text-base font-semibold rounded-full shadow-md hover:bg-teal-600 transform hover:scale-[1.02] transition-all duration-200"
               >
                 <span>Go Home</span>
@@ -33,7 +33,7 @@ export default function NotFound() {
                 </svg>
               </Link>
               <Link
-                href="/about#projects"
+                href="/#projects"
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-slate-300 text-slate-700 text-base font-semibold rounded-full hover:bg-slate-100 transition-all duration-200"
               >
                 <span>View Projects</span>
