@@ -65,4 +65,9 @@ h1, h2, h3, h4, h5, h6 {
 
   .image-loading { filter: blur(4px); transition: filter 0.3s ease; }
   .image-loaded  { filter: blur(0); }
+
+  .hover-underline:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
 }

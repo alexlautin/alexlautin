@@ -1,7 +1,6 @@
 "use client";
-import Navbar from '../../components/Navbar';
 import Avatar from '@/components/Avatar';
-import { SiLinkedin, SiGithub, SiOrcid, SiGooglescholar } from '@/components/icons';
+import { SiLinkedin, SiOrcid, SiGooglescholar } from '@/components/icons';
 import { useState } from 'react';
 import { Turnstile } from '@marsidev/react-turnstile';
 import { projects } from "../../data/projects";
@@ -32,75 +31,95 @@ export default function Home() {
     }
   };
 
-  return (
-    <main id="main-content" className="flex flex-col bg-[#F9F7F4] text-[#111111]">
-      <Navbar />
+  const displayedProjects = projects.filter(p => p.type !== 'Portfolio');
 
-      {/* About */}
-      <section id="about" className="min-h-screen flex flex-col justify-center px-6">
-        <div className="max-w-4xl mx-auto w-full">
-          <div className="flex flex-col md:flex-row md:items-center gap-16">
-            {/* Text */}
-            <div className="flex-1">
-              <p className="text-sm font-medium tracking-widest text-stone-400 uppercase mb-8">
+  return (
+    <main id="main-content" className="bg-[#F9F7F4] text-[#111111]">
+      {/* Header */}
+      <header className="fixed inset-x-0 top-0 z-50 bg-[#F9F7F4]/90 backdrop-blur-md border-b border-stone-200">
+        <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
+          <a href="#about" className="text-sm font-semibold text-[#111111] hover:opacity-50 transition-opacity">AL</a>
+          <a href="#contact" className="text-sm font-medium text-white bg-[#111111] hover:bg-stone-700 transition-colors duration-150 px-4 py-1.5 rounded-full">Contact</a>
+        </div>
+      </header>
+
+      {/* Hero */}
+      <section id="about" className="relative pt-28 pb-20 px-6 border-b border-stone-200">
+        <div className="max-w-3xl mx-auto">
+          {/* Photo — absolutely positioned top-right, doesn't affect text flow */}
+          <div className="absolute top-28 right-6 md:right-[max(1.5rem,calc(50%-768px/2))]">
+            <Avatar className="w-36 h-44 md:w-44 md:h-56 rounded-xl" />
+          </div>
+
+          <div className="flex flex-col gap-8">
+            {/* Name */}
+            <div className="pr-44 md:pr-52">
+              <p className="text-xs font-medium tracking-widest text-stone-400 uppercase mb-4">
                 Emory University · Atlanta, GA
               </p>
-              <h1 className="text-6xl sm:text-7xl lg:text-8xl font-bold tracking-tight text-[#111111] mb-8">
-                Alex<br />Lautin
+              <h1 className="text-5xl font-bold tracking-tight text-[#111111] leading-tight">
+                Alex Lautin
               </h1>
-              <p className="text-lg text-stone-500 leading-relaxed max-w-sm mb-10">
-                CS student with a focus on consulting and product.
+            </div>
+
+            {/* Value prop + links */}
+            <div>
+              <p className="text-base text-stone-600 leading-relaxed max-w-xs mb-8">
+                CS and economics student pursuing roles in product management and consulting.
               </p>
-              <div className="flex flex-wrap items-center gap-6">
-                <a href="https://www.linkedin.com/in/alexlautin/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-stone-400 hover:text-[#111111] transition-colors">
-                  <SiLinkedin size={14} /> LinkedIn
+              <div className="flex items-center gap-5">
+                <a href="https://www.linkedin.com/in/alexlautin/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-xs text-stone-400 hover:text-[#111111] transition-colors">
+                  <SiLinkedin size={12} /> LinkedIn
                 </a>
-                <a href="https://github.com/alexlautin" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-stone-400 hover:text-[#111111] transition-colors">
-                  <SiGithub size={14} /> GitHub
+                <a href="https://orcid.org/0009-0006-0555-7424" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-xs text-stone-400 hover:text-[#111111] transition-colors">
+                  <SiOrcid size={12} /> ORCID
                 </a>
-                <a href="https://orcid.org/0009-0006-0555-7424" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-stone-400 hover:text-[#111111] transition-colors">
-                  <SiOrcid size={14} /> ORCID
-                </a>
-                <a href="https://scholar.google.com/citations?user=Z2EZFfoAAAAJ&hl=en" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-stone-400 hover:text-[#111111] transition-colors">
-                  <SiGooglescholar size={14} /> Scholar
+                <a href="https://scholar.google.com/citations?user=Z2EZFfoAAAAJ&hl=en" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-xs text-stone-400 hover:text-[#111111] transition-colors">
+                  <SiGooglescholar size={12} /> Scholar
                 </a>
               </div>
             </div>
-            {/* Portrait */}
-            <div className="flex-shrink-0">
-              <Avatar className="w-64 h-80 md:w-72 md:h-96 rounded-2xl" />
+
+            {/* Fact grid */}
+            <div className="grid grid-cols-2 gap-6 pt-8 border-t border-stone-200">
+              <div>
+                <p className="text-xs font-medium tracking-widest text-stone-400 uppercase mb-1.5">Education</p>
+                <p className="text-sm font-medium text-[#111111]">Emory University</p>
+                <p className="text-xs text-stone-500 mt-0.5 leading-relaxed">B.S. Computer Science, Minor in Economics · 2027</p>
+              </div>
+              <div>
+                <p className="text-xs font-medium tracking-widest text-stone-400 uppercase mb-1.5">Research</p>
+                <p className="text-sm font-medium text-[#111111]">Emory University School of Medicine</p>
+                <p className="text-xs text-stone-500 mt-0.5">Research Assistant</p>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Work */}
-      <section id="projects" className="min-h-screen flex flex-col justify-center px-6 py-24 border-t border-stone-200">
-        <div className="max-w-4xl mx-auto w-full">
-          <p className="text-sm font-medium tracking-widest text-stone-400 uppercase mb-10">Selected Work</p>
+      {/* Projects */}
+      <section id="projects" className="py-20 px-6 border-b border-stone-200">
+        <div className="max-w-3xl mx-auto">
+          <p className="text-xs font-medium tracking-widest text-stone-400 uppercase mb-10">Selected Projects</p>
           <div className="divide-y divide-stone-200">
-            {projects.map((project, index) => (
+            {displayedProjects.map((project) => (
               <Link
                 key={project.id}
                 href={`/projects/${project.id}`}
-                className="group flex items-start justify-between gap-8 py-7 hover:opacity-60 transition-opacity duration-200 animate-fadeUp"
-                style={{ animationDelay: `${index * 80}ms` }}
+                className="group flex items-start justify-between gap-8 py-5 hover:opacity-60 transition-opacity duration-150"
               >
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-3 mb-1.5">
-                    <h3 className="text-lg font-semibold text-[#111111]">{project.title}</h3>
-                    {project.status === 'Live' && (
-                      <span className="inline-flex items-center gap-1 text-xs text-emerald-600 font-medium">
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                        Live
-                      </span>
-                    )}
+                  <div className="flex items-center gap-3 mb-1">
+                    <span className="text-sm font-semibold text-[#111111]">{project.title}</span>
                   </div>
                   <p className="text-sm text-stone-500 leading-relaxed">{project.description}</p>
                 </div>
-                <div className="flex-shrink-0 flex items-center gap-6 pt-1">
-                  <span className="text-sm text-stone-400 hidden sm:block">{project.year}</span>
-                  <svg className="w-4 h-4 text-stone-300 group-hover:text-stone-600 group-hover:translate-x-1 transition-all duration-200" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <div className="flex-shrink-0 flex items-center gap-4 pt-0.5">
+                  <span className="text-xs text-stone-400 hidden sm:block tabular-nums">{project.year}</span>
+                  <svg
+                    className="w-3.5 h-3.5 text-stone-300 group-hover:text-stone-500 group-hover:translate-x-0.5 transition-all duration-150"
+                    fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"
+                  >
                     <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
                 </div>
@@ -111,70 +130,60 @@ export default function Home() {
       </section>
 
       {/* Contact */}
-      <section id="contact" className="min-h-screen flex flex-col justify-center px-6 py-24 border-t border-stone-200">
-        <div className="max-w-4xl mx-auto w-full">
-          <p className="text-sm font-medium tracking-widest text-stone-400 uppercase mb-6">Contact</p>
-          <h2 className="text-4xl sm:text-5xl font-bold tracking-tight text-[#111111] mb-6 max-w-md">
-            Let&apos;s connect.
-          </h2>
-          <p className="text-stone-500 mb-10 max-w-sm leading-relaxed">
-            Open to consulting opportunities, product roles, and interesting conversations.
-          </p>
-
-          {emailReveal === 'revealed' ? (
-            <a
-              href={`mailto:${revealedEmail}`}
-              className="inline-flex items-center gap-3 text-xl font-semibold text-[#111111] hover:opacity-60 transition-opacity"
-            >
-              {revealedEmail}
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </a>
-          ) : emailReveal === 'pending' || emailReveal === 'loading' ? (
-            <div className="space-y-3">
-              <Turnstile
-                siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
-                onSuccess={handleTurnstileSuccess}
-                onError={() => setEmailReveal('error')}
-                options={{ theme: 'light' }}
-              />
-              {emailReveal === 'loading' && (
-                <p className="text-sm text-stone-400">Verifying...</p>
-              )}
-            </div>
-          ) : emailReveal === 'error' ? (
-            <div className="space-y-4">
-              <p className="text-sm text-red-500">Verification failed. Please try again.</p>
+      <section id="contact" className="py-20 px-6">
+        <div className="max-w-3xl mx-auto">
+          <p className="text-xs font-medium tracking-widest text-stone-400 uppercase mb-8">Contact</p>
+          <div className="flex flex-col gap-3">
+            {emailReveal === 'revealed' ? (
+              <a
+                href={`mailto:${revealedEmail}`}
+                className="text-sm font-medium text-[#111111] hover-underline"
+              >
+                {revealedEmail}
+              </a>
+            ) : emailReveal === 'pending' || emailReveal === 'loading' ? (
+              <div className="space-y-2">
+                <Turnstile
+                  siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
+                  onSuccess={handleTurnstileSuccess}
+                  onError={() => setEmailReveal('error')}
+                  options={{ theme: 'light', appearance: 'interaction-only' }}
+                />
+                {emailReveal === 'loading' && (
+                  <p className="text-xs text-stone-400">Verifying...</p>
+                )}
+              </div>
+            ) : emailReveal === 'error' ? (
+              <div className="space-y-3">
+                <p className="text-xs text-red-500">Verification failed. Please try again.</p>
+                <button
+                  onClick={() => setEmailReveal('pending')}
+                  className="text-sm font-medium text-[#111111] underline underline-offset-2 hover:opacity-60 transition-opacity"
+                >
+                  Try again
+                </button>
+              </div>
+            ) : (
               <button
                 onClick={() => setEmailReveal('pending')}
-                className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#111111] text-white text-sm font-medium rounded-lg hover:opacity-80 transition-opacity"
+                className="inline-flex items-center gap-2 text-sm font-medium text-[#111111] hover-underline w-fit"
               >
-                Try again
-              </button>
-            </div>
-          ) : (
-            <div className="flex flex-col sm:flex-row gap-4">
-              <button
-                onClick={() => setEmailReveal('pending')}
-                className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#111111] text-white text-sm font-medium rounded-lg hover:opacity-80 transition-opacity"
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
-                Reveal email
+                Show email address
               </button>
-              <a
-                href="https://www.linkedin.com/in/alexlautin/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-2.5 border border-stone-200 text-stone-600 text-sm font-medium rounded-lg hover:border-stone-400 transition-colors"
-              >
-                <SiLinkedin size={14} />
-                Connect on LinkedIn
-              </a>
-            </div>
-          )}
+            )}
+            <a
+              href="https://www.linkedin.com/in/alexlautin/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-sm font-medium text-[#111111] hover-underline w-fit"
+            >
+              <SiLinkedin size={13} />
+              LinkedIn
+            </a>
+          </div>
         </div>
       </section>
     </main>

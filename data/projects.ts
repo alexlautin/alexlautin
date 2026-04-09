@@ -16,9 +16,31 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    id: 'greekboard',
+    title: 'GreekBoard',
+    description: 'Multi-tenant chapter management platform with Stripe-integrated dues processing, event management, and role-based access control.',
+    longDescription: 'GreekBoard is a multi-tenant fraternity management platform built with Next.js 14, TypeScript, Tailwind CSS, Neon Postgres, Clerk, and Stripe. Designed with a dark fintech aesthetic, it provides chapter officers with a unified dashboard to track dues, manage events, monitor member standing, and review activity logs. All scoped per organization.',
+    image: '/optimized/greekboard.webp',
+    images: ['/optimized/projects/greekboard/landing.webp'],
+    link: 'https://greekboard.alexlautin.me',
+    technologies: ['Next.js 14', 'TypeScript', 'Tailwind CSS', 'Neon Postgres', 'Clerk', 'Stripe'],
+    features: [
+      'Multi-tenant architecture with per-chapter data isolation',
+      'Dues tracking with Stripe payment integration',
+      'Event creation and RSVP management',
+      'Member standing and status management',
+      'Activity logging and audit trail',
+      'Dark fintech-inspired UI',
+      'Clerk authentication with role-based access control'
+    ],
+    year: '2026',
+    type: 'Web App',
+    status: 'Live'
+  },
+  {
     id: 'speedsail',
     title: 'Speedsail',
-    description: 'A modern inspirational sailing interview website.',
+    description: 'Content platform for competitive sailing interviews; SEO-optimized with Next.js.',
     longDescription: 'Speedsail is a modern sailing interview website built with Next.js and Tailwind CSS. Discover and learn from in-depth interviews with sailors, featuring curated sailing interviews.',
     image: '/optimized/speedsail.webp',
     images: ['/optimized/projects/speedsail/home.webp', '/optimized/projects/speedsail/videos.webp', '/optimized/projects/speedsail/podcast.webp', '/optimized/projects/speedsail/about.webp'],
@@ -33,12 +55,12 @@ export const projects: Project[] = [
     ],
     year: '2025',
     type: 'Web App',
-    status: 'Live'
+    status: 'Archived'
   },
   {
     id: 'invitide',
     title: 'Invitide',
-    description: 'A hackathon project, a modern retro-styled event management platform.',
+    description: 'Event management platform built at hackathon; AI-generated event descriptions and QR-code attendance tracking.',
     longDescription: 'Invitide is a modern event management platform built with Next.js, Supabase, and Gemini. Easily create, manage, and share events, generate AI event descriptions, and track attendance with QR codes.',
     image: '/optimized/invitide.webp',
     images: ['/optimized/invitide.webp'],
@@ -61,7 +83,7 @@ export const projects: Project[] = [
   {
     id: 'sevenworks',
     title: 'Sevenworks',
-    description: 'A real-time resume enhancement tool and builder.',
+    description: 'Real-time resume builder with live PDF preview and per-session autosave via Firebase.',
     longDescription: 'SevenWorks is a modern, real-time resume builder built with Next.js, Firebase, and @react-pdf/renderer. Instantly create, edit, autosave, and download professional resumes with a live PDF preview.',
     image: '/optimized/sevenworks.webp',
     images: ['/optimized/projects/sevenworks/home.webp', '/optimized/projects/sevenworks/templates.webp', '/optimized/projects/sevenworks/dashboard.webp', '/optimized/projects/sevenworks/editor.webp'],
@@ -82,7 +104,7 @@ export const projects: Project[] = [
   {
     id: 'galleryboard',
     title: 'Galleryboard',
-    description: 'A hackathon project, a collaborative classroom whiteboard platform.',
+    description: 'Collaborative classroom whiteboard platform built at hackathon; real-time multi-user drawing with teacher-side student board previews.',
     longDescription: 'GalleryBoard is a collaborative classroom whiteboard platform built with Next.js, Supabase, and shadcn/ui. Teachers can create rooms, students can join with a code, and everyone gets a real-time, private whiteboard. Teachers can view live previews of all student boards.',
     image: '/optimized/galleryboard.webp',
     images: ['/optimized/projects/galleryboard/home.webp'],
@@ -119,26 +141,35 @@ export const projects: Project[] = [
     ],
     year: '2025',
     type: 'Portfolio',
-    status: 'Live'
+    status: 'Archived'
   }
 ];
 
 export const getTechStackIcons = () => ({
   'Next.js': 'SiNextdotjs',
+  'Next.js 14': 'SiNextdotjs',
+  'TypeScript': 'SiTypescript',
   'Tailwind CSS': 'SiTailwindcss',
   'Firebase': 'SiFirebase',
   'Vercel': 'SiVercel',
   'Supabase': 'SiSupabase',
   'Resend': 'SiResend',
-  'Headless UI': 'SiHeadlessui'
+  'Headless UI': 'SiHeadlessui',
+  'Stripe': 'SiStripe',
+  'Clerk': 'SiClerk'
 });
 
 export const techLinks = {
   'Next.js': 'https://nextjs.org',
+  'Next.js 14': 'https://nextjs.org',
+  'TypeScript': 'https://www.typescriptlang.org',
   'Tailwind CSS': 'https://tailwindcss.com',
   'Firebase': 'https://firebase.google.com',
   'Vercel': 'https://vercel.com',
   'Supabase': 'https://supabase.com',
   'Resend': 'https://resend.com',
-  'Headless UI': 'https://headlessui.com'
+  'Headless UI': 'https://headlessui.com',
+  'Neon Postgres': 'https://neon.tech',
+  'Stripe': 'https://stripe.com',
+  'Clerk': 'https://clerk.com'
 };
