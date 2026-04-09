@@ -28,8 +28,8 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
       {/* Header */}
       <header className="fixed inset-x-0 top-0 z-50 bg-[#F9F7F4]/90 backdrop-blur-md border-b border-stone-200">
         <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
-          <Link href="/about" className="text-sm font-semibold text-[#111111] hover:opacity-50 transition-opacity">AL</Link>
-          <Link href="/about#contact" className="text-sm font-medium text-white bg-[#111111] hover:bg-stone-700 transition-colors duration-150 px-4 py-1.5 rounded-full">Contact</Link>
+          <Link href="/" className="text-sm font-semibold text-[#111111] hover:opacity-50 transition-opacity">AL</Link>
+          <Link href="/#contact" className="text-sm font-medium text-white bg-[#111111] hover:bg-stone-700 transition-colors duration-150 px-4 py-1.5 rounded-full">Contact</Link>
         </div>
       </header>
 
@@ -38,7 +38,7 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
 
           {/* Back */}
           <Link
-            href="/about#projects"
+            href="/#projects"
             className="inline-flex items-center gap-1.5 text-xs text-stone-400 hover:text-[#111111] transition-colors mb-10"
           >
             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">

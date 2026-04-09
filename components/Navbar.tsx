@@ -89,7 +89,7 @@ export default function Navbar({ noActiveTab = false }: { noActiveTab?: boolean 
     setMobileMenuOpen(false);
 
     if (noActiveTab) {
-      window.location.href = `/about${href}`;
+      window.location.href = `/${href}`;
       return;
     }
 
@@ -115,7 +115,7 @@ export default function Navbar({ noActiveTab = false }: { noActiveTab?: boolean 
       <div className="relative flex items-center justify-between max-w-6xl mx-auto px-4 sm:px-6">
         {/* Logo/Name on Left */}
         <a
-          href={noActiveTab ? "/about#about" : "#about"}
+          href={noActiveTab ? "/#about" : "#about"}
           onClick={(e) => handleClick(e, '#about', 0)}
           className="text-base font-semibold text-[#111111] hover:opacity-50 transition-opacity duration-150 touch-manipulation rounded-md px-1 py-1 z-50 relative tracking-tight"
         >
@@ -166,7 +166,7 @@ export default function Navbar({ noActiveTab = false }: { noActiveTab?: boolean 
         {/* CTA Button on Right (Desktop) */}
         <div className="hidden md:block">
           <Button
-            href={noActiveTab ? "/about#contact" : "#contact"}
+            href={noActiveTab ? "/#contact" : "#contact"}
             onClick={(e) => {
               e.preventDefault();
               handleClick(e, '#contact', 2);
