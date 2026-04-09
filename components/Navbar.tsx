@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useState, useEffect } from 'react';
+import { Fragment, useState, useEffect, useRef } from 'react';
 import { Tab, Dialog, Transition } from '@headlessui/react';
 import { HiMenu, HiX } from 'react-icons/hi';
 import Button from './Button';
@@ -13,6 +13,7 @@ export default function Navbar({ noActiveTab = false }: { noActiveTab?: boolean 
   const [activeTab, setActiveTab] = useState(noActiveTab ? -1 : 0);
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const scrollLocked = useRef(false);
 
   useEffect(() => {
     if (noActiveTab) return;
@@ -45,35 +46,31 @@ export default function Navbar({ noActiveTab = false }: { noActiveTab?: boolean 
   useEffect(() => {
     if (noActiveTab) return;
 
-    const sections = ['about', 'projects', 'contact'];
+    const sectionIds = ['about', 'projects', 'contact'];
+    const THRESHOLD = 120; // px from top of viewport to consider a section "active"
 
-    const observerOptions = {
-      root: null,
-      rootMargin: '-50% 0px -50% 0px',
-      threshold: 0,
-    };
-
-    const observerCallback = (entries: IntersectionObserverEntry[]) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const sectionId = entry.target.id;
-          const index = sections.indexOf(sectionId);
-          if (index !== -1) {
-            setActiveTab(index);
-            window.history.replaceState(null, '', `#${sectionId}`);
-          }
+    const onScroll = () => {
+      if (scrollLocked.current) return;
+      const atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+      if (atBottom) {
+        setActiveTab(sectionIds.length - 1);
+        window.history.replaceState(null, '', '#contact');
+        return;
+      }
+      let activeIndex = 0;
+      for (let i = 0; i < sectionIds.length; i++) {
+        const el = document.getElementById(sectionIds[i]);
+        if (el && el.getBoundingClientRect().top <= THRESHOLD) {
+          activeIndex = i;
         }
-      });
+      }
+      setActiveTab(activeIndex);
+      window.history.replaceState(null, '', `#${sectionIds[activeIndex]}`);
     };
 
-    const observer = new IntersectionObserver(observerCallback, observerOptions);
-
-    sections.forEach((section) => {
-      const element = document.getElementById(section);
-      if (element) observer.observe(element);
-    });
-
-    return () => observer.disconnect();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll(); // run once on mount
+    return () => window.removeEventListener('scroll', onScroll);
   }, [noActiveTab]);
 
   const tabs = [
@@ -92,12 +89,13 @@ export default function Navbar({ noActiveTab = false }: { noActiveTab?: boolean 
     }
 
     setActiveTab(index);
+    scrollLocked.current = true;
     const element = document.querySelector(href);
     if (element) {
-      // Small timeout to allow mobile menu to close smoothly before scrolling
       setTimeout(() => {
         element.scrollIntoView({ behavior: 'smooth', block: 'start' });
         window.history.pushState(null, '', href);
+        setTimeout(() => { scrollLocked.current = false; }, 800);
       }, mobileMenuOpen ? 300 : 0);
     }
   };
@@ -106,15 +104,15 @@ export default function Navbar({ noActiveTab = false }: { noActiveTab?: boolean 
     <header className={classNames(
       'fixed inset-x-0 top-0 z-50 transition-all duration-200 font-[var(--font-inter)] border-b',
       isScrolled
-        ? 'py-3 bg-white/90 backdrop-blur-md border-slate-100 shadow-[0_1px_0_0_rgb(0,0,0,0.04)]'
-        : 'py-4 bg-white border-transparent'
+        ? 'py-3 bg-[#F9F7F4]/90 backdrop-blur-md border-stone-200 shadow-[0_1px_0_0_rgb(0,0,0,0.03)]'
+        : 'py-4 bg-transparent border-transparent'
     )}>
       <div className="relative flex items-center justify-between max-w-6xl mx-auto px-4 sm:px-6">
         {/* Logo/Name on Left */}
         <a
           href={noActiveTab ? "/about#about" : "#about"}
           onClick={(e) => handleClick(e, '#about', 0)}
-          className="text-base font-semibold text-slate-900 hover:text-slate-600 transition-colors duration-150 touch-manipulation rounded-md px-1 py-1 z-50 relative tracking-tight"
+          className="text-base font-semibold text-[#111111] hover:opacity-50 transition-opacity duration-150 touch-manipulation rounded-md px-1 py-1 z-50 relative tracking-tight"
         >
           AL
         </a>
@@ -132,13 +130,13 @@ export default function Navbar({ noActiveTab = false }: { noActiveTab?: boolean 
                         onClick={(e) => handleClick(e, tab.href, index)}
                         className={classNames(
                           'px-4 py-2 text-sm transition focus:outline-none touch-manipulation',
-                          selected && !noActiveTab ? 'text-slate-900 font-medium' : 'text-slate-500 hover:text-slate-900 font-normal'
+                          selected && !noActiveTab ? 'text-[#111111] font-medium' : 'text-stone-400 hover:text-[#111111] font-normal'
                         )}
                       >
                         {tab.name}
                       </a>
                       {selected && !noActiveTab && (
-                        <span className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-4 h-px bg-slate-900" />
+                        <span className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-4 h-px bg-[#111111]" />
                       )}
                     </div>
                   )}
