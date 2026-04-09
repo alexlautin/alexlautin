@@ -4,6 +4,7 @@ import Avatar from '@/components/Avatar';
 import Button from '@/components/Button';
 import { SiLinkedin, SiGithub, SiOrcid, SiGooglescholar, SiNextdotjs, SiTailwindcss, SiVercel, SiSupabase, SiFirebase, SiHeadlessui, SiResend } from '@/components/icons';
 import { useState, useEffect } from 'react';
+import { GoogleReCaptchaProvider, useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import Image from 'next/image';
 import { projects, techLinks } from "../../data/projects";
 
@@ -74,7 +75,7 @@ const Tooltip = ({ children, text, delay = 0, href }: { children: React.ReactNod
   return content;
 };
 
-export default function Home() {
+function HomeInner() {
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [imageLoading, setImageLoading] = useState<{ [key: string]: boolean }>({});
   const [formState, setFormState] = useState<FormState>({
@@ -83,6 +84,7 @@ export default function Home() {
     isSubmitting: false,
     isSubmitted: false,
   });
+  const { executeRecaptcha } = useGoogleReCaptcha();
 
   // Image loading handler
   const handleImageLoad = (imageId: string) => {
@@ -152,12 +154,20 @@ export default function Home() {
     setFormState(prev => ({ ...prev, isSubmitting: true, errors: {}, submitError: undefined }));
 
     try {
-      const formData = new FormData(e.currentTarget);
+      if (!executeRecaptcha) {
+        throw new Error('reCAPTCHA not ready');
+      }
+      const token = await executeRecaptcha('contact_form');
+      const formData = new FormData();
+      formData.append('name', formState.data.name);
+      formData.append('email', formState.data.email);
+      formData.append('message', formState.data.message);
+      formData.append('g-recaptcha-response', token);
       const response = await fetch('https://formspree.io/f/xyzwgknw', {
         method: 'POST',
         body: formData,
         headers: {
-          'Accept': 'application/json'
+          'Accept': 'application/json',
         }
       });
 
@@ -219,12 +229,37 @@ export default function Home() {
                 Alex Lautin
               </h1>
               <div className="h-1 w-16 sm:w-20 bg-teal-600 rounded-full mx-auto md:mx-0"></div>
-              <p className="text-lg sm:text-xl md:text-2xl text-slate-600 leading-relaxed">
-                Computer Science student at Emory University.
-              </p>
+              <div className="space-y-2">
+                <p className="text-lg sm:text-xl md:text-2xl text-slate-600 leading-relaxed">
+                  Computer Science student at Emory University.
+                </p>
+              </div>
+
+              {/* Tag Pills */}
+              <div className="flex flex-wrap gap-2 justify-center md:justify-start">
+                <span className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full bg-slate-100 text-slate-600 border border-slate-200">
+                  <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 14l9-5-9-5-9 5 9 5zM12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
+                  </svg>
+                  Emory University
+                </span>
+                <span className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full bg-teal-50 text-teal-700 border border-teal-200">
+                  <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                  Interested in Product & Consulting
+                </span>
+                <span className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full bg-slate-100 text-slate-600 border border-slate-200">
+                  <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                  New York City
+                </span>
+              </div>
 
               {/* Social Links */}
-              <div className="flex flex-wrap gap-2 sm:gap-3 pt-4 justify-center md:justify-start">
+              <div className="flex flex-wrap gap-2 sm:gap-3 pt-2 justify-center md:justify-start">
                 <Tooltip text="LinkedIn" href="https://www.linkedin.com/in/alexlautin/">
                   <div className="group relative p-2.5 sm:p-3 rounded-xl bg-slate-800 text-white shadow-md hover:shadow-lg hover:bg-teal-600 transition-all duration-200 touch-manipulation btn-press hover-lift" aria-label="Visit Alex Lautin's LinkedIn profile">
                     <SiLinkedin className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -243,6 +278,13 @@ export default function Home() {
                 <Tooltip text="Google Scholar" href="https://scholar.google.com/citations?user=Z2EZFfoAAAAJ&hl=en">
                   <div className="group relative p-2.5 sm:p-3 rounded-xl bg-slate-800 text-white shadow-md hover:shadow-lg hover:bg-teal-600 transition-all duration-200 touch-manipulation btn-press hover-lift" aria-label="Visit Alex Lautin's Google Scholar profile">
                     <SiGooglescholar className="w-4 h-4 sm:w-5 sm:h-5" />
+                  </div>
+                </Tooltip>
+                <Tooltip text="Email" href="mailto:alexlautin@gmail.com">
+                  <div className="group relative p-2.5 sm:p-3 rounded-xl bg-slate-800 text-white shadow-md hover:shadow-lg hover:bg-teal-600 transition-all duration-200 touch-manipulation btn-press hover-lift" aria-label="Email Alex Lautin">
+                    <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
                   </div>
                 </Tooltip>
               </div>
@@ -310,7 +352,23 @@ export default function Home() {
                     <h3 className="text-lg sm:text-xl font-bold text-slate-800 group-hover:text-teal-600 transition-colors duration-300 truncate">
                       {project.title}
                     </h3>
-                    <p className="text-xs text-slate-500">{project.type} • {project.year}</p>
+                    <div className="flex items-center gap-2 flex-wrap mt-0.5">
+                      <p className="text-xs text-slate-500">{project.type} • {project.year}</p>
+                      <span className={`inline-flex items-center text-xs font-medium px-1.5 py-0.5 rounded-full ${
+                        project.status === 'Live'
+                          ? 'bg-green-100 text-green-700'
+                          : project.status === 'In Development'
+                          ? 'bg-amber-100 text-amber-700'
+                          : 'bg-slate-100 text-slate-500'
+                      }`}>
+                        <span className={`w-1.5 h-1.5 rounded-full mr-1 ${
+                          project.status === 'Live' ? 'bg-green-500'
+                          : project.status === 'In Development' ? 'bg-amber-500'
+                          : 'bg-slate-400'
+                        }`} />
+                        {project.status}
+                      </span>
+                    </div>
                   </div>
                 </div>
 
@@ -394,7 +452,7 @@ export default function Home() {
             </h2>
             <div className="h-1 w-16 sm:w-20 bg-teal-600 rounded-full mx-auto mb-4 sm:mb-6"></div>
             <p className="text-lg sm:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed px-4">
-              Have a project in mind? Contact me!
+              Interested in collaborating, exploring opportunities, or just connecting? I&apos;d love to hear from you.
             </p>
           </div>
 
@@ -536,5 +594,13 @@ export default function Home() {
         </svg>
       </button>
     </main>
+  );
+}
+
+export default function Home() {
+  return (
+    <GoogleReCaptchaProvider reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}>
+      <HomeInner />
+    </GoogleReCaptchaProvider>
   );
 }

@@ -11,6 +11,15 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
   const { slug } = use(params);
   const project = projects.find((p) => p.id === slug);
 
+  function toOptimizedPath(p: string) {
+    if (!p) return p;
+    // ensure .png/.jpg -> .webp
+    const webp = p.replace(/\.(png|jpe?g)$/i, '.webp');
+    if (webp.startsWith('/optimized/')) return webp;
+    if (webp.startsWith('/')) return `/optimized${webp}`;
+    return `/optimized/${webp}`;
+  }
+
   if (!project) {
     notFound();
   }
@@ -38,7 +47,7 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
               <div className="w-16 h-16 rounded-xl overflow-hidden border border-slate-200 shadow-sm bg-white flex-shrink-0">
                 <picture>
                   <source
-                    srcSet={project.image.replace(/^\//, '/optimized/').replace(/\.(png|jpe?g)$/i, '.webp')}
+                    srcSet={toOptimizedPath(project.image)}
                     type="image/webp"
                   />
                   <Image
@@ -55,7 +64,23 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
                 <h1 className="text-4xl md:text-5xl font-bold text-slate-800">
                   {project.title}
                 </h1>
-                <p className="text-slate-600 mt-2">{project.type} • {project.year} • {project.status}</p>
+                <div className="flex items-center gap-3 flex-wrap mt-2">
+                  <p className="text-slate-600">{project.type} • {project.year}</p>
+                  <span className={`inline-flex items-center text-xs font-medium px-2 py-1 rounded-full ${
+                    project.status === 'Live'
+                      ? 'bg-green-100 text-green-700'
+                      : project.status === 'In Development'
+                      ? 'bg-amber-100 text-amber-700'
+                      : 'bg-slate-100 text-slate-500'
+                  }`}>
+                    <span className={`w-1.5 h-1.5 rounded-full mr-1.5 ${
+                      project.status === 'Live' ? 'bg-green-500'
+                      : project.status === 'In Development' ? 'bg-amber-500'
+                      : 'bg-slate-400'
+                    }`} />
+                    {project.status}
+                  </span>
+                </div>
               </div>
             </div>
             <div className="h-1 w-20 bg-teal-600 rounded-full mb-6"></div>
@@ -101,7 +126,7 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
                   <div key={index} className="relative rounded-xl overflow-hidden border border-slate-200 shadow-md bg-white">
                     <picture>
                       <source
-                        srcSet={image.replace(/^\//, '/optimized/').replace(/\.(png|jpe?g)$/i, '.webp')}
+                        srcSet={toOptimizedPath(image)}
                         type="image/webp"
                       />
                       <Image
