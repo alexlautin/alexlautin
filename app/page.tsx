@@ -44,40 +44,34 @@ export default function Home() {
       </header>
 
       {/* Hero */}
-      <section id="about" className="relative pt-28 pb-12 px-6 border-b border-stone-200">
-        <div className="max-w-3xl mx-auto">
-          {/* Photo — absolutely positioned top-right, doesn't affect text flow */}
-          <div className="absolute top-28 right-6 md:right-[max(1.5rem,calc(50%-768px/2))]">
-            <Avatar className="w-36 h-44 md:w-44 md:h-56 rounded-xl" />
-          </div>
-
+      <section id="about" className="pt-28 pb-12 border-b border-stone-200">
+        <div className="max-w-3xl mx-auto px-6">
           <div className="flex flex-col gap-8">
-            {/* Name */}
-            <div className="pr-44 md:pr-52">
-              <p className="text-xs font-medium tracking-widest text-stone-400 uppercase mb-4">
-                Emory University · Atlanta, GA
-              </p>
-              <h1 className="text-5xl font-bold tracking-tight text-[#111111] leading-tight">
-                Alex Lautin
-              </h1>
-            </div>
-
-            {/* Value prop + links */}
-            <div>
-              <p className="text-base text-stone-600 leading-relaxed max-w-xs mb-8">
-                CS and economics student pursuing roles in product management and consulting.
-              </p>
-              <div className="flex items-center gap-5">
-                <a href="https://www.linkedin.com/in/alexlautin/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-xs text-stone-400 hover:text-[#111111] transition-colors">
-                  <SiLinkedin size={12} /> LinkedIn
-                </a>
-                <a href="https://orcid.org/0009-0006-0555-7424" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-xs text-stone-400 hover:text-[#111111] transition-colors">
-                  <SiOrcid size={12} /> ORCID
-                </a>
-                <a href="https://scholar.google.com/citations?user=Z2EZFfoAAAAJ&hl=en" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-xs text-stone-400 hover:text-[#111111] transition-colors">
-                  <SiGooglescholar size={12} /> Scholar
-                </a>
+            {/* Name + subtitle + photo row */}
+            <div className="flex items-start justify-between gap-6">
+              <div>
+                <p className="text-xs font-medium tracking-widest text-stone-400 uppercase mb-6">
+                  Emory University · Atlanta, GA
+                </p>
+                <h1 className="text-5xl font-bold tracking-tight text-[#111111] leading-tight mb-4">
+                  Alex Lautin
+                </h1>
+                <p className="text-base text-stone-600 leading-relaxed max-w-xs mb-6">
+                  CS and economics student pursuing roles in product management and consulting.
+                </p>
+                <div className="flex items-center gap-5">
+                  <a href="https://www.linkedin.com/in/alexlautin/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-xs text-stone-400 hover:text-[#111111] transition-colors">
+                    <SiLinkedin size={12} /> LinkedIn
+                  </a>
+                  <a href="https://orcid.org/0009-0006-0555-7424" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-xs text-stone-400 hover:text-[#111111] transition-colors">
+                    <SiOrcid size={12} /> ORCID
+                  </a>
+                  <a href="https://scholar.google.com/citations?user=Z2EZFfoAAAAJ&hl=en" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-xs text-stone-400 hover:text-[#111111] transition-colors">
+                    <SiGooglescholar size={12} /> Scholar
+                  </a>
+                </div>
               </div>
+              <Avatar className="w-36 h-44 md:w-44 md:h-56 rounded-lg flex-shrink-0 border border-stone-200" />
             </div>
 
             {/* Fact grid */}
@@ -98,15 +92,18 @@ export default function Home() {
       </section>
 
       {/* Projects */}
-      <section id="projects" className="pt-12 pb-20 px-6 border-b border-stone-200">
-        <div className="max-w-3xl mx-auto">
-          <p className="text-xs font-medium tracking-widest text-stone-400 uppercase mb-10">Selected Projects</p>
-          <div className="divide-y divide-stone-200">
-            {displayedProjects.map((project) => (
+      <section id="projects" className="pt-12 pb-12 border-b border-stone-200">
+        <div className="max-w-3xl mx-auto px-6">
+          <div className="flex items-center gap-3 mb-10">
+            <p className="text-sm font-semibold tracking-widest text-stone-600 uppercase">Selected Projects</p>
+            <span className="w-6 h-0.5 bg-stone-400" />
+          </div>
+          <div className="border-b border-stone-200">
+            {displayedProjects.map((project, i) => (
               <Link
                 key={project.id}
                 href={`/projects/${project.id}`}
-                className="group flex items-center justify-between gap-8 py-5 hover:opacity-70 transition-opacity duration-150"
+                className={`group flex items-center justify-between gap-8 py-5 hover:opacity-70 transition-opacity duration-150 ${i !== 0 ? 'border-t border-stone-200' : ''}`}
               >
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-3 mb-1">
@@ -114,7 +111,7 @@ export default function Home() {
                   </div>
                   <p className="text-sm text-stone-500 leading-relaxed">{project.description}</p>
                 </div>
-                <div className="flex-shrink-0 flex items-center gap-4">
+                <div className="flex-shrink-0 flex items-center gap-4 w-20 justify-end">
                   <span className="text-xs text-stone-500 hidden sm:block tabular-nums">{project.year}</span>
                   <HiArrowRight className="w-3.5 h-3.5 text-stone-500 group-hover:translate-x-1 transition-transform duration-150" />
                 </div>
@@ -125,9 +122,12 @@ export default function Home() {
       </section>
 
       {/* Contact */}
-      <section id="contact" className="py-20 px-6">
-        <div className="max-w-3xl mx-auto">
-          <p className="text-xs font-medium tracking-widest text-stone-400 uppercase mb-8">Contact</p>
+      <section id="contact" className="pt-12 pb-12">
+        <div className="max-w-3xl mx-auto px-6">
+          <div className="flex items-center gap-3 mb-8">
+            <p className="text-sm font-semibold tracking-widest text-stone-600 uppercase">Contact</p>
+            <span className="w-6 h-0.5 bg-stone-400" />
+          </div>
           <div className="flex flex-col gap-3">
             {/* Turnstile runs invisibly on page load — no user interaction needed */}
             {SITEKEY && !revealedEmail && (
