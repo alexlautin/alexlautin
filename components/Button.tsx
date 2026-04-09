@@ -32,13 +32,13 @@ export default function Button({
   disabled,
   ...props
 }: ButtonProps) {
-  const baseStyles = "inline-flex items-center justify-center font-semibold rounded-xl transition-all duration-200 touch-manipulation focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed active:scale-95";
+  const baseStyles = "inline-flex items-center justify-center font-medium rounded-lg transition-colors duration-150 touch-manipulation focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-40 disabled:cursor-not-allowed";
 
   const variants = {
-    primary: "bg-gradient-to-r from-slate-800 to-slate-700 hover:from-teal-600 hover:to-teal-500 text-white shadow-lg shadow-teal-900/10 hover:shadow-teal-600/20 hover:-translate-y-0.5 focus:ring-teal-500 border border-transparent",
-    secondary: "bg-white text-slate-700 border border-slate-200 hover:border-teal-300 hover:text-teal-600 shadow-sm hover:shadow-md hover:-translate-y-0.5 focus:ring-slate-500",
-    outline: "bg-transparent border border-slate-300 text-slate-700 hover:bg-slate-50 hover:border-slate-400 focus:ring-slate-500",
-    ghost: "bg-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-100/50 focus:ring-slate-500",
+    primary: "bg-slate-900 text-white hover:bg-slate-700 focus:ring-slate-500",
+    secondary: "bg-white text-slate-700 border border-slate-200 hover:border-slate-300 hover:bg-slate-50 focus:ring-slate-400",
+    outline: "bg-white border border-slate-200 text-slate-600 hover:border-slate-300 hover:text-slate-900 focus:ring-slate-400",
+    ghost: "bg-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-50 focus:ring-slate-400",
   };
 
   const sizes = {
