@@ -8,7 +8,7 @@ export default function Avatar({ className = "" }: { className?: string }) {
   const [isLoaded, setIsLoaded] = useState(false);
 
   return (
-    <div className={`relative h-28 w-28 rounded-2xl overflow-hidden bg-slate-200 ${className}`}>
+    <div className={`relative overflow-hidden bg-[#F9F7F4] ${className}`}>
       <Image
         src={photo}
         alt="Alex Lautin - Computer Science student at Emory University"

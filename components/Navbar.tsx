@@ -58,10 +58,15 @@ export default function Navbar({ noActiveTab = false }: { noActiveTab?: boolean 
         return;
       }
       let activeIndex = 0;
+      let closestTop = -Infinity;
       for (let i = 0; i < sectionIds.length; i++) {
         const el = document.getElementById(sectionIds[i]);
-        if (el && el.getBoundingClientRect().top <= THRESHOLD) {
-          activeIndex = i;
+        if (el) {
+          const top = el.getBoundingClientRect().top;
+          if (top <= THRESHOLD && top > closestTop) {
+            closestTop = top;
+            activeIndex = i;
+          }
         }
       }
       setActiveTab(activeIndex);
