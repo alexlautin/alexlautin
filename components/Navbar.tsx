@@ -104,17 +104,17 @@ export default function Navbar({ noActiveTab = false }: { noActiveTab?: boolean 
 
   return (
     <header className={classNames(
-      'fixed inset-x-0 top-0 z-50 transition-all duration-300 font-[var(--font-inter)] border-b',
+      'fixed inset-x-0 top-0 z-50 transition-all duration-200 font-[var(--font-inter)] border-b',
       isScrolled
-        ? 'py-3 sm:py-4 bg-white/70 backdrop-blur-xl border-slate-200/50 shadow-sm'
-        : 'py-4 sm:py-6 bg-transparent border-transparent'
+        ? 'py-3 bg-white/90 backdrop-blur-md border-slate-100 shadow-[0_1px_0_0_rgb(0,0,0,0.04)]'
+        : 'py-4 bg-white border-transparent'
     )}>
       <div className="relative flex items-center justify-between max-w-6xl mx-auto px-4 sm:px-6">
         {/* Logo/Name on Left */}
         <a
           href={noActiveTab ? "/about#about" : "#about"}
           onClick={(e) => handleClick(e, '#about', 0)}
-          className="text-lg sm:text-xl font-bold text-slate-800 hover:text-teal-600 transition-colors duration-200 touch-manipulation focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 rounded-md px-2 py-1 z-50 relative"
+          className="text-base font-semibold text-slate-900 hover:text-slate-600 transition-colors duration-150 touch-manipulation rounded-md px-1 py-1 z-50 relative tracking-tight"
         >
           AL
         </a>
@@ -122,10 +122,7 @@ export default function Navbar({ noActiveTab = false }: { noActiveTab?: boolean 
         {/* Desktop Navigation */}
         <div className="absolute left-1/2 -translate-x-1/2 hidden md:block">
           <Tab.Group selectedIndex={activeTab >= 0 ? activeTab : undefined} onChange={setActiveTab}>
-            <Tab.List className={classNames(
-              'flex space-x-1 rounded-full p-1 transition-all duration-300',
-              isScrolled ? 'bg-slate-100/80' : 'bg-white/70 backdrop-blur-sm shadow-sm'
-            )}>
+            <Tab.List className="flex space-x-1 p-1">
               {tabs.map((tab, index) => (
                 <Tab key={tab.key} as={Fragment}>
                   {({ selected }) => (
@@ -134,16 +131,14 @@ export default function Navbar({ noActiveTab = false }: { noActiveTab?: boolean 
                         href={tab.href}
                         onClick={(e) => handleClick(e, tab.href, index)}
                         className={classNames(
-                          'rounded-full px-5 py-2 text-sm font-medium transition focus:outline-none touch-manipulation focus:ring-2 focus:ring-teal-500 focus:ring-offset-2',
-                          selected && !noActiveTab ? 'text-slate-800 font-semibold' : 'text-slate-600 hover:text-slate-800'
+                          'px-4 py-2 text-sm transition focus:outline-none touch-manipulation',
+                          selected && !noActiveTab ? 'text-slate-900 font-medium' : 'text-slate-500 hover:text-slate-900 font-normal'
                         )}
                       >
                         {tab.name}
                       </a>
                       {selected && !noActiveTab && (
-                        <span
-                          className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded-full bg-teal-600"
-                        />
+                        <span className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-4 h-px bg-slate-900" />
                       )}
                     </div>
                   )}
