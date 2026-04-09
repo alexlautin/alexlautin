@@ -1,18 +1,17 @@
 "use client";
 import Navbar from '../../components/Navbar';
 import Avatar from '@/components/Avatar';
-import Button from '@/components/Button';
-import { SiLinkedin, SiGithub, SiOrcid, SiGooglescholar, SiNextdotjs, SiTailwindcss, SiVercel, SiSupabase, SiFirebase, SiHeadlessui, SiResend } from '@/components/icons';
+import { SiLinkedin, SiGithub, SiOrcid, SiGooglescholar } from '@/components/icons';
 import { useState } from 'react';
 import { Turnstile } from '@marsidev/react-turnstile';
-import Image from 'next/image';
-import { projects, techLinks } from "../../data/projects";
+import { projects } from "../../data/projects";
+import Link from 'next/link';
 
 export const dynamic = 'force-static';
 
 type EmailRevealState = 'hidden' | 'pending' | 'loading' | 'revealed' | 'error';
 
-function HomeInner() {
+export default function Home() {
   const [emailReveal, setEmailReveal] = useState<EmailRevealState>('hidden');
   const [revealedEmail, setRevealedEmail] = useState('');
 
@@ -33,193 +32,104 @@ function HomeInner() {
     }
   };
 
-  const techIconMap: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
-    'Next.js': SiNextdotjs,
-    'Tailwind CSS': SiTailwindcss,
-    'Firebase': SiFirebase,
-    'Vercel': SiVercel,
-    'Supabase': SiSupabase,
-    'Resend': SiResend,
-    'Headless UI': SiHeadlessui,
-  };
-
   return (
-    <main id="main-content" className="flex flex-col min-h-screen bg-white text-slate-900">
+    <main id="main-content" className="flex flex-col bg-[#F9F7F4] text-[#111111]">
       <Navbar />
 
-      {/* Hero */}
-      <section id="about" className="min-h-screen flex items-center px-6 py-32">
-        <div className="max-w-5xl mx-auto w-full">
-          <div className="flex flex-col-reverse md:flex-row md:items-center gap-12 md:gap-20">
-            <div className="flex-1 space-y-6">
-              <div>
-                <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-slate-900">
-                  Alex Lautin
-                </h1>
-                <p className="mt-4 text-lg sm:text-xl text-slate-500 leading-relaxed max-w-md">
-                  Computer Science student at Emory University. Interested in product and consulting.
-                </p>
-              </div>
-
-              <div className="flex flex-wrap items-center gap-x-5 gap-y-2 pt-1">
-                <a
-                  href="https://github.com/alexlautin"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="GitHub"
-                  className="flex items-center gap-1.5 text-sm text-slate-400 hover:text-slate-900 transition-colors"
-                >
-                  <SiGithub size={14} />
-                  <span>GitHub</span>
+      {/* About */}
+      <section id="about" className="min-h-screen flex flex-col justify-center px-6">
+        <div className="max-w-4xl mx-auto w-full">
+          <div className="flex flex-col md:flex-row md:items-center gap-16">
+            {/* Text */}
+            <div className="flex-1">
+              <p className="text-sm font-medium tracking-widest text-stone-400 uppercase mb-8">
+                Emory University · Atlanta, GA
+              </p>
+              <h1 className="text-6xl sm:text-7xl lg:text-8xl font-bold tracking-tight text-[#111111] mb-8">
+                Alex<br />Lautin
+              </h1>
+              <p className="text-lg text-stone-500 leading-relaxed max-w-sm mb-10">
+                CS student with a focus on consulting and product.
+              </p>
+              <div className="flex flex-wrap items-center gap-6">
+                <a href="https://www.linkedin.com/in/alexlautin/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-stone-400 hover:text-[#111111] transition-colors">
+                  <SiLinkedin size={14} /> LinkedIn
                 </a>
-                <a
-                  href="https://www.linkedin.com/in/alexlautin/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="LinkedIn"
-                  className="flex items-center gap-1.5 text-sm text-slate-400 hover:text-slate-900 transition-colors"
-                >
-                  <SiLinkedin size={14} />
-                  <span>LinkedIn</span>
+                <a href="https://github.com/alexlautin" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-stone-400 hover:text-[#111111] transition-colors">
+                  <SiGithub size={14} /> GitHub
                 </a>
-                <a
-                  href="https://orcid.org/0009-0006-0555-7424"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="ORCID"
-                  className="flex items-center gap-1.5 text-sm text-slate-400 hover:text-slate-900 transition-colors"
-                >
-                  <SiOrcid size={14} />
-                  <span>ORCID</span>
+                <a href="https://orcid.org/0009-0006-0555-7424" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-stone-400 hover:text-[#111111] transition-colors">
+                  <SiOrcid size={14} /> ORCID
                 </a>
-                <a
-                  href="https://scholar.google.com/citations?user=Z2EZFfoAAAAJ&hl=en"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Google Scholar"
-                  className="flex items-center gap-1.5 text-sm text-slate-400 hover:text-slate-900 transition-colors"
-                >
-                  <SiGooglescholar size={14} />
-                  <span>Scholar</span>
+                <a href="https://scholar.google.com/citations?user=Z2EZFfoAAAAJ&hl=en" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-stone-400 hover:text-[#111111] transition-colors">
+                  <SiGooglescholar size={14} /> Scholar
                 </a>
-
-                {emailReveal === 'revealed' ? (
-                  <a
-                    href={`mailto:${revealedEmail}`}
-                    className="text-sm text-slate-400 hover:text-slate-900 transition-colors"
-                  >
-                    {revealedEmail}
-                  </a>
-                ) : (
-                  <button
-                    onClick={() => setEmailReveal('pending')}
-                    className="flex items-center gap-1.5 text-sm text-slate-400 hover:text-slate-900 transition-colors"
-                  >
-                    {emailReveal === 'loading' ? 'Verifying...' : emailReveal === 'error' ? 'Failed — try again' : 'Email'}
-                  </button>
-                )}
               </div>
             </div>
-
+            {/* Portrait */}
             <div className="flex-shrink-0">
-              <Avatar className="w-40 h-40 sm:w-52 sm:h-52 rounded-2xl ring-1 ring-slate-900/5" />
+              <Avatar className="w-64 h-80 md:w-72 md:h-96 rounded-2xl" />
             </div>
           </div>
         </div>
       </section>
 
-      {/* Projects */}
-      <section id="projects" className="py-24 px-6 border-t border-slate-100">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-2xl font-bold text-slate-900 mb-10">Projects</h2>
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      {/* Work */}
+      <section id="projects" className="min-h-screen flex flex-col justify-center px-6 py-24 border-t border-stone-200">
+        <div className="max-w-4xl mx-auto w-full">
+          <p className="text-sm font-medium tracking-widest text-stone-400 uppercase mb-10">Selected Work</p>
+          <div className="divide-y divide-stone-200">
             {projects.map((project, index) => (
-              <article
-                key={project.title}
-                className="group flex flex-col bg-white border border-slate-100 rounded-xl p-5 hover:border-slate-200 hover:shadow-sm transition-all duration-200 animate-fadeIn"
-                style={{ animationDelay: `${index * 60}ms` }}
+              <Link
+                key={project.id}
+                href={`/projects/${project.id}`}
+                className="group flex items-start justify-between gap-8 py-7 hover:opacity-60 transition-opacity duration-200 animate-fadeUp"
+                style={{ animationDelay: `${index * 80}ms` }}
               >
-                <div className="flex items-start gap-3 mb-3">
-                  <div className="w-9 h-9 rounded-lg overflow-hidden border border-slate-100 bg-slate-50 flex-shrink-0">
-                    <Image
-                      src={project.image}
-                      alt={project.title}
-                      width={36}
-                      height={36}
-                      className={`w-full h-full object-${project.title === 'Galleryboard' ? 'contain' : 'cover'}`}
-                      loading="lazy"
-                    />
-                  </div>
-                  <div className="min-w-0">
-                    <h3 className="text-sm font-semibold text-slate-900 truncate">{project.title}</h3>
-                    <div className="flex items-center gap-2 mt-0.5">
-                      <span className="text-xs text-slate-400">{project.year}</span>
-                      <span className={`inline-flex items-center gap-1 text-xs font-medium ${
-                        project.status === 'Live' ? 'text-emerald-600' :
-                        project.status === 'In Development' ? 'text-amber-600' : 'text-slate-400'
-                      }`}>
-                        <span className={`w-1.5 h-1.5 rounded-full ${
-                          project.status === 'Live' ? 'bg-emerald-500' :
-                          project.status === 'In Development' ? 'bg-amber-500' : 'bg-slate-300'
-                        }`} />
-                        {project.status}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-3 mb-1.5">
+                    <h3 className="text-lg font-semibold text-[#111111]">{project.title}</h3>
+                    {project.status === 'Live' && (
+                      <span className="inline-flex items-center gap-1 text-xs text-emerald-600 font-medium">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                        Live
                       </span>
-                    </div>
+                    )}
                   </div>
+                  <p className="text-sm text-stone-500 leading-relaxed">{project.description}</p>
                 </div>
-
-                <p className="text-sm text-slate-500 leading-relaxed flex-grow mb-4">{project.description}</p>
-
-                <div className="flex flex-wrap gap-1.5 mb-4">
-                  {project.technologies.map((tech) => {
-                    const Icon = techIconMap[tech];
-                    if (!Icon) return null;
-                    return (
-                      <a
-                        key={tech}
-                        href={techLinks[tech as keyof typeof techLinks]}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        title={tech}
-                        className="p-1.5 rounded-md bg-slate-50 text-slate-400 border border-slate-100 hover:text-slate-700 hover:border-slate-200 transition-colors"
-                      >
-                        <Icon size={12} />
-                      </a>
-                    );
-                  })}
+                <div className="flex-shrink-0 flex items-center gap-6 pt-1">
+                  <span className="text-sm text-stone-400 hidden sm:block">{project.year}</span>
+                  <svg className="w-4 h-4 text-stone-300 group-hover:text-stone-600 group-hover:translate-x-1 transition-all duration-200" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
                 </div>
-
-                <div className="flex gap-2">
-                  <Button href={`/projects/${project.id}`} size="sm" className="flex-1 justify-center">
-                    Details
-                  </Button>
-                  <Button href={project.link} variant="outline" size="sm" external className="flex-1 justify-center">
-                    Live
-                  </Button>
-                </div>
-              </article>
+              </Link>
             ))}
           </div>
         </div>
       </section>
 
       {/* Contact */}
-      <section id="contact" className="py-24 px-6 border-t border-slate-100">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-2xl font-bold text-slate-900 mb-2">Get in touch</h2>
-          <p className="text-sm text-slate-500 mb-8 leading-relaxed max-w-md">
-            Interested in collaborating, exploring opportunities, or just connecting? Clilck to see my email below to reach out.
+      <section id="contact" className="min-h-screen flex flex-col justify-center px-6 py-24 border-t border-stone-200">
+        <div className="max-w-4xl mx-auto w-full">
+          <p className="text-sm font-medium tracking-widest text-stone-400 uppercase mb-6">Contact</p>
+          <h2 className="text-4xl sm:text-5xl font-bold tracking-tight text-[#111111] mb-6 max-w-md">
+            Let&apos;s connect.
+          </h2>
+          <p className="text-stone-500 mb-10 max-w-sm leading-relaxed">
+            Open to consulting opportunities, product roles, and interesting conversations.
           </p>
 
           {emailReveal === 'revealed' ? (
             <a
               href={`mailto:${revealedEmail}`}
-              className="inline-flex items-center gap-2 text-slate-900 font-medium hover:text-teal-600 transition-colors"
+              className="inline-flex items-center gap-3 text-xl font-semibold text-[#111111] hover:opacity-60 transition-opacity"
             >
-              <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-              </svg>
               {revealedEmail}
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
             </a>
           ) : emailReveal === 'pending' || emailReveal === 'loading' ? (
             <div className="space-y-3">
@@ -230,36 +140,43 @@ function HomeInner() {
                 options={{ theme: 'light' }}
               />
               {emailReveal === 'loading' && (
-                <p className="text-sm text-slate-400">Verifying...</p>
+                <p className="text-sm text-stone-400">Verifying...</p>
               )}
             </div>
           ) : emailReveal === 'error' ? (
-            <div className="space-y-3">
-              <p className="text-sm text-red-600">Verification failed.</p>
+            <div className="space-y-4">
+              <p className="text-sm text-red-500">Verification failed. Please try again.</p>
               <button
                 onClick={() => setEmailReveal('pending')}
-                className="inline-flex items-center gap-2 px-4 py-2 bg-slate-900 text-white text-sm font-medium rounded-lg hover:bg-slate-700 transition-colors"
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#111111] text-white text-sm font-medium rounded-lg hover:opacity-80 transition-opacity"
               >
                 Try again
               </button>
             </div>
           ) : (
-            <button
-              onClick={() => setEmailReveal('pending')}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-slate-900 text-white text-sm font-medium rounded-lg hover:bg-slate-700 transition-colors"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-              </svg>
-              See email
-            </button>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <button
+                onClick={() => setEmailReveal('pending')}
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#111111] text-white text-sm font-medium rounded-lg hover:opacity-80 transition-opacity"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                Reveal email
+              </button>
+              <a
+                href="https://www.linkedin.com/in/alexlautin/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-2.5 border border-stone-200 text-stone-600 text-sm font-medium rounded-lg hover:border-stone-400 transition-colors"
+              >
+                <SiLinkedin size={14} />
+                Connect on LinkedIn
+              </a>
+            </div>
           )}
         </div>
       </section>
     </main>
   );
-}
-
-export default function Home() {
-  return <HomeInner />;
 }

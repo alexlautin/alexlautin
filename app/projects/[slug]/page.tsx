@@ -24,11 +24,11 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
   }
 
   return (
-    <main className="flex flex-col min-h-screen bg-white text-slate-900">
+    <main className="flex flex-col min-h-screen bg-[#F9F7F4] text-[#111111]">
       <Navbar noActiveTab />
 
       <section className="py-32 px-6">
-        <div className="max-w-3xl mx-auto">
+        <div className="max-w-4xl mx-auto">
           {/* Back */}
           <Link
             href="/about#projects"
