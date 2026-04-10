@@ -48,12 +48,12 @@ export default function Home() {
         <div className="max-w-3xl mx-auto px-6">
           <div className="flex flex-col gap-8">
             {/* Name + subtitle + photo row */}
-            <div className="flex items-start justify-between gap-6">
-              <div>
-                <p className="text-xs font-medium tracking-widest text-stone-400 uppercase mb-6">
+            <div className="flex items-start justify-between gap-4">
+              <div className="min-w-0">
+                <p className="text-xs font-medium tracking-widest text-stone-400 uppercase mb-6 truncate">
                   Emory University · Atlanta, GA
                 </p>
-                <h1 className="text-5xl font-bold tracking-tight text-[#111111] leading-tight mb-4">
+                <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-[#111111] leading-tight mb-4">
                   Alex Lautin
                 </h1>
                 <p className="text-base text-stone-600 leading-relaxed max-w-xs mb-6">
@@ -71,7 +71,7 @@ export default function Home() {
                   </a>
                 </div>
               </div>
-              <Avatar className="w-36 h-44 md:w-44 md:h-56 rounded-lg flex-shrink-0 border border-stone-200" />
+              <Avatar className="w-24 h-32 md:w-44 md:h-56 rounded-lg flex-shrink-0 border border-stone-200" />
             </div>
 
             {/* Fact grid */}
