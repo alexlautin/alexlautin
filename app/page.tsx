@@ -61,7 +61,7 @@ export default function Home() {
                 <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-[#111111] leading-tight mb-4">
                   Alex Lautin
                 </h1>
-                <p className="text-base text-stone-600 leading-relaxed mb-6">
+                <p className="text-base text-stone-600 leading-relaxed md:max-w-xs mb-6">
                   CS and economics student pursuing roles in product management and consulting.
                 </p>
                 <div className="flex items-center gap-5">
