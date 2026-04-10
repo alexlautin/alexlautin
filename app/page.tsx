@@ -47,10 +47,15 @@ export default function Home() {
       <section id="about" className="pt-28 pb-12 border-b border-stone-200">
         <div className="max-w-3xl mx-auto px-6">
           <div className="flex flex-col gap-8">
-            {/* Name + subtitle + photo row */}
-            <div className="flex flex-col md:flex-row md:items-start md:justify-between md:gap-4">
+            {/* Location — mobile: full width above; desktop: inside text column */}
+            <p className="md:hidden text-xs font-medium tracking-widest text-stone-400 uppercase">
+              Emory University · Atlanta, GA
+            </p>
+
+            {/* Name + subtitle + photo */}
+            <div className="flex items-start justify-between gap-4">
               <div className="min-w-0">
-                <p className="text-xs font-medium tracking-widest text-stone-400 uppercase mb-6">
+                <p className="hidden md:block text-xs font-medium tracking-widest text-stone-400 uppercase mb-6">
                   Emory University · Atlanta, GA
                 </p>
                 <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-[#111111] leading-tight mb-4">
@@ -71,7 +76,7 @@ export default function Home() {
                   </a>
                 </div>
               </div>
-              <Avatar className="w-32 h-40 md:w-44 md:h-56 rounded-lg flex-shrink-0 border border-stone-200 mt-6 md:mt-0" />
+              <Avatar className="w-28 h-36 md:w-44 md:h-56 rounded-lg flex-shrink-0 border border-stone-200" />
             </div>
 
             {/* Fact grid */}
