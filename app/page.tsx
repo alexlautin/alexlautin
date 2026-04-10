@@ -38,7 +38,7 @@ export default function Home() {
       {/* Header */}
       <header className="fixed inset-x-0 top-0 z-50 bg-[#F9F7F4]/90 backdrop-blur-md border-b border-stone-200">
         <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
-          <a href="#about" className="text-sm font-semibold text-[#111111] hover:opacity-50 transition-opacity">AL</a>
+          <a href="" className="text-sm font-semibold text-[#111111] hover:opacity-50 transition-opacity">AL</a>
           <a href="#contact" className="text-sm font-medium text-white bg-[#111111] hover:bg-stone-700 transition-colors duration-150 px-4 py-1.5 rounded-full">Contact</a>
         </div>
       </header>
@@ -48,9 +48,9 @@ export default function Home() {
         <div className="max-w-3xl mx-auto px-6">
           <div className="flex flex-col gap-8">
             {/* Name + subtitle + photo row */}
-            <div className="flex items-start justify-between gap-4">
+            <div className="flex flex-col md:flex-row md:items-start md:justify-between md:gap-4">
               <div className="min-w-0">
-                <p className="text-xs font-medium tracking-widest text-stone-400 uppercase mb-6 truncate">
+                <p className="text-xs font-medium tracking-widest text-stone-400 uppercase mb-6">
                   Emory University · Atlanta, GA
                 </p>
                 <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-[#111111] leading-tight mb-4">
@@ -71,7 +71,7 @@ export default function Home() {
                   </a>
                 </div>
               </div>
-              <Avatar className="w-24 h-32 md:w-44 md:h-56 rounded-lg flex-shrink-0 border border-stone-200" />
+              <Avatar className="w-32 h-40 md:w-44 md:h-56 rounded-lg flex-shrink-0 border border-stone-200 mt-6 md:mt-0" />
             </div>
 
             {/* Fact grid */}
