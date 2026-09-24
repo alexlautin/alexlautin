@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { createResumeUrl } from '@/lib/resume-link';
 
 export async function POST(request: NextRequest) {
   const { token } = await request.json();
@@ -9,7 +10,7 @@ export async function POST(request: NextRequest) {
 
   // Skip verification in development — Turnstile tokens are invalid on localhost
   if (process.env.NODE_ENV !== 'production') {
-    return NextResponse.json({ email: process.env.CONTACT_EMAIL });
+    return NextResponse.json({ email: process.env.CONTACT_EMAIL, resumeUrl: createResumeUrl() });
   }
 
   const verifyRes = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
@@ -26,5 +27,5 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Verification failed' }, { status: 403 });
   }
 
-  return NextResponse.json({ email: process.env.CONTACT_EMAIL });
+  return NextResponse.json({ email: process.env.CONTACT_EMAIL, resumeUrl: createResumeUrl() });
 }

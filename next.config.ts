@@ -4,6 +4,9 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
+  outputFileTracingIncludes: {
+    '/api/resume': ['./private/resume.pdf'],
+  },
   async headers() {
     return [
       {

@@ -1,7 +1,7 @@
 "use client";
 import Avatar from '@/components/Avatar';
 import { SiLinkedin, SiOrcid, SiGooglescholar } from '@/components/icons';
-import { HiArrowRight } from 'react-icons/hi';
+import { HiArrowRight, HiDocumentText } from 'react-icons/hi';
 import { useState } from 'react';
 import { Turnstile } from '@marsidev/react-turnstile';
 import { projects } from "../data/projects";
@@ -13,6 +13,7 @@ const SITEKEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
 export default function Home() {
   const [revealedEmail, setRevealedEmail] = useState('');
+  const [resumeUrl, setResumeUrl] = useState('');
   const [challengeNeeded, setChallengeNeeded] = useState(false);
   const [verifyFailed, setVerifyFailed] = useState(false);
 
@@ -24,8 +25,9 @@ export default function Home() {
         body: JSON.stringify({ token }),
       });
       if (!res.ok) { setVerifyFailed(true); return; }
-      const { email } = await res.json();
+      const { email, resumeUrl } = await res.json();
       setRevealedEmail(email);
+      setResumeUrl(resumeUrl);
     } catch {
       setVerifyFailed(true);
     }
@@ -74,6 +76,11 @@ export default function Home() {
                   <a href="https://scholar.google.com/citations?user=Z2EZFfoAAAAJ&hl=en" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-xs text-stone-400 hover:text-[#111111] transition-colors">
                     <SiGooglescholar size={12} /> Scholar
                   </a>
+                  {resumeUrl && (
+                    <a href={resumeUrl} target="_blank" rel="noopener noreferrer nofollow" className="inline-flex items-center gap-1.5 text-xs text-stone-400 hover:text-[#111111] transition-colors">
+                      <HiDocumentText size={12} /> Résumé
+                    </a>
+                  )}
                 </div>
               </div>
               <Avatar className="w-28 h-36 md:w-44 md:h-56 rounded-lg flex-shrink-0 border border-stone-200" />
