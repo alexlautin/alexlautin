@@ -153,6 +153,7 @@ export default function Home() {
                   siteKey={SITEKEY}
                   onSuccess={handleTurnstileSuccess}
                   onBeforeInteractive={() => setChallengeNeeded(true)}
+                  onError={() => setVerifyFailed(true)}
                   options={{ appearance: 'interaction-only', theme: 'light' }}
                 />
               </div>

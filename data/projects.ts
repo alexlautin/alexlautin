@@ -22,7 +22,7 @@ export const projects: Project[] = [
     longDescription: 'GreekBoard is a multi-tenant fraternity management platform built with Next.js 14, TypeScript, Tailwind CSS, Neon Postgres, Clerk, and Stripe. Designed with a dark fintech aesthetic, it provides chapter officers with a unified dashboard to track dues, manage events, monitor member standing, and review activity logs. All scoped per organization.',
     image: '/optimized/greekboard.webp',
     images: ['/optimized/projects/greekboard/landing.webp'],
-    link: 'https://greekboard.alexlautin.me',
+    link: 'https://greekboard.alexlautin.com',
     technologies: ['Next.js 14', 'TypeScript', 'Tailwind CSS', 'Neon Postgres', 'Clerk', 'Stripe'],
     features: [
       'Multi-tenant architecture with per-chapter data isolation',
