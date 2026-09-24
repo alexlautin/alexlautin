@@ -1,6 +1,6 @@
 import { createHmac, timingSafeEqual } from 'crypto';
 
-// Signed résumé links are handed out only after a Turnstile check passes,
+// Signed resume links are handed out only after a Turnstile check passes,
 // so the PDF never has a stable public URL for crawlers to find.
 const TTL_SECONDS = 60 * 60;
 

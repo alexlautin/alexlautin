@@ -78,7 +78,7 @@ export default function Home() {
                   </a>
                   {resumeUrl && (
                     <a href={resumeUrl} target="_blank" rel="noopener noreferrer nofollow" className="inline-flex items-center gap-1.5 text-xs text-stone-400 hover:text-[#111111] transition-colors">
-                      <HiDocumentText size={12} /> Résumé
+                      <HiDocumentText size={12} /> Resume
                     </a>
                   )}
                 </div>
