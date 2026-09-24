@@ -13,7 +13,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "Alex Lautin",
-  description: "Alex Lautin — CS and economics student at Emory University pursuing product management and consulting.",
+  description: "Alex Lautin — CS and economics student at Emory University pursuing product management.",
 };
 
 export default function RootLayout({

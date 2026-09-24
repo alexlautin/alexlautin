@@ -62,7 +62,7 @@ export default function Home() {
                   Alex Lautin
                 </h1>
                 <p className="text-base text-stone-600 leading-relaxed md:max-w-xs mb-6">
-                  CS and economics student pursuing roles in product management and consulting.
+                  CS and economics student pursuing roles in product management.
                 </p>
                 <div className="flex items-center gap-5">
                   <a href="https://www.linkedin.com/in/alexlautin/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-xs text-stone-400 hover:text-[#111111] transition-colors">
@@ -80,11 +80,16 @@ export default function Home() {
             </div>
 
             {/* Fact grid */}
-            <div className="grid grid-cols-2 gap-6 pt-8 border-t border-stone-200">
-              <div>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-6 pt-8 border-t border-stone-200">
+              <div className="col-span-2 md:col-span-1">
                 <p className="text-xs font-medium tracking-widest text-stone-400 uppercase mb-1.5">Education</p>
                 <p className="text-sm font-medium text-[#111111]">Emory University</p>
                 <p className="text-xs text-stone-500 mt-0.5 leading-relaxed">B.S. Computer Science, Minor in Economics · 2027</p>
+              </div>
+              <div>
+                <p className="text-xs font-medium tracking-widest text-stone-400 uppercase mb-1.5">Experience</p>
+                <p className="text-sm font-medium text-[#111111]">Baldor Specialty Foods</p>
+                <p className="text-xs text-stone-500 mt-0.5">Product Management Intern · 2026</p>
               </div>
               <div>
                 <p className="text-xs font-medium tracking-widest text-stone-400 uppercase mb-1.5">Research</p>
