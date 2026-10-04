@@ -1,5 +1,5 @@
 # Alex Lautin
 
-Student at Emory University studying Computer Science with Artificial Intelligence and Economics.
+CS and economics student at Emory University (B.S. Computer Science, AI concentration; economics minor), pursuing roles in product management.
 
-[Personal Website](https://alexlautin.vercel.app)
+[alexlautin.com](https://alexlautin.com)
