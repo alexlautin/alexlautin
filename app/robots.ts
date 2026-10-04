@@ -10,6 +10,12 @@ const AI_CRAWLERS = [
   'Applebot-Extended',
   'Bytespider',
   'meta-externalagent',
+  'Amazonbot',
+  'Claude-Web',
+  'cohere-ai',
+  'Diffbot',
+  'Omgilibot',
+  'ImagesiftBot',
 ];
 
 export default function robots(): MetadataRoute.Robots {
@@ -18,5 +24,6 @@ export default function robots(): MetadataRoute.Robots {
       { userAgent: '*', allow: '/', disallow: '/api/' },
       { userAgent: AI_CRAWLERS, disallow: '/' },
     ],
+    sitemap: 'https://alexlautin.com/sitemap.xml',
   };
 }

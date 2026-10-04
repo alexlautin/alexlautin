@@ -1,7 +1,8 @@
 "use client";
 import Avatar from '@/components/Avatar';
-import { SiLinkedin, SiOrcid, SiGooglescholar } from '@/components/icons';
-import { HiArrowRight, HiDocumentText } from 'react-icons/hi';
+import SiteHeader from '@/components/SiteHeader';
+import ScreenshotTile from '@/components/ScreenshotTile';
+import ErrorBoundary from '@/components/ErrorBoundary';
 import { useState } from 'react';
 import { Turnstile } from '@marsidev/react-turnstile';
 import { projects } from "../data/projects";
@@ -10,6 +11,33 @@ import Link from 'next/link';
 export const dynamic = 'force-static';
 
 const SITEKEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
+
+// Tells search engines these profiles belong to the same person as this site
+const personJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Alex Lautin',
+  url: 'https://alexlautin.com',
+  description: 'Computer science and economics student at Emory University, pursuing roles in product management.',
+  affiliation: { '@type': 'CollegeOrUniversity', name: 'Emory University' },
+  sameAs: [
+    'https://www.linkedin.com/in/alexlautin/',
+    'https://github.com/alexlautin',
+    'https://scholar.google.com/citations?user=Z2EZFfoAAAAJ',
+    'https://orcid.org/0009-0006-0555-7424',
+  ],
+};
+
+const introLink = "underline decoration-neutral-300 underline-offset-4 hover:decoration-ink transition-colors";
+const contactRow = "group flex items-baseline justify-between gap-6 border-t border-rule py-5 text-xl md:text-2xl font-medium tracking-tight";
+
+function Arrow() {
+  return (
+    <span aria-hidden="true" className="text-faint transition-all duration-200 group-hover:text-ink group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+      ↗
+    </span>
+  );
+}
 
 export default function Home() {
   const [revealedEmail, setRevealedEmail] = useState('');
@@ -33,161 +61,136 @@ export default function Home() {
     }
   };
 
-  const displayedProjects = projects.filter(p => p.type !== 'Portfolio');
-
   return (
-    <main id="main-content" className="bg-[#F9F7F4] text-[#111111]">
-      {/* Header */}
-      <header className="fixed inset-x-0 top-0 z-50 bg-[#F9F7F4]/90 backdrop-blur-md border-b border-stone-200">
-        <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
-          <a href="" className="text-sm font-semibold text-[#111111] hover:opacity-50 transition-opacity">AL</a>
-          <a href="#contact" className="text-sm font-medium text-white bg-[#111111] hover:bg-stone-700 transition-colors duration-150 px-4 py-1.5 rounded-full">Contact</a>
-        </div>
-      </header>
+    <>
+      <SiteHeader initials />
+      <main id="main-content">
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }} />
 
-      {/* Hero */}
-      <section id="about" className="pt-28 pb-12 border-b border-stone-200">
-        <div className="max-w-3xl mx-auto px-6">
-          <div className="flex flex-col gap-8">
-            {/* Location — mobile: full width above; desktop: inside text column */}
-            <p className="md:hidden text-xs font-medium tracking-widest text-stone-400 uppercase">
-              Emory University · Atlanta, GA
-            </p>
-
-            {/* Name + subtitle + photo */}
-            <div className="flex items-start justify-between gap-4">
-              <div className="min-w-0">
-                <p className="hidden md:block text-xs font-medium tracking-widest text-stone-400 uppercase mb-6">
-                  Emory University · Atlanta, GA
-                </p>
-                <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-[#111111] leading-tight mb-4">
-                  Alex Lautin
-                </h1>
-                <p className="text-base text-stone-600 leading-relaxed md:max-w-xs mb-6">
-                  CS and economics student pursuing roles in product management.
-                </p>
-                <div className="flex items-center gap-5">
-                  <a href="https://www.linkedin.com/in/alexlautin/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-xs text-stone-400 hover:text-[#111111] transition-colors">
-                    <SiLinkedin size={12} /> LinkedIn
-                  </a>
-                  <a href="https://orcid.org/0009-0006-0555-7424" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-xs text-stone-400 hover:text-[#111111] transition-colors">
-                    <SiOrcid size={12} /> ORCID
-                  </a>
-                  <a href="https://scholar.google.com/citations?user=Z2EZFfoAAAAJ&hl=en" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-xs text-stone-400 hover:text-[#111111] transition-colors">
-                    <SiGooglescholar size={12} /> Scholar
-                  </a>
-                  {resumeUrl && (
-                    <a href={resumeUrl} target="_blank" rel="noopener noreferrer nofollow" className="inline-flex items-center gap-1.5 text-xs text-stone-400 hover:text-[#111111] transition-colors">
-                      <HiDocumentText size={12} /> Resume
-                    </a>
-                  )}
-                </div>
-              </div>
-              <Avatar className="w-28 h-36 md:w-44 md:h-56 rounded-lg flex-shrink-0 border border-stone-200" />
+        {/* Intro */}
+        <section id="about" className="wrap pt-14 md:pt-28 pb-16 md:pb-24">
+          <div className="grid gap-8 md:grid-cols-12 md:gap-8 md:items-start">
+            <div className="md:col-span-9">
+              <h1 className="text-[clamp(2rem,4.7vw,3.9rem)] font-medium leading-[1.06] tracking-[-0.035em] text-balance">
+                <span className="block font-bold">Alex Lautin</span>
+                <span className="block text-faint">
+                  CS and economics student at Emory University, pursuing roles in product management.
+                </span>
+              </h1>
+              <p className="mt-6 md:mt-8 flex flex-wrap gap-x-6 gap-y-2">
+                <a href="https://www.linkedin.com/in/alexlautin/" target="_blank" rel="noopener noreferrer" className={introLink} data-umami-event="LinkedIn click">LinkedIn</a>
+                <a href="https://scholar.google.com/citations?user=Z2EZFfoAAAAJ&hl=en" target="_blank" rel="noopener noreferrer" className={introLink} data-umami-event="Scholar click">Google Scholar</a>
+                <a href="https://orcid.org/0009-0006-0555-7424" target="_blank" rel="noopener noreferrer" className={introLink} data-umami-event="ORCID click">ORCID</a>
+                {resumeUrl && (
+                  <a href={resumeUrl} target="_blank" rel="noopener noreferrer nofollow" className={introLink} data-umami-event="Resume open">Resume</a>
+                )}
+                {revealedEmail && (
+                  <a href={`mailto:${revealedEmail}`} className={introLink} data-umami-event="Email click">Email</a>
+                )}
+              </p>
             </div>
-
-            {/* Fact grid */}
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-6 pt-8 border-t border-stone-200">
-              <div className="col-span-2 md:col-span-1">
-                <p className="text-xs font-medium tracking-widest text-stone-400 uppercase mb-1.5">Education</p>
-                <p className="text-sm font-medium text-[#111111]">Emory University</p>
-                <p className="text-xs text-stone-500 mt-0.5 leading-relaxed">B.S. Computer Science, Minor in Economics · 2027</p>
-              </div>
-              <div>
-                <p className="text-xs font-medium tracking-widest text-stone-400 uppercase mb-1.5">Experience</p>
-                <p className="text-sm font-medium text-[#111111]">Baldor Specialty Foods</p>
-                <p className="text-xs text-stone-500 mt-0.5">Product Management Intern · 2026</p>
-              </div>
-              <div>
-                <p className="text-xs font-medium tracking-widest text-stone-400 uppercase mb-1.5">Research</p>
-                <p className="text-sm font-medium text-[#111111]">Emory University School of Medicine</p>
-                <p className="text-xs text-stone-500 mt-0.5">Research Assistant</p>
-              </div>
+            <div className="order-first md:order-none md:col-span-3 md:justify-self-end">
+              <Avatar className="w-24 h-28 md:w-48 md:h-60 rounded-xl" />
             </div>
           </div>
-        </div>
-      </section>
 
-      {/* Projects */}
-      <section id="projects" className="pt-12 pb-12 border-b border-stone-200">
-        <div className="max-w-3xl mx-auto px-6">
-          <div className="flex items-center gap-3 mb-10">
-            <p className="text-sm font-semibold tracking-widest text-stone-600 uppercase">Selected Projects</p>
-            <span className="w-6 h-0.5 bg-stone-400" />
-          </div>
-          <div className="border-b border-stone-200">
-            {displayedProjects.map((project, i) => (
+          <dl className="grid gap-x-8 gap-y-6 md:grid-cols-3 mt-14 md:mt-24 border-t border-rule pt-6">
+            <div>
+              <dt className="text-sm text-muted mb-1.5">Education</dt>
+              <dd className="font-medium">Emory University</dd>
+              <dd className="text-muted">B.S. Computer Science · 2027</dd>
+              <dd className="text-muted">AI concentration · Economics minor</dd>
+            </div>
+            <div>
+              <dt className="text-sm text-muted mb-1.5">Experience</dt>
+              <dd className="font-medium">Baldor Specialty Foods</dd>
+              <dd className="text-muted">Product Management Intern · 2026</dd>
+            </div>
+            <div>
+              <dt className="text-sm text-muted mb-1.5">Research</dt>
+              <dd className="font-medium">Emory University School of Medicine</dd>
+              <dd className="text-muted">Research Assistant</dd>
+            </div>
+          </dl>
+        </section>
+
+        {/* Projects */}
+        <section id="projects" className="wrap pb-20 md:pb-32">
+          <h2 className="text-2xl md:text-3xl font-medium tracking-[-0.02em] mb-6 md:mb-8">Selected projects</h2>
+          <div className="grid gap-x-6 gap-y-12 md:grid-cols-2 md:gap-y-16">
+            {projects.map((project, i) => (
               <Link
                 key={project.id}
                 href={`/projects/${project.id}`}
-                className={`group flex items-center justify-between gap-8 py-5 hover:opacity-70 transition-opacity duration-150 ${i !== 0 ? 'border-t border-stone-200' : ''}`}
+                className={`group block ${project.status === 'Live' ? 'md:col-span-2' : ''}`}
+                data-umami-event="Open project"
+                data-umami-event-project={project.id}
               >
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-3 mb-1">
-                    <span className="text-sm font-semibold text-[#111111]">{project.title}</span>
-                  </div>
-                  <p className="text-sm text-stone-500 leading-relaxed">{project.description}</p>
+                <ScreenshotTile src={project.images[0]} color={project.color} wide={project.status === 'Live'} priority={i === 0} />
+                <div className="mt-4 flex items-baseline justify-between gap-6">
+                  <h3 className="text-lg font-medium tracking-tight">{project.title}</h3>
+                  <span className="text-muted tabular-nums">{project.year}</span>
                 </div>
-                <div className="flex-shrink-0 flex items-center gap-4 w-20 justify-end">
-                  <span className="text-xs text-stone-500 hidden sm:block tabular-nums">{project.year}</span>
-                  <HiArrowRight className="w-3.5 h-3.5 text-stone-500 group-hover:translate-x-1 transition-transform duration-150" />
-                </div>
+                <p className="mt-1 text-muted max-w-lg">{project.description}</p>
               </Link>
             ))}
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Contact */}
-      <section id="contact" className="pt-12 pb-12">
-        <div className="max-w-3xl mx-auto px-6">
-          <div className="flex items-center gap-3 mb-8">
-            <p className="text-sm font-semibold tracking-widest text-stone-600 uppercase">Contact</p>
-            <span className="w-6 h-0.5 bg-stone-400" />
-          </div>
-          <div className="flex flex-col gap-3">
-            {/* Turnstile runs invisibly on page load — no user interaction needed */}
-            {SITEKEY && !revealedEmail && (
-              <div className={challengeNeeded ? undefined : 'absolute -left-[9999px]'} aria-hidden={!challengeNeeded}>
-                <Turnstile
-                  siteKey={SITEKEY}
-                  onSuccess={handleTurnstileSuccess}
-                  onBeforeInteractive={() => setChallengeNeeded(true)}
-                  onError={() => setVerifyFailed(true)}
-                  options={{ appearance: 'interaction-only', theme: 'light' }}
-                />
-              </div>
-            )}
-            {revealedEmail && (
-              <a
-                href={`mailto:${revealedEmail}`}
-                className="text-sm font-medium text-[#111111] hover-underline"
-              >
-                {revealedEmail}
+        {/* Contact */}
+        <section id="contact" className="wrap pb-16 md:pb-24">
+          <div className="grid gap-6 md:grid-cols-12 md:gap-8">
+            <div className="md:col-span-4">
+              <h2 className="text-2xl md:text-3xl font-medium tracking-[-0.02em]">Contact</h2>
+              {verifyFailed && !revealedEmail && (
+                <p className="mt-2 text-muted">Reach out on LinkedIn</p>
+              )}
+              {/* Turnstile runs invisibly on page load — no user interaction needed */}
+              {SITEKEY && !revealedEmail && (
+                <div className={challengeNeeded ? 'mt-4' : 'absolute -left-[9999px]'} aria-hidden={!challengeNeeded}>
+                  {/* The bot check fails for crawlers; a failure here must never break the page */}
+                  <ErrorBoundary onError={() => setVerifyFailed(true)}>
+                    <Turnstile
+                      siteKey={SITEKEY}
+                      onSuccess={handleTurnstileSuccess}
+                      onBeforeInteractive={() => setChallengeNeeded(true)}
+                      onError={() => setVerifyFailed(true)}
+                      options={{ appearance: 'interaction-only', theme: 'light' }}
+                    />
+                  </ErrorBoundary>
+                </div>
+              )}
+            </div>
+            <div className="md:col-span-8 border-b border-rule">
+              {revealedEmail && (
+                <a href={`mailto:${revealedEmail}`} className={contactRow} data-umami-event="Email click">
+                  <span className="break-all">{revealedEmail}</span>
+                  <Arrow />
+                </a>
+              )}
+              <a href="https://www.linkedin.com/in/alexlautin/" target="_blank" rel="noopener noreferrer" className={contactRow} data-umami-event="LinkedIn click">
+                LinkedIn
+                <Arrow />
               </a>
-            )}
-            {verifyFailed && !revealedEmail && (
-              <a
-                href="https://www.linkedin.com/in/alexlautin/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm text-stone-500 hover-underline"
-              >
-                Reach out on LinkedIn
+              <a href="https://scholar.google.com/citations?user=Z2EZFfoAAAAJ&hl=en" target="_blank" rel="noopener noreferrer" className={contactRow} data-umami-event="Scholar click">
+                Google Scholar
+                <Arrow />
               </a>
-            )}
-            <a
-              href="https://www.linkedin.com/in/alexlautin/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-sm font-medium text-[#111111] hover-underline w-fit"
-            >
-              <SiLinkedin size={13} />
-              LinkedIn
-            </a>
+              <a href="https://orcid.org/0009-0006-0555-7424" target="_blank" rel="noopener noreferrer" className={contactRow} data-umami-event="ORCID click">
+                ORCID
+                <Arrow />
+              </a>
+              {resumeUrl && (
+                <a href={resumeUrl} target="_blank" rel="noopener noreferrer nofollow" className={contactRow} data-umami-event="Resume open">
+                  Resume
+                  <Arrow />
+                </a>
+              )}
+            </div>
           </div>
-        </div>
-      </section>
-    </main>
+        </section>
+
+      </main>
+    </>
   );
 }

@@ -1,140 +1,151 @@
-"use client";
-
-import { use } from 'react';
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { projects } from '@/data/projects';
+import SiteHeader from '@/components/SiteHeader';
+import ScreenshotTile from '@/components/ScreenshotTile';
 import Image from 'next/image';
 import Link from 'next/link';
 
-export default function ProjectPage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = use(params);
-  const project = projects.find((p) => p.id === slug);
+const metaRow = "flex items-baseline justify-between gap-6 border-t border-rule py-3";
 
-  function toOptimizedPath(p: string) {
-    if (!p) return p;
-    const webp = p.replace(/\.(png|jpe?g)$/i, '.webp');
-    if (webp.startsWith('/optimized/')) return webp;
-    if (webp.startsWith('/')) return `/optimized${webp}`;
-    return `/optimized/${webp}`;
-  }
+type Props = { params: Promise<{ slug: string }> };
+
+export function generateStaticParams() {
+  return projects.map((p) => ({ slug: p.id }));
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  const project = projects.find((p) => p.id === slug);
+  if (!project) return {};
+
+  const title = `${project.title} | Alex Lautin`;
+  const url = `/projects/${project.id}`;
+  return {
+    title,
+    description: project.description,
+    alternates: { canonical: url },
+    openGraph: {
+      title,
+      description: project.description,
+      url,
+      siteName: 'Alex Lautin',
+      type: 'article',
+      images: [{ url: '/og.png', width: 1200, height: 630, alt: 'Alex Lautin' }],
+    },
+    twitter: { card: 'summary_large_image', title, description: project.description, images: ['/og.png'] },
+  };
+}
+
+export default async function ProjectPage({ params }: Props) {
+  const { slug } = await params;
+  const project = projects.find((p) => p.id === slug);
 
   if (!project) {
     notFound();
   }
 
+  const [cover, ...rest] = project.images;
+  // When the cover is a video, the first screenshot still belongs in the gallery
+  const screenshots = project.video ? project.images : rest;
+
   return (
-    <main className="min-h-screen bg-[#F9F7F4] text-[#111111]">
+    <>
+      <SiteHeader />
+      <main id="main-content" className="wrap pt-12 md:pt-20 pb-20 md:pb-28">
 
-      {/* Header */}
-      <header className="fixed inset-x-0 top-0 z-50 bg-[#F9F7F4]/90 backdrop-blur-md border-b border-stone-200">
-        <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
-          <Link href="/" className="text-sm font-semibold text-[#111111] hover:opacity-50 transition-opacity">AL</Link>
-          <Link href="/#contact" className="text-sm font-medium text-white bg-[#111111] hover:bg-stone-700 transition-colors duration-150 px-4 py-1.5 rounded-full">Contact</Link>
-        </div>
-      </header>
+        <Link href="/#projects" className="text-muted hover:text-ink transition-colors">
+          ← All projects
+        </Link>
 
-      <section className="pt-28 pb-20 px-6">
-        <div className="max-w-3xl mx-auto">
-
-          {/* Back */}
-          <Link
-            href="/#projects"
-            className="inline-flex items-center gap-1.5 text-xs text-stone-400 hover:text-[#111111] transition-colors mb-10"
-          >
-            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-            </svg>
-            Back to projects
-          </Link>
-
-          {/* Header */}
-          <div className="pb-8 border-b border-stone-200 mb-10">
-            <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-2 mb-4">
-              <h1 className="text-3xl font-bold tracking-tight text-[#111111]">{project.title}</h1>
-              <span className="text-xs text-stone-400 tabular-nums">{project.year}</span>
-            </div>
-            <p className="text-sm text-stone-600 leading-relaxed max-w-xl">{project.longDescription}</p>
-          </div>
-
-          {/* Actions */}
-          <div className="flex flex-wrap gap-3 mb-12">
-            <a
-              href={project.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-sm font-medium text-white bg-[#111111] hover:bg-stone-700 transition-colors duration-150 px-4 py-2 rounded-full"
-            >
-              View project
-              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-              </svg>
-            </a>
+        {/* Header */}
+        <div className="mt-6 md:mt-8 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+          <h1 className="text-5xl md:text-7xl font-medium leading-none tracking-[-0.04em]">{project.title}</h1>
+          <div className="flex flex-wrap gap-3 flex-shrink-0">
+            {project.link && (
+              <a
+                href={project.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium text-paper bg-ink hover:bg-neutral-700 transition-colors px-5 py-2.5 rounded-lg"
+                data-umami-event="Visit project site"
+                data-umami-event-project={project.id}
+              >
+                Visit site
+              </a>
+            )}
             {project.github && (
               <a
                 href={project.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-sm font-medium text-[#111111] border border-stone-300 hover:border-stone-500 transition-colors px-4 py-2 rounded-full"
+                className="font-medium border border-rule hover:border-ink transition-colors px-5 py-2.5 rounded-lg"
               >
                 GitHub
               </a>
             )}
           </div>
-
-          {/* Screenshots */}
-          {project.images && project.images.length > 0 && (
-            <div className="mb-12">
-              <p className="text-xs font-medium tracking-widest text-stone-400 uppercase mb-4">Screenshots</p>
-              <div className="grid gap-3">
-                {project.images.map((image, index) => (
-                  <div key={index} className="rounded-xl overflow-hidden border border-stone-200 bg-stone-50">
-                    <picture>
-                      <source srcSet={toOptimizedPath(image)} type="image/webp" />
-                      <Image
-                        src={image}
-                        alt={`${project.title} screenshot ${index + 1}`}
-                        width={1200}
-                        height={675}
-                        sizes="(max-width: 640px) 100vw, 768px"
-                        className="w-full h-auto"
-                      />
-                    </picture>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Technologies */}
-          <div className="mb-10">
-            <p className="text-xs font-medium tracking-widest text-stone-400 uppercase mb-4">Technologies</p>
-            <div className="flex flex-wrap gap-2">
-              {project.technologies.map((tech) => (
-                <span
-                  key={tech}
-                  className="px-3 py-1 border border-stone-200 rounded-full text-xs text-stone-600"
-                >
-                  {tech}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          {/* Features */}
-          <div>
-            <p className="text-xs font-medium tracking-widest text-stone-400 uppercase mb-4">Features</p>
-            <ul className="space-y-2">
-              {project.features.map((feature, index) => (
-                <li key={index} className="flex items-start gap-2.5 text-sm text-stone-600 leading-relaxed">
-                  <span className="text-stone-300 flex-shrink-0 select-none mt-px">—</span>
-                  {feature}
-                </li>
-              ))}
-            </ul>
-          </div>
-
         </div>
-      </section>
-    </main>
+
+        {/* Cover */}
+        {cover && (
+          <div className="mt-8 md:mt-12">
+            <ScreenshotTile src={cover} video={project.video} poster={project.videoPoster} color={project.color} alt={`${project.title} screenshot 1`} wide priority />
+          </div>
+        )}
+
+        {/* Overview */}
+        <div className="mt-12 md:mt-16 grid gap-10 md:grid-cols-12 md:gap-8">
+          <p className="md:col-span-7 text-xl md:text-2xl leading-snug tracking-tight text-pretty">
+            {project.longDescription}
+          </p>
+          <dl className="md:col-span-4 md:col-start-9 border-b border-rule">
+            <div className={metaRow}>
+              <dt className="text-muted">Year</dt>
+              <dd className="tabular-nums">{project.year}</dd>
+            </div>
+            <div className={metaRow}>
+              <dt className="text-muted">Type</dt>
+              <dd>{project.type}</dd>
+            </div>
+            <div className={metaRow}>
+              <dt className="text-muted">Status</dt>
+              <dd>{project.status}</dd>
+            </div>
+            <div className={metaRow}>
+              <dt className="text-muted flex-shrink-0">Built with</dt>
+              <dd className="text-right">{project.technologies.join(', ')}</dd>
+            </div>
+          </dl>
+        </div>
+
+        {/* Features */}
+        <h2 className="mt-16 md:mt-24 mb-6 text-2xl md:text-3xl font-medium tracking-[-0.02em]">Features</h2>
+        <ul className="grid gap-x-8 sm:grid-cols-2">
+          {project.features.map((feature, index) => (
+            <li key={index} className="border-t border-rule py-3.5">{feature}</li>
+          ))}
+        </ul>
+
+        {/* Screenshots */}
+        {screenshots.length > 0 && (
+          <div className="mt-16 md:mt-24 grid gap-6 md:grid-cols-2">
+            {screenshots.map((image, index) => (
+              <div key={image} className="rounded-xl overflow-hidden border border-rule">
+                <Image
+                  src={image}
+                  alt={`${project.title} screenshot ${index + (project.video ? 1 : 2)}`}
+                  width={1200}
+                  height={675}
+                  sizes="(max-width: 768px) 100vw, 550px"
+                  className="w-full h-auto"
+                />
+              </div>
+            ))}
+          </div>
+        )}
+
+      </main>
+    </>
   );
 }
