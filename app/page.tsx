@@ -28,6 +28,13 @@ const personJsonLd = {
   ],
 };
 
+// Umami cancels same-tab clicks on `data-umami-event` links, waits for its request to
+// finish, then forces a full page load. Report from onClick instead so Next's
+// client-side navigation stays instant.
+const track = (name: string, data?: Record<string, string>) => {
+  (window as unknown as { umami?: { track: (n: string, d?: object) => unknown } }).umami?.track(name, data);
+};
+
 const introLink = "underline decoration-neutral-300 underline-offset-4 hover:decoration-ink transition-colors";
 const contactRow = "group flex items-baseline justify-between gap-6 border-t border-rule py-5 text-xl md:text-2xl font-medium tracking-tight";
 
@@ -103,7 +110,7 @@ export default function Home() {
                   <a href={resumeUrl} target="_blank" rel="noopener noreferrer nofollow" className={introLink} data-umami-event="Resume open">Resume</a>
                 )}
                 {revealedEmail && (
-                  <a href={`mailto:${revealedEmail}`} className={introLink} data-umami-event="Email click">Email</a>
+                  <a href={`mailto:${revealedEmail}`} className={introLink} onClick={() => track('Email click')}>Email</a>
                 )}
               </p>
             </div>
@@ -141,8 +148,7 @@ export default function Home() {
                 key={project.id}
                 href={`/projects/${project.id}`}
                 className={`group block ${project.status === 'Live' ? 'md:col-span-2' : ''}`}
-                data-umami-event="Open project"
-                data-umami-event-project={project.id}
+                onClick={() => track('Open project', { project: project.id })}
               >
                 <ScreenshotTile src={project.images[0]} color={project.color} wide={project.status === 'Live'} priority={i === 0} />
                 <div className="mt-4 flex items-baseline justify-between gap-6">
@@ -181,7 +187,7 @@ export default function Home() {
             </div>
             <div className="md:col-span-8 border-b border-rule">
               {revealedEmail && (
-                <a href={`mailto:${revealedEmail}`} className={contactRow} data-umami-event="Email click">
+                <a href={`mailto:${revealedEmail}`} className={contactRow} onClick={() => track('Email click')}>
                   <span className="break-all">{revealedEmail}</span>
                   <Arrow />
                 </a>
