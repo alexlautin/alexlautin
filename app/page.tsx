@@ -44,7 +44,7 @@ export default function Home() {
   const [resumeUrl, setResumeUrl] = useState('');
   const [challengeNeeded, setChallengeNeeded] = useState(false);
   const [verifyFailed, setVerifyFailed] = useState(false);
-  const [loadChallenge, setLoadChallenge] = useState(true); // TEMP: testing whether deferral is the cause
+  const [loadChallenge, setLoadChallenge] = useState(false);
 
   // Cloudflare's script is ~650 KB, so hold it back until the visitor interacts
   // (or a few seconds pass) instead of competing with the first paint.
