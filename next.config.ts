@@ -7,9 +7,6 @@ const scriptSrc = `script-src 'self' 'unsafe-inline'${devOnly} https://challenge
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
-  images: {
-    unoptimized: true,
-  },
   outputFileTracingIncludes: {
     '/api/resume': ['./private/resume.pdf'],
   },
