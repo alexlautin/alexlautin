@@ -3,7 +3,7 @@ import Avatar from '@/components/Avatar';
 import SiteHeader from '@/components/SiteHeader';
 import ScreenshotTile from '@/components/ScreenshotTile';
 import ErrorBoundary from '@/components/ErrorBoundary';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Turnstile } from '@marsidev/react-turnstile';
 import { projects } from "../data/projects";
 import Link from 'next/link';
@@ -44,6 +44,24 @@ export default function Home() {
   const [resumeUrl, setResumeUrl] = useState('');
   const [challengeNeeded, setChallengeNeeded] = useState(false);
   const [verifyFailed, setVerifyFailed] = useState(false);
+  const [loadChallenge, setLoadChallenge] = useState(false);
+
+  // Cloudflare's script is ~650 KB, so hold it back until the visitor interacts
+  // (or a few seconds pass) instead of competing with the first paint.
+  useEffect(() => {
+    const events = ['pointerdown', 'keydown', 'touchstart', 'scroll'] as const;
+    const start = () => {
+      setLoadChallenge(true);
+      events.forEach((e) => window.removeEventListener(e, start));
+      clearTimeout(timer);
+    };
+    const timer = setTimeout(start, 6000);
+    events.forEach((e) => window.addEventListener(e, start, { passive: true, once: true }));
+    return () => {
+      events.forEach((e) => window.removeEventListener(e, start));
+      clearTimeout(timer);
+    };
+  }, []);
 
   const handleTurnstileSuccess = async (token: string) => {
     try {
@@ -145,8 +163,8 @@ export default function Home() {
               {verifyFailed && !revealedEmail && (
                 <p className="mt-2 text-muted">Reach out on LinkedIn</p>
               )}
-              {/* Turnstile runs invisibly on page load — no user interaction needed */}
-              {SITEKEY && !revealedEmail && (
+              {/* Turnstile runs invisibly once loaded — no user interaction needed */}
+              {SITEKEY && loadChallenge && !revealedEmail && (
                 <div className={challengeNeeded ? 'mt-4' : 'absolute -left-[9999px]'} aria-hidden={!challengeNeeded}>
                   {/* The bot check fails for crawlers; a failure here must never break the page */}
                   <ErrorBoundary onError={() => setVerifyFailed(true)}>
