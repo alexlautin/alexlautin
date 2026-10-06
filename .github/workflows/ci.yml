@@ -16,6 +16,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run lint
-      - run: npx tsc --noEmit
       - run: npm test
+      # build generates next-env.d.ts, which tsc needs for image imports
       - run: npm run build
+      - run: npx tsc --noEmit
