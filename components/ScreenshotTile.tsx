@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import AutoplayVideo from './AutoplayVideo';
 
 // A project screenshot framed on that project's colour field.
 export default function ScreenshotTile({
@@ -26,14 +27,10 @@ export default function ScreenshotTile({
       style={{ backgroundColor: color }}
     >
       {video ? (
-        <video
+        <AutoplayVideo
           src={video}
           poster={poster ?? src}
           aria-label={alt}
-          autoPlay
-          muted
-          loop
-          playsInline
           className={media}
         />
       ) : (
