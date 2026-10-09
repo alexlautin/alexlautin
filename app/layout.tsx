@@ -4,6 +4,7 @@ import Script from "next/script";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/react";
 import Footer from '@/components/Footer';
+import ScrollManager from '@/components/ScrollManager';
 
 const inter = Inter({
   subsets: ["latin"],
@@ -56,6 +57,7 @@ export default function RootLayout({
         <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-ink focus:text-paper focus:rounded-md focus:font-medium transition-all">
           Skip to main content
         </a>
+        <ScrollManager />
         {children}
         <Footer />
         <Analytics />

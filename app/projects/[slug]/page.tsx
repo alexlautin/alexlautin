@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { projects } from '@/data/projects';
 import SiteHeader from '@/components/SiteHeader';
-import ScreenshotTile from '@/components/ScreenshotTile';
+import ScreenshotTile, { TILE_SIZES } from '@/components/ScreenshotTile';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -45,7 +45,9 @@ export default async function ProjectPage({ params }: Props) {
     notFound();
   }
 
-  const [cover, ...rest] = project.images;
+  const [firstImage, ...rest] = project.images;
+  // A video project's card and cover show the video's first frame, so the handoff to the video is seamless
+  const cover = project.videoPoster ?? firstImage;
   // When the cover is a video, the first screenshot still belongs in the gallery
   const screenshots = project.video ? project.images : rest;
 
@@ -90,7 +92,8 @@ export default async function ProjectPage({ params }: Props) {
         {/* Cover */}
         {cover && (
           <div className="mt-8 md:mt-12">
-            <ScreenshotTile src={cover} video={project.video} poster={project.videoPoster} color={project.color} alt={`${project.title} screenshot 1`} wide priority />
+            {/* Same `sizes` as this project's homepage card so the already-loaded image is reused */}
+            <ScreenshotTile src={cover} video={project.video} color={project.color} alt={`${project.title} screenshot 1`} wide sizes={project.status === 'Live' ? TILE_SIZES.wide : TILE_SIZES.narrow} priority />
           </div>
         )}
 
@@ -138,7 +141,8 @@ export default async function ProjectPage({ params }: Props) {
                   width={1200}
                   height={675}
                   sizes="(max-width: 768px) 100vw, 550px"
-                  className="w-full h-auto"
+                  draggable={false}
+                  className="w-full h-auto select-none [-webkit-user-drag:none] [-webkit-touch-callout:none]"
                 />
               </div>
             ))}
