@@ -32,7 +32,7 @@ export default function ScreenshotTile({
   const base = "select-none [-webkit-user-drag:none] [-webkit-touch-callout:none] transform-gpu w-full object-cover object-top rounded-md md:rounded-lg";
   const media = `${base} aspect-[17/10] ring-1 ring-black/10 shadow-[0_24px_48px_-20px_rgba(0,0,0,0.45)] transition-transform duration-500 ease-out group-hover:-translate-y-1.5`;
   // Same box as the image underneath, minus the ring and shadow so they aren't drawn twice
-  const videoLayer = `${base} transition-[translate,opacity] duration-500 ease-out group-hover:-translate-y-1.5`;
+  const videoLayer = `${base} transition-transform duration-500 ease-out group-hover:-translate-y-1.5`;
 
   const image = (
     <Image

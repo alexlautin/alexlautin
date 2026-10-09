@@ -45,7 +45,9 @@ export default async function ProjectPage({ params }: Props) {
     notFound();
   }
 
-  const [cover, ...rest] = project.images;
+  const [firstImage, ...rest] = project.images;
+  // A video project's card and cover show the video's first frame, so the handoff to the video is seamless
+  const cover = project.videoPoster ?? firstImage;
   // When the cover is a video, the first screenshot still belongs in the gallery
   const screenshots = project.video ? project.images : rest;
 

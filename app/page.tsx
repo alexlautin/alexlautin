@@ -151,7 +151,7 @@ export default function Home() {
                 className={`group block [-webkit-tap-highlight-color:transparent] select-none ${project.status === 'Live' ? 'md:col-span-2' : ''}`}
                 onClick={() => track('Open project', { project: project.id })}
               >
-                <ScreenshotTile src={project.images[0]} color={project.color} wide={project.status === 'Live'} priority={i === 0} />
+                <ScreenshotTile src={project.videoPoster ?? project.images[0]} color={project.color} wide={project.status === 'Live'} priority={i === 0} />
                 <div className="mt-4 flex items-baseline justify-between gap-6">
                   <h3 className="text-lg font-medium tracking-tight">{project.title}</h3>
                   <span className="text-muted tabular-nums">{project.year}</span>

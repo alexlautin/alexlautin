@@ -5,6 +5,7 @@ export interface Project {
   longDescription: string;
   images: string[];
   video?: string;
+  videoPoster?: string;
   color: string;
   link?: string;
   github?: string;
@@ -23,6 +24,7 @@ export const projects: Project[] = [
     longDescription: 'The website for Emory Entrepreneurship & Venture Management, the student organization behind HackATL. I helped build it with the club\'s team in React, Vite, and Tailwind CSS, and worked on the Fall 2026 redesign, which covered the homepage and every inner page, gave each page its own URL, and rebuilt the scroll effects to run smoothly on mobile.',
     images: ['/optimized/projects/eevm/home.webp', '/optimized/projects/eevm/about.webp', '/optimized/projects/eevm/initiatives.webp'],
     video: '/optimized/projects/eevm/scroll.mp4',
+    videoPoster: '/optimized/projects/eevm/scroll-poster.webp',
     color: '#BCE0E3',
     link: 'https://www.eevm.org',
     technologies: ['React', 'Vite', 'TypeScript', 'Tailwind CSS', 'Vercel'],

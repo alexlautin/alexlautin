@@ -2,9 +2,10 @@
 
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 
-// The cover image (children) is the same file the homepage card already loaded, so it
-// paints instantly; the video fades in over it only once it is really playing. If
-// autoplay is blocked (e.g. iOS Low Power Mode) the image simply stays.
+// The cover image (children) is the video's first frame and the same file the homepage
+// card already loaded, so it paints instantly; the video takes over (no fade, nothing to
+// blend) once it is really playing. If autoplay is blocked (e.g. iOS Low Power Mode) the
+// image simply stays.
 export default function TileVideo({
   src,
   label,
