@@ -18,11 +18,13 @@ export default function ScreenshotTile({
   wide?: boolean;
   priority?: boolean;
 }) {
-  const media = "w-full aspect-[17/10] object-cover object-top rounded-md md:rounded-lg ring-1 ring-black/10 shadow-[0_24px_48px_-20px_rgba(0,0,0,0.45)] transition-transform duration-500 ease-out group-hover:-translate-y-1.5";
+  // Not draggable or selectable (no ghost image or blue highlight on click), and on its
+  // own compositing layer so Safari doesn't repaint it during the hover transition
+  const media = "select-none [-webkit-user-drag:none] [-webkit-touch-callout:none] transform-gpu w-full aspect-[17/10] object-cover object-top rounded-md md:rounded-lg ring-1 ring-black/10 shadow-[0_24px_48px_-20px_rgba(0,0,0,0.45)] transition-transform duration-500 ease-out group-hover:-translate-y-1.5";
 
   return (
     <div
-      className={`overflow-hidden rounded-2xl ${wide ? 'p-[8%] md:px-[20%] md:py-[6%]' : 'p-[9%]'}`}
+      className={`select-none overflow-hidden rounded-2xl ${wide ? 'p-[8%] md:px-[20%] md:py-[6%]' : 'p-[9%]'}`}
       style={{ backgroundColor: color }}
     >
       {video ? (
@@ -30,6 +32,7 @@ export default function ScreenshotTile({
           src={video}
           poster={poster ?? src}
           aria-label={alt}
+          draggable={false}
           autoPlay
           muted
           loop
@@ -44,6 +47,8 @@ export default function ScreenshotTile({
           height={710}
           sizes={wide ? '(max-width: 768px) 84vw, 680px' : '(max-width: 768px) 82vw, 450px'}
           priority={priority}
+          decoding="sync"
+          draggable={false}
           className={media}
         />
       )}

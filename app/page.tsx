@@ -147,7 +147,8 @@ export default function Home() {
               <Link
                 key={project.id}
                 href={`/projects/${project.id}`}
-                className={`group block ${project.status === 'Live' ? 'md:col-span-2' : ''}`}
+                draggable={false}
+                className={`group block [-webkit-tap-highlight-color:transparent] select-none ${project.status === 'Live' ? 'md:col-span-2' : ''}`}
                 onClick={() => track('Open project', { project: project.id })}
               >
                 <ScreenshotTile src={project.images[0]} color={project.color} wide={project.status === 'Live'} priority={i === 0} />
