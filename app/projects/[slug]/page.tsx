@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { projects } from '@/data/projects';
 import SiteHeader from '@/components/SiteHeader';
-import ScreenshotTile from '@/components/ScreenshotTile';
+import ScreenshotTile, { TILE_SIZES } from '@/components/ScreenshotTile';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -90,7 +90,8 @@ export default async function ProjectPage({ params }: Props) {
         {/* Cover */}
         {cover && (
           <div className="mt-8 md:mt-12">
-            <ScreenshotTile src={cover} video={project.video} poster={project.videoPoster} color={project.color} alt={`${project.title} screenshot 1`} wide priority />
+            {/* Same `sizes` as this project's homepage card so the already-loaded image is reused */}
+            <ScreenshotTile src={cover} video={project.video} color={project.color} alt={`${project.title} screenshot 1`} wide sizes={project.status === 'Live' ? TILE_SIZES.wide : TILE_SIZES.narrow} priority />
           </div>
         )}
 
