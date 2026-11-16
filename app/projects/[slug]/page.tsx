@@ -93,7 +93,7 @@ export default async function ProjectPage({ params }: Props) {
         {cover && (
           <div className="mt-8 md:mt-12">
             {/* Same `sizes` as this project's homepage card so the already-loaded image is reused */}
-            <ScreenshotTile src={cover} video={project.video} color={project.color} alt={`${project.title} screenshot 1`} wide sizes={project.status === 'Live' ? TILE_SIZES.wide : TILE_SIZES.narrow} priority />
+            <ScreenshotTile src={cover} video={project.video} color={project.color} alt={`${project.title} screenshot 1`} wide sizes={project.featured ? TILE_SIZES.wide : TILE_SIZES.narrow} priority />
           </div>
         )}
 

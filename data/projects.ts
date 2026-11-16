@@ -14,9 +14,34 @@ export interface Project {
   year: string;
   type: 'Web App' | 'Hackathon';
   status: 'Live' | 'In Development' | 'Archived';
+  // Full-width card on the homepage; everything else sits in the two-column grid
+  featured?: boolean;
 }
 
 export const projects: Project[] = [
+  {
+    id: 'harness',
+    title: 'Harness',
+    description: 'Desktop app that watches what AI coding agents do on your computer and pauses them before something risky finishes. Built at Emory Hacks.',
+    longDescription: 'Harness is a local safety monitor for AI coding agents like Claude Code, Codex, and Gemini CLI, built at Emory Hacks. When an agent runs npm install, its window shows one line and a checkmark, but a package\'s install script could be reading your .env and uploading it. Harness follows the whole chain of processes, files, and connections underneath the agent, plants decoy secrets that no honest task should open, scores each session from 0 to 100, and can pause the agent before it finishes. It runs entirely on your computer as a menu bar app for macOS and Windows, built with Node.js and Tauri.',
+    images: ['/optimized/projects/harness/site.webp', '/optimized/projects/harness/dashboard.webp', '/optimized/projects/harness/paused.webp', '/optimized/projects/harness/timeline.webp'],
+    color: '#EBCFAF',
+    link: 'https://getharness.vercel.app',
+    github: 'https://github.com/alexlautin/harness',
+    technologies: ['Node.js', 'Tauri 2', 'Rust', 'JavaScript', 'Next.js', 'Gemini'],
+    features: [
+      'Follows every process an agent starts, including package install scripts the agent never typed',
+      'Decoy secrets that flag any process that reads them',
+      'Auto-protect pauses an agent the moment it does something dangerous',
+      'Safety score from 0 to 100 with a plain-language reason for every point lost',
+      'Menu bar app for macOS and Windows with a local dashboard',
+      'Runs entirely on your computer, with no account and no telemetry'
+    ],
+    year: '2026',
+    type: 'Hackathon',
+    status: 'Live',
+    featured: true
+  },
   {
     id: 'eevm',
     title: 'EEVM',
@@ -38,28 +63,6 @@ export const projects: Project[] = [
     ],
     year: '2026',
     type: 'Web App',
-    status: 'Live'
-  },
-  {
-    id: 'harness',
-    title: 'Harness',
-    description: 'Desktop app that watches what AI coding agents do on your computer and pauses them before something risky finishes. Built at Emory Hacks.',
-    longDescription: 'Harness is a local safety monitor for AI coding agents like Claude Code, Codex, and Gemini CLI, built at Emory Hacks. When an agent runs npm install, its window shows one line and a checkmark, but a package\'s install script could be reading your .env and uploading it. Harness follows the whole chain of processes, files, and connections underneath the agent, plants decoy secrets that no honest task should open, scores each session from 0 to 100, and can pause the agent before it finishes. It runs entirely on your computer as a menu bar app for macOS and Windows, built with Node.js and Tauri.',
-    images: ['/optimized/projects/harness/site.webp', '/optimized/projects/harness/dashboard.webp', '/optimized/projects/harness/paused.webp', '/optimized/projects/harness/timeline.webp'],
-    color: '#EBCFAF',
-    link: 'https://getharness.vercel.app',
-    github: 'https://github.com/alexlautin/harness',
-    technologies: ['Node.js', 'Tauri 2', 'Rust', 'JavaScript', 'Next.js', 'Gemini'],
-    features: [
-      'Follows every process an agent starts, including package install scripts the agent never typed',
-      'Decoy secrets that flag any process that reads them',
-      'Auto-protect pauses an agent the moment it does something dangerous',
-      'Safety score from 0 to 100 with a plain-language reason for every point lost',
-      'Menu bar app for macOS and Windows with a local dashboard',
-      'Runs entirely on your computer, with no account and no telemetry'
-    ],
-    year: '2026',
-    type: 'Hackathon',
     status: 'Live'
   },
   {
