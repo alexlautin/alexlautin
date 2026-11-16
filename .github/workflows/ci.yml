@@ -13,13 +13,16 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 12
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: npm
-      - run: npm ci
-      - run: npm run lint
-      - run: npm test
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+      - run: pnpm test
       # build generates next-env.d.ts, which tsc needs for image imports
-      - run: npm run build
-      - run: npx tsc --noEmit
+      - run: pnpm build
+      - run: pnpm exec tsc --noEmit

@@ -1,0 +1,3 @@
+allowBuilds:
+  # Ships prebuilt native binaries via optional dependencies; its postinstall is only a fallback
+  unrs-resolver: false
