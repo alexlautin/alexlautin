@@ -130,9 +130,29 @@ export default async function ProjectPage({ params }: Props) {
           ))}
         </ul>
 
+        {/* Demo clip: a recording of the product itself, shown full width so it stays legible */}
+        {project.demo && (
+          <figure className="mt-16 md:mt-24">
+            <div className="rounded-xl overflow-hidden border border-rule">
+              <video
+                src={project.demo.src}
+                poster={project.demo.poster}
+                aria-label={project.demo.caption}
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                className="block w-full h-auto"
+              />
+            </div>
+            <figcaption className="mt-3 text-muted">{project.demo.caption}</figcaption>
+          </figure>
+        )}
+
         {/* Screenshots */}
         {screenshots.length > 0 && (
-          <div className="mt-16 md:mt-24 grid gap-6 md:grid-cols-2">
+          <div className={`${project.demo ? 'mt-6' : 'mt-16 md:mt-24'} grid gap-6 md:grid-cols-2`}>
             {screenshots.map((image, index) => (
               <div key={image} className="rounded-xl overflow-hidden border border-rule">
                 <Image
