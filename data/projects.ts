@@ -32,7 +32,7 @@ export const projects: Project[] = [
     demo: {
       src: '/optimized/projects/harness/demo.mp4',
       poster: '/optimized/projects/harness/demo-poster.webp',
-      caption: 'A real Claude Code session: Harness blocks the agent from reading a .env file, the safety score drops, and the alert explains what happened.'
+      caption: 'A real Claude Code session: Harness blocks the agent from reading a .env file before the command runs, and the safety score drops.'
     },
     color: '#EBCFAF',
     link: 'https://getharness.vercel.app',
