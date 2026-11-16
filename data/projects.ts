@@ -25,6 +25,8 @@ export const projects: Project[] = [
     description: 'Desktop app that watches what AI coding agents do on your computer and pauses them before something risky finishes. Built at Emory Hacks.',
     longDescription: 'Harness is a local safety monitor for AI coding agents like Claude Code, Codex, and Gemini CLI, built at Emory Hacks. When an agent runs npm install, its window shows one line and a checkmark, but a package\'s install script could be reading your .env and uploading it. Harness follows the whole chain of processes, files, and connections underneath the agent, plants decoy secrets that no honest task should open, scores each session from 0 to 100, and can pause the agent before it finishes. It runs entirely on your computer as a menu bar app for macOS and Windows, built with Node.js and Tauri.',
     images: ['/optimized/projects/harness/site.webp', '/optimized/projects/harness/dashboard.webp', '/optimized/projects/harness/paused.webp', '/optimized/projects/harness/timeline.webp'],
+    video: '/optimized/projects/harness/demo.mp4',
+    videoPoster: '/optimized/projects/harness/demo-poster.webp',
     color: '#EBCFAF',
     link: 'https://getharness.vercel.app',
     github: 'https://github.com/alexlautin/harness',
