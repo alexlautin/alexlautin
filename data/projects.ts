@@ -10,6 +10,8 @@ export interface Project {
   demo?: { src: string; poster: string; caption: string };
   color: string;
   link?: string;
+  // A no-sign-up demo of the product; shown as "Try the demo" on the card and project page
+  demoLink?: string;
   github?: string;
   technologies: string[];
   features: string[];
@@ -36,6 +38,7 @@ export const projects: Project[] = [
     },
     color: '#EBCFAF',
     link: 'https://getharness.vercel.app',
+    demoLink: 'https://getharness.vercel.app/demo',
     github: 'https://github.com/alexlautin/harness',
     technologies: ['Node.js', 'Tauri 2', 'Rust', 'JavaScript', 'Next.js', 'Gemini'],
     features: [
@@ -48,6 +51,31 @@ export const projects: Project[] = [
     ],
     year: '2026',
     type: 'Hackathon',
+    status: 'Live',
+    featured: true
+  },
+  {
+    id: 'gathr',
+    title: 'Gathr',
+    description: 'All-in-one app for running a student club: team chat, admissions, calendar, attendance and alumni, on the web and iPhone. Used every day by EEVM.',
+    longDescription: 'Gathr started as the internal hub for Emory Entrepreneurship & Venture Management and now runs the whole club: 72 active members across 9 divisions, with more than 88,000 messages kept instead of being wiped by Slack\'s free tier. I\'m one of its lead developers, working with two other members on a React and FastAPI web app and a native SwiftUI iPhone app. It replaces Slack, Google Forms and GroupMe with one place for chat, blind admissions review, events and check-in, photos, reimbursements and a LinkedIn-synced alumni directory. We\'re now opening it to other Emory clubs, each with its own branding and its own database.',
+    images: ['/optimized/projects/gathr/landing.webp', '/optimized/projects/gathr/home.webp', '/optimized/projects/gathr/calendar.webp'],
+    color: '#B9D6CF',
+    link: 'https://gathr.eevm.app',
+    demoLink: 'https://gathr.eevm.app/demo',
+    technologies: ['React', 'Vite', 'TypeScript', 'Tailwind CSS', 'FastAPI', 'SQLite', 'SwiftUI'],
+    features: [
+      'Team chat with channels, threads, DMs and iPhone push, with full history kept',
+      'Admissions pipeline with blind screening, weighted rubrics and live deliberation',
+      'Calendar, RSVPs, QR check-in and attendance standing for every member',
+      'Club photo library with face tagging',
+      'Reimbursements and card requests routed to the finance team',
+      'Alumni directory synced from LinkedIn',
+      'MCP server so members can use the hub from Claude, ChatGPT or Gemini',
+      'Per-club branding and a separate database for each club'
+    ],
+    year: '2026',
+    type: 'Web App',
     status: 'Live',
     featured: true
   },
@@ -79,9 +107,10 @@ export const projects: Project[] = [
     title: 'GreekBoard',
     description: 'Chapter management platform for fraternities, with dues payments through Stripe, event management, and role-based access.',
     longDescription: 'GreekBoard is a chapter management platform for fraternities, built with Next.js, TypeScript, Tailwind CSS, Neon Postgres, Clerk, and Stripe. Chapter officers get one dashboard to track dues, manage events, monitor member standing, and review activity logs, with each chapter\'s data kept separate.',
-    images: ['/optimized/projects/greekboard/landing.webp'],
+    images: ['/optimized/projects/greekboard/landing.webp', '/optimized/projects/greekboard/dashboard.webp', '/optimized/projects/greekboard/events.webp', '/optimized/projects/greekboard/dues.webp'],
     color: '#A9BBF7',
     link: 'https://greekboard.alexlautin.com',
+    demoLink: 'https://greekboard.alexlautin.com/demo',
     technologies: ['Next.js 14', 'TypeScript', 'Tailwind CSS', 'Neon Postgres', 'Clerk', 'Stripe'],
     features: [
       'Multi-tenant architecture with per-chapter data isolation',
@@ -106,11 +135,10 @@ export const projects: Project[] = [
     link: 'https://speedsail.alexlautin.com',
     technologies: ['Next.js', 'Tailwind CSS', 'Vercel'],
     features: [
-      'Responsive design optimized for all devices',
-      'SEO-optimized content structure',
-      'Fast loading times with Next.js optimization',
-      'Clean, modern UI/UX design',
-      'Content management system integration'
+      'Video interviews with competitive sailors',
+      'Podcast page with every episode',
+      'Statically exported Next.js site with no server to run',
+      'Layout that works from phones to wide screens'
     ],
     year: '2025',
     type: 'Web App',
@@ -121,9 +149,10 @@ export const projects: Project[] = [
     title: 'Invitide',
     description: 'Event management platform with AI-written event descriptions and QR-code check-in. Built with a team at a hackathon.',
     longDescription: 'Invitide is an event management platform built with a team of four at a hackathon, using Next.js, Supabase, and Gemini. Hosts can create and share events, generate event descriptions with AI, and track attendance with QR codes.',
-    images: ['/optimized/projects/invitide/home.webp'],
+    images: ['/optimized/projects/invitide/home.webp', '/optimized/projects/invitide/events.webp'],
     color: '#DCD5B4',
     link: 'https://invitide.vercel.app',
+    demoLink: 'https://invitide.vercel.app/demo',
     technologies: ['Next.js', 'Tailwind CSS', 'Supabase', 'Vercel', 'Resend'],
     features: [
       'Create and manage events',
@@ -137,16 +166,17 @@ export const projects: Project[] = [
     ],
     year: '2025',
     type: 'Hackathon',
-    status: 'Archived'
+    status: 'Live'
   },
   {
     id: 'sevenworks',
     title: 'SevenWorks',
     description: 'Resume builder with a live PDF preview and autosave. Built as a group project for a class.',
     longDescription: 'SevenWorks is a resume builder made as a group project for a class at Emory, using Next.js, Firebase, and @react-pdf/renderer. You edit your details, watch the PDF preview update as you type, and download the result. Work is saved automatically.',
-    images: ['/optimized/projects/sevenworks/home.webp', '/optimized/projects/sevenworks/templates.webp', '/optimized/projects/sevenworks/dashboard.webp', '/optimized/projects/sevenworks/editor.webp'],
+    images: ['/optimized/projects/sevenworks/home.webp', '/optimized/projects/sevenworks/editor.webp'],
     color: '#E6BDB9',
     link: 'https://sevenworks-emory.vercel.app',
+    demoLink: 'https://sevenworks-emory.vercel.app/demo',
     technologies: ['Next.js', 'Tailwind CSS', 'Firebase', 'Vercel'],
     features: [
       'Live editing of personal, experience, and education information',
@@ -158,27 +188,28 @@ export const projects: Project[] = [
     ],
     year: '2025',
     type: 'Web App',
-    status: 'Archived'
+    status: 'Live'
   },
   {
     id: 'galleryboard',
     title: 'GalleryBoard',
     description: 'Classroom whiteboard where each student draws on a private board and the teacher sees live previews of all of them. Built with a team at a hackathon.',
     longDescription: 'GalleryBoard is a classroom whiteboard platform built with a team at a hackathon, using Next.js, Supabase, and shadcn/ui. A teacher creates a room, students join with a code, and each student gets a private whiteboard that updates in real time. The teacher can see a live preview of every board.',
-    images: ['/optimized/projects/galleryboard/home.webp'],
+    images: ['/optimized/projects/galleryboard/home.webp', '/optimized/projects/galleryboard/classroom.webp'],
     color: '#BEDCCB',
     link: 'https://galleryboard.vercel.app',
+    demoLink: 'https://galleryboard.vercel.app/demo',
     technologies: ['Next.js', 'Supabase', 'Tailwind CSS', 'Vercel'],
     features: [
-      'Real-time collaborative drawing',
-      'Multi-user support',
-      'Educational tools integration',
-      'Save and share boards',
-      'Touch and mouse support',
-      'Classroom management features'
+      'Teachers open a room and students join with a short code',
+      'A private, real-time whiteboard for every student',
+      'Live grid of every student\'s board for the teacher',
+      'Open any board full screen',
+      'Anonymous animal names for students',
+      'Works with touch and mouse'
     ],
     year: '2025',
     type: 'Hackathon',
-    status: 'Archived'
+    status: 'Live'
   }
 ];

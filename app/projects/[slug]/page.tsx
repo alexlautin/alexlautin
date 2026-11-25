@@ -7,6 +7,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 const metaRow = "flex items-baseline justify-between gap-6 border-t border-rule py-3";
+const primaryButton = "font-medium text-paper bg-ink hover:bg-neutral-700 transition-colors px-5 py-2.5 rounded-lg";
+const secondaryButton = "font-medium border border-rule hover:border-ink transition-colors px-5 py-2.5 rounded-lg";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -64,12 +66,24 @@ export default async function ProjectPage({ params }: Props) {
         <div className="mt-6 md:mt-8 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <h1 className="text-5xl md:text-7xl font-medium leading-none tracking-[-0.04em]">{project.title}</h1>
           <div className="flex flex-wrap gap-3 flex-shrink-0">
+            {project.demoLink && (
+              <a
+                href={project.demoLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={primaryButton}
+                data-umami-event="Try demo"
+                data-umami-event-project={project.id}
+              >
+                Try the demo
+              </a>
+            )}
             {project.link && (
               <a
                 href={project.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-medium text-paper bg-ink hover:bg-neutral-700 transition-colors px-5 py-2.5 rounded-lg"
+                className={project.demoLink ? secondaryButton : primaryButton}
                 data-umami-event="Visit project site"
                 data-umami-event-project={project.id}
               >
@@ -81,7 +95,7 @@ export default async function ProjectPage({ params }: Props) {
                 href={project.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-medium border border-rule hover:border-ink transition-colors px-5 py-2.5 rounded-lg"
+                className={secondaryButton}
               >
                 GitHub
               </a>
