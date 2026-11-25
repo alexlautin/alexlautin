@@ -144,20 +144,34 @@ export default function Home() {
           <h2 className="text-2xl md:text-3xl font-medium tracking-[-0.02em] mb-6 md:mb-8">Selected projects</h2>
           <div className="grid gap-x-6 gap-y-12 md:grid-cols-2 md:gap-y-16">
             {projects.map((project, i) => (
-              <Link
-                key={project.id}
-                href={`/projects/${project.id}`}
-                draggable={false}
-                className={`group block [-webkit-tap-highlight-color:transparent] select-none ${project.featured ? 'md:col-span-2' : ''}`}
-                onClick={() => track('Open project', { project: project.id })}
-              >
-                <ScreenshotTile src={project.videoPoster ?? project.images[0]} color={project.color} wide={project.featured} priority={i === 0} />
-                <div className="mt-4 flex items-baseline justify-between gap-6">
-                  <h3 className="text-lg font-medium tracking-tight">{project.title}</h3>
-                  <span className="text-muted tabular-nums">{project.year}</span>
-                </div>
-                <p className="mt-1 text-muted max-w-lg">{project.description}</p>
-              </Link>
+              <div key={project.id} className={project.featured ? 'md:col-span-2' : undefined}>
+                <Link
+                  href={`/projects/${project.id}`}
+                  draggable={false}
+                  className="group block [-webkit-tap-highlight-color:transparent] select-none"
+                  onClick={() => track('Open project', { project: project.id })}
+                >
+                  <ScreenshotTile src={project.videoPoster ?? project.images[0]} color={project.color} wide={project.featured} priority={i === 0} />
+                  <div className="mt-4 flex items-baseline justify-between gap-6">
+                    <h3 className="text-lg font-medium tracking-tight">{project.title}</h3>
+                    <span className="text-muted tabular-nums">{project.year}</span>
+                  </div>
+                  <p className="mt-1 text-muted max-w-lg">{project.description}</p>
+                </Link>
+                {/* Outside the card's link: a link can't sit inside another link */}
+                {project.demoLink && (
+                  <a
+                    href={project.demoLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group mt-3 inline-flex items-baseline gap-1.5 font-medium underline decoration-neutral-300 underline-offset-4 hover:decoration-ink transition-colors"
+                    onClick={() => track('Try demo', { project: project.id, from: 'card' })}
+                  >
+                    Try the demo
+                    <Arrow />
+                  </a>
+                )}
+              </div>
             ))}
           </div>
         </section>
