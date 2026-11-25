@@ -126,25 +126,6 @@ export const projects: Project[] = [
     status: 'Live'
   },
   {
-    id: 'speedsail',
-    title: 'Speedsail',
-    description: 'Website of video and podcast interviews about competitive sailing, built with Next.js.',
-    longDescription: 'Speedsail is a website of video and podcast interviews about sailing fast, built with Next.js and Tailwind CSS.',
-    images: ['/optimized/projects/speedsail/home.webp', '/optimized/projects/speedsail/videos.webp', '/optimized/projects/speedsail/podcast.webp', '/optimized/projects/speedsail/about.webp'],
-    color: '#C3D2D6',
-    link: 'https://speedsail.alexlautin.com',
-    technologies: ['Next.js', 'Tailwind CSS', 'Vercel'],
-    features: [
-      'Video interviews with competitive sailors',
-      'Podcast page with every episode',
-      'Statically exported Next.js site with no server to run',
-      'Layout that works from phones to wide screens'
-    ],
-    year: '2025',
-    type: 'Web App',
-    status: 'Archived'
-  },
-  {
     id: 'invitide',
     title: 'Invitide',
     description: 'Event management platform with AI-written event descriptions and QR-code check-in. Built with a team at a hackathon.',
@@ -211,5 +192,24 @@ export const projects: Project[] = [
     year: '2025',
     type: 'Hackathon',
     status: 'Live'
+  },
+  {
+    id: 'speedsail',
+    title: 'Speedsail',
+    description: 'Website of video and podcast interviews about competitive sailing, built with Next.js.',
+    longDescription: 'Speedsail is a website of video and podcast interviews about sailing fast, built with Next.js and Tailwind CSS.',
+    images: ['/optimized/projects/speedsail/home.webp', '/optimized/projects/speedsail/videos.webp', '/optimized/projects/speedsail/podcast.webp', '/optimized/projects/speedsail/about.webp'],
+    color: '#C3D2D6',
+    link: 'https://speedsail.alexlautin.com',
+    technologies: ['Next.js', 'Tailwind CSS', 'Vercel'],
+    features: [
+      'Video interviews with competitive sailors',
+      'Podcast page with every episode',
+      'Statically exported Next.js site with no server to run',
+      'Layout that works from phones to wide screens'
+    ],
+    year: '2025',
+    type: 'Web App',
+    status: 'Archived'
   }
 ];
