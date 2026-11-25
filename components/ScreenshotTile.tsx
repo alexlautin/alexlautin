@@ -42,6 +42,9 @@ export default function ScreenshotTile({
       height={710}
       sizes={sizes ?? (wide ? TILE_SIZES.wide : TILE_SIZES.narrow)}
       priority={priority}
+      // Not lazy: going Back re-creates these images, and Safari leaves lazy ones blank for
+      // a moment even when they're cached, so the cards flashed. There are only a few.
+      loading={priority ? undefined : 'eager'}
       decoding="sync"
       draggable={false}
       className={media}

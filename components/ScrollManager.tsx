@@ -61,21 +61,35 @@ export default function ScrollManager() {
       timer = setTimeout(persist, 150);
     };
     const onPop = () => { popped = true; };
+    // 'manual' is remembered by the history entry, so a reload would first paint the top
+    // of the page (the photo) and only jump down once this script ran. Handing the page
+    // back to the browser as it unloads lets the reload open at the right spot straight away.
+    const onHide = () => {
+      positions.set(location.pathname, window.scrollY);
+      persist();
+      history.scrollRestoration = 'auto';
+    };
+    // Coming back from the back/forward cache: this page is live again
+    const onShow = () => { history.scrollRestoration = 'manual'; };
 
     window.addEventListener('scroll', save, { passive: true });
     window.addEventListener('popstate', onPop);
+    window.addEventListener('pagehide', onHide);
+    window.addEventListener('pageshow', onShow);
 
-    // A reload keeps its place, like the browser normally does
+    // Fallback for a reload the browser didn't restore itself
     const nav = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming | undefined;
     if (nav && (nav.type === 'reload' || nav.type === 'back_forward') && !location.hash) {
       const y = positions.get(location.pathname);
-      if (y) jumpTo(y);
+      if (y && Math.abs(window.scrollY - y) > 2) jumpTo(y);
     }
 
     return () => {
       clearTimeout(timer);
       window.removeEventListener('scroll', save);
       window.removeEventListener('popstate', onPop);
+      window.removeEventListener('pagehide', onHide);
+      window.removeEventListener('pageshow', onShow);
     };
   }, []);
 

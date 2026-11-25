@@ -175,6 +175,9 @@ export default async function ProjectPage({ params }: Props) {
                   width={1200}
                   height={675}
                   sizes="(max-width: 768px) 100vw, 550px"
+                  // Eager for the same reason as the cards: no blank flash when returning here
+                  loading="eager"
+                  decoding="sync"
                   draggable={false}
                   className="w-full h-auto select-none [-webkit-user-drag:none] [-webkit-touch-callout:none]"
                 />
