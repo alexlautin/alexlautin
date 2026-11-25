@@ -18,7 +18,7 @@ const personJsonLd = {
   '@type': 'Person',
   name: 'Alex Lautin',
   url: 'https://alexlautin.com',
-  description: 'Computer science and economics student at Emory University, pursuing roles in product management.',
+  description: 'Computer science and economics student at Emory University.',
   affiliation: { '@type': 'CollegeOrUniversity', name: 'Emory University' },
   sameAs: [
     'https://www.linkedin.com/in/alexlautin/',
@@ -99,7 +99,7 @@ export default function Home() {
               <h1 className="text-[clamp(2rem,4.7vw,3.9rem)] font-medium leading-[1.06] tracking-[-0.035em] text-balance">
                 <span className="block font-bold">Alex Lautin</span>
                 <span className="block text-faint">
-                  CS and economics student at Emory University, pursuing roles in product management.
+                  CS and economics student at Emory University.
                 </span>
               </h1>
               <p className="mt-6 md:mt-8 flex flex-wrap gap-x-6 gap-y-2">

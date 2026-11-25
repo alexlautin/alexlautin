@@ -16,7 +16,7 @@ const inter = Inter({
 // Cookieless analytics (Umami); only loads when a website ID is configured
 const UMAMI_WEBSITE_ID = process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID;
 
-const description = "Alex Lautin is a computer science and economics student at Emory University, pursuing roles in product management. Projects, research, and contact details.";
+const description = "Alex Lautin is a computer science and economics student at Emory University. Projects, research, and contact details.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://alexlautin.com"),
