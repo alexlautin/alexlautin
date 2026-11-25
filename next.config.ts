@@ -22,6 +22,19 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
+        // Project screenshots and videos. Without this they're served as "check with the
+        // server every time", and Safari does exactly that whenever Back re-creates an
+        // image, leaving it blank until the answer comes back. The image optimizer copies
+        // this lifetime onto the resized versions. A replaced file shows within a day.
+        source: '/optimized/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=86400, stale-while-revalidate=604800',
+          },
+        ],
+      },
+      {
         source: '/:path*',
         headers: [
           {

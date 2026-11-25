@@ -13,6 +13,16 @@ const inter = Inter({
   display: "swap",
 });
 
+// Reads the positions ScrollManager saves; must match its sessionStorage key
+const restoreScroll = `(function(){try{
+var n=performance.getEntriesByType('navigation')[0];
+if(!n||(n.type!=='reload'&&n.type!=='back_forward')||location.hash)return;
+var y=JSON.parse(sessionStorage.getItem('scroll-positions')||'{}')[location.pathname];
+if(!y)return;
+var s=document.documentElement.style;s.scrollBehavior='auto';
+window.scrollTo(0,y);s.scrollBehavior='';
+}catch(e){}})()`;
+
 // Cookieless analytics (Umami); only loads when a website ID is configured
 const UMAMI_WEBSITE_ID = process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID;
 
@@ -60,6 +70,10 @@ export default function RootLayout({
         <ScrollManager />
         {children}
         <Footer />
+        {/* Safari draws a reloaded page at the top (the photo) before the app's JavaScript
+            can scroll it back down. This runs as soon as the page's HTML is in, before the
+            first paint, and puts a reload or Back/Forward visit where it was left. */}
+        <script dangerouslySetInnerHTML={{ __html: restoreScroll }} />
         <Analytics />
         {UMAMI_WEBSITE_ID && (
           <Script
